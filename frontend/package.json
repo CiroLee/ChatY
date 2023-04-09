@@ -8,10 +8,10 @@
     "preview": "vite preview"
   },
   "lint-staged": {
-    "frontend/src/**/*.{jsx,tsx,ts,js,json}": [
-      "eslint --config frontend/eslintrc.js"
+    "src/**/*.{jsx,tsx,ts,js,json}": [
+      "eslint --config eslintrc.js"
     ],
-    "frontend/src/**/*.{less,css,sass,scss}": [
+    "*.{less,css,sass,scss}": [
       "stylelint --fix"
     ]
   },
