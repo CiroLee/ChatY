@@ -12,6 +12,7 @@ const SideBar: FC = () => {
             <i className={cn('sidebar__title-icon')}></i>
             <span className="text-[18px] ml-2">ChatY</span>
           </div>
+          <div>click</div>
         </div>
       </div>
     </div>
