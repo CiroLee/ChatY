@@ -5,4 +5,17 @@
   &.collapse {
     width: 60px;
   }
+  &__title {
+    height: 48px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    &-icon {
+      width: 32px;
+      height: 32px;
+      display: inline-block;
+      background: url('../assets/icons/logo.png') center no-repeat;
+      background-size: 100% auto;
+    }
+  }
 }

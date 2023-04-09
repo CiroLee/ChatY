@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
+body {
   color: #3e3e3e;
-  line-height: 1.5;
-  font-family: sans-serif;
-  /* background-color: rgba(102, 51, 153, 0.601); */
+  line-height: 1.8;
+  font-family: arial, Helvetica, sans-serif;
+  font-size: 14px;
 }

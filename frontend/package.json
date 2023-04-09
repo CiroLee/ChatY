@@ -11,7 +11,7 @@
     "frontend/src/**/*.{jsx,tsx,ts,js,json}": [
       "eslint --config frontend/eslintrc.js"
     ],
-    "*.{less,css,sass,scss}": [
+    "frontend/src/**/*.{less,css,sass,scss}": [
       "stylelint --fix"
     ]
   },
