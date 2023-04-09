@@ -1,0 +1,8 @@
+.sidebar {
+  border-right: 1px solid var(--border-color);
+  background-color: rgb(var(--bg));
+  width: 200px;
+  &.collapse {
+    width: 60px;
+  }
+}

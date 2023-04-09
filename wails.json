@@ -1,0 +1,13 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "chatY",
+  "outputfilename": "chatY",
+  "frontend:install": "pnpm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "CiroLee",
+    "email": "ciromail@126.com"
+  }
+}
