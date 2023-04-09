@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-cd fontend && npx lint-staged
+cd frontend && npx lint-staged
