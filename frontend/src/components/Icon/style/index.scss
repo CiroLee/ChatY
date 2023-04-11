@@ -1,0 +1,12 @@
+.cy-icon {
+  color: var(--color);
+  font-size: var(--size);
+  position: relative;
+  cursor: pointer;
+  line-height: var(--size);
+  &.use-gradient {
+    color: transparent !important;
+    background-image: var(--gradient);
+    background-clip: text;
+  }
+}

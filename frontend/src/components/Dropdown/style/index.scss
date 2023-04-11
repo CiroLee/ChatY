@@ -1,0 +1,23 @@
+.dropdown {
+  position: fixed;
+  z-index: $dropdown-z-index;
+  background-color: var(--dropdown-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  box-shadow: var(--dropdown-shadow);
+  li {
+    width: 124px;
+    height: 36px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.1s linear;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--item-hover-color);
+    }
+    i {
+      margin-right: 4px;
+    }
+  }
+}

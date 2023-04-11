@@ -17,5 +17,13 @@ export default defineConfig({
       // 自动追加前缀
       plugins: [autoprefixer, tailwindcss],
     },
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "src/styles/variables.scss";`,
+      },
+    },
+    modules: {
+      generateScopedName: '[name]_[local]_[hash:base64:5]',
+    },
   },
 });
