@@ -16,12 +16,7 @@ const SideBar: FC = () => {
           <img src={logo} alt="logo" />
           <span className="text-[16px] ml-1 leading-[32px]">ChatY</span>
         </div>
-        <Icon
-          name={`${collapse ? 'layout-left-line' : 'layout-right-line'}`}
-          size="18px"
-          className="icon-hover"
-          onClick={toggleSidebar}
-        />
+        <Icon name={`${collapse ? 'layout-left-line' : 'layout-right-line'}`} size="18px" onClick={toggleSidebar} />
       </div>
       <div className={cn('flex mt-[12px]', `${collapse ? 'justify-center' : 'justify-end'}`)}>
         <Icon name={collapseList ? 'contract-up-down-line' : 'expand-up-down-line'} size="18px" onClick={toggleList} />
