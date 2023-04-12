@@ -22,6 +22,10 @@ const themeChangeTabs = [
     icon: 'moon-line',
   },
 ];
+
+const handleThemeChange = (theme: string) => {
+  console.log('theme is: ', theme);
+};
 const SideBar: FC = () => {
   const [collapse, toggleSidebar] = useToggle(false);
   const [collapseList, toggleList] = useToggle(false);
@@ -45,7 +49,12 @@ const SideBar: FC = () => {
           <ChatItem id="chat2" text="chat2" collapse={collapse} />
         </Tooltip>
       </ol>
-      <RadioTabs options={themeChangeTabs} activeKey="auto" className={`${collapse ? 'hidden' : ''}`} />
+      <RadioTabs
+        options={themeChangeTabs}
+        activeKey="auto"
+        className={`${collapse ? 'hidden' : ''}`}
+        tabChange={handleThemeChange}
+      />
     </div>
   );
 };

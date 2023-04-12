@@ -16,7 +16,7 @@ interface RadioTabsProps {
   tabChange?: (value: string) => void;
 }
 const RadioTabs: FC<RadioTabsProps> = (props) => {
-  const { options = [], activeKey = '', className } = props;
+  const { options = [], activeKey = '', className, tabChange } = props;
   const [active, setActive] = useState(activeKey);
   const ref = useRef<HTMLDivElement>(null);
   const activeBarRef = useRef<HTMLDivElement>(null);
@@ -32,10 +32,13 @@ const RadioTabs: FC<RadioTabsProps> = (props) => {
     if (ref.current && activeBarRef.current) {
       // 减去padding-x
       const width = ref.current.getBoundingClientRect().width - 8;
-      console.log('width', width);
-
       activeBarRef.current.style.width = `${width / options.length}px`;
     }
+  };
+
+  const tabChangeHandler = (value: string) => {
+    setActive(value);
+    tabChange?.(value);
   };
   useEffect(() => {
     if (active) {
@@ -53,7 +56,7 @@ const RadioTabs: FC<RadioTabsProps> = (props) => {
         <li
           className={classNames('radio-tabs__item', { active: active === item.value })}
           key={item.value}
-          onClick={() => setActive(item.value)}>
+          onClick={() => tabChangeHandler(item.value)}>
           <Whether condition={!!item.icon}>
             <Icon name={item.icon} />
           </Whether>
