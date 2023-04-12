@@ -1,4 +1,4 @@
-import { FC, useLayoutEffect, useRef, useState, useEffect, useMemo } from 'react';
+import { FC, useRef, useState, useEffect } from 'react';
 import './style/index.scss';
 import Icon from '../Icon';
 import Whether from '../Whether';
@@ -23,14 +23,14 @@ const Dropdown: FC<DropdownProps> = (props) => {
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [show, setShow] = useState(false);
 
-  useLayoutEffect(() => {
+  const openDropdown = () => {
     if (ref.current) {
       const { x, y, height, width } = ref.current.getBoundingClientRect();
       setPos({ x: x - itemWidth + width, y: y + height + gap });
+      setShow(true);
     }
-  }, [props.children]);
+  };
 
-  // trigger
   useEffect(() => {
     document.addEventListener('click', (event: Event) => {
       const isChild = ref.current?.contains(event.target as Node);
@@ -44,7 +44,7 @@ const Dropdown: FC<DropdownProps> = (props) => {
   }, []);
 
   return (
-    <div ref={ref} onClick={() => setShow(true)}>
+    <div ref={ref} onClick={openDropdown}>
       {props.children}
       <div className="dropdown" style={{ top: `${pos.y}px`, left: `${pos.x}px`, display: show ? 'block' : 'none' }}>
         {props.items.map((item) => (

@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { useToggle } from 'react-use';
 import Icon from '@/components/Icon';
 import ChatItem from './components/ChatItem';
+import Tooltip from '@/components/Tooltip';
 import classnames from 'classnames/bind';
 import logo from '@/assets/icons/logo.png';
 import style from './style/index.module.scss';
@@ -22,8 +23,12 @@ const SideBar: FC = () => {
         <Icon name={collapseList ? 'contract-up-down-line' : 'expand-up-down-line'} size="18px" onClick={toggleList} />
       </div>
       <ol className={cn('sidebar__list', `${collapseList ? 'hidden' : 'block'}`)}>
-        <ChatItem id="chat1" text="翻译狗" prefix="#c0d293" collapse={collapse} />
-        <ChatItem id="chat2" text="chat2" collapse={collapse} />
+        <Tooltip text="翻译狗" align="right" open={collapse}>
+          <ChatItem id="chat1" text="翻译狗" prefix="#c0d293" collapse={collapse} />
+        </Tooltip>
+        <Tooltip text="chat2" align="right" open={collapse}>
+          <ChatItem id="chat2" text="chat2" collapse={collapse} />
+        </Tooltip>
       </ol>
     </div>
   );

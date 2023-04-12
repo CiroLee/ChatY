@@ -5,6 +5,8 @@ body {
   --content-bg: #f7f7f7;
   --border-color: #eaeaea;
   --assist-color: #a5a3a3;
-  --dropdown-bg: #fff;
-  --dropdown-shadow: 0px 2px 12px rgb(0 0 0 / 6%);
+  --popup-bg: #fff;
+  --popup-shadow: 0px 2px 12px rgb(0 0 0 / 6%);
+  --tooltip-bg: var(--popup-bg);
+  --tooltip-shadow: -10px 0 18px 2px rgb(0 0 0 / 4%), 4px 0 18px 2px rgb(0 0 0 / 4%);
 }

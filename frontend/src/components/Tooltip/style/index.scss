@@ -1,0 +1,42 @@
+.tooltip {
+  &__content {
+    box-sizing: border-box;
+    padding: 8px 12px;
+    border-radius: 2px;
+    background-color: var(--tooltip-bg);
+    box-shadow: var(--tooltip-shadow);
+    position: fixed;
+    &::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      background-color: var(--tooltip-bg);
+      clip-path: path(
+        'M1.34117 9.41284L13.5992 0.947122C14.0971 0.603263 14.7763 0.960223 14.7754 1.56531L14.7513 18.5315C14.7505 19.1366 14.0703 19.4916 13.5734 19.1463L1.33943 10.6459C0.90929 10.347 0.910192 9.71049 1.34117 9.41284Z'
+      );
+    }
+    &.right::after {
+      left: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &.top::after {
+      left: 50%;
+      bottom: -10px;
+      transform: translateX(-50%) rotate(-90deg);
+    }
+    &.left::after {
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%) rotate(180deg);
+    }
+    &.bottom::after {
+      left: 50%;
+      top: -10px;
+
+      // background-color: red;
+      transform: translateX(-50%) rotate(90deg);
+    }
+  }
+}
