@@ -14,7 +14,7 @@ const transToCssVariables = (props: Icon) => {
   const { color = 'inherit', size = 'inherit' } = props;
 
   const temp = {
-    '--color': color,
+    '--font-color': color,
     '--size': typeof size === 'number' ? `${size}px` : size,
     '--gradient': props.gradient ? props.gradient : '',
   };

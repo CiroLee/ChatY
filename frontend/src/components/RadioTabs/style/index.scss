@@ -1,0 +1,34 @@
+.radio-tabs {
+  position: relative;
+  display: flex;
+  height: 42px;
+  border-radius: 3px;
+  padding: 4px;
+  background-color: var(--tabs-bg);
+  &__item {
+    flex: 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--tabs-item-inactive-color);
+    border-radius: 2px;
+    z-index: 1;
+    &.active {
+      color: var(--color);
+    }
+    &-label {
+      margin-left: 2px;
+    }
+  }
+  &__active-bar {
+    transition: all 0.2s ease;
+    height: calc(100% - 8px);
+
+    // width: calc(33% - 3px);
+    border-radius: 2px;
+    background: var(--tabs-item-active-bg);
+    position: absolute;
+  }
+}
