@@ -1,4 +1,4 @@
-module changeme
+module github.com/CiroLee/ChatY
 
 go 1.18
 
