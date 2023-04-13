@@ -12,7 +12,7 @@ body {
 }
 
 * {
-  transition: color, background-color 0.2s ease;
+  transition: color, background-color 0.2s linear;
 }
 
 .icon-hover {

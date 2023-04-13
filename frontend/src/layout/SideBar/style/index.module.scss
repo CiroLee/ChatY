@@ -1,11 +1,12 @@
 .sidebar {
   border-right: 1px solid var(--border-color);
-  background-color: rgb(var(--bg));
+  background-color: var(--bg);
   width: 200px;
   height: 100vh;
   padding: 0 12px;
   overflow: hidden;
   transition: width 0.15s ease;
+  position: relative;
   &__logo {
     display: flex;
     align-items: center;
@@ -34,4 +35,10 @@
     margin-top: 12px;
     overflow: hidden;
   }
+}
+
+.sidebar__theme {
+  position: absolute;
+  width: calc(100% - 24px);
+  bottom: 16px;
 }

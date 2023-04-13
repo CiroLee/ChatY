@@ -5,30 +5,23 @@ import ChatItem from './components/ChatItem';
 import Tooltip from '@/components/Tooltip';
 import RadioTabs from '@/components/RadioTabs';
 import classnames from 'classnames/bind';
+import { useLayoutStore } from '@/store/layout';
 import logo from '@/assets/icons/logo.png';
 import style from './style/index.module.scss';
+import { themeChangeTabs } from '@/config/config';
+import { useThemeStore } from '@/store/theme';
 const cn = classnames.bind(style);
-const themeChangeTabs = [
-  {
-    value: 'auto',
-    icon: 'contrast-line',
-  },
-  {
-    value: 'light',
-    icon: 'sun-line',
-  },
-  {
-    value: 'dark',
-    icon: 'moon-line',
-  },
-];
 
-const handleThemeChange = (theme: string) => {
-  console.log('theme is: ', theme);
-};
 const SideBar: FC = () => {
-  const [collapse, toggleSidebar] = useToggle(false);
+  const { collapse, toggleCollapse } = useLayoutStore((state) => state);
+  const { theme, setTheme } = useThemeStore((state) => state);
   const [collapseList, toggleList] = useToggle(false);
+
+  const handleThemeChange = (theme: string) => {
+    // console.log('theme is: ', theme);
+    setTheme(theme);
+  };
+
   return (
     <div className={cn('sidebar', 'flex flex-col pb-[16px]', { collapse })}>
       <div className={cn('sidebar__title')}>
@@ -36,7 +29,7 @@ const SideBar: FC = () => {
           <img src={logo} alt="logo" />
           <span className="text-[16px] ml-1 leading-[32px]">ChatY</span>
         </div>
-        <Icon name={`${collapse ? 'layout-left-line' : 'layout-right-line'}`} size="18px" onClick={toggleSidebar} />
+        <Icon name={`${collapse ? 'layout-left-line' : 'layout-right-line'}`} size="18px" onClick={toggleCollapse} />
       </div>
       <div className={cn('flex mt-[12px]', `${collapse ? 'justify-center' : 'justify-end'}`)}>
         <Icon name={collapseList ? 'contract-up-down-line' : 'expand-up-down-line'} size="18px" onClick={toggleList} />
@@ -46,13 +39,13 @@ const SideBar: FC = () => {
           <ChatItem id="chat1" text="翻译狗" prefix="#c0d293" collapse={collapse} />
         </Tooltip>
         <Tooltip text="chat2" align="right" open={collapse}>
-          <ChatItem id="chat2" text="chat2" collapse={collapse} />
+          <ChatItem id="chat2" text="chat2" prefix="#c0d293" collapse={collapse} />
         </Tooltip>
       </ol>
       <RadioTabs
         options={themeChangeTabs}
-        activeKey="auto"
-        className={`${collapse ? 'hidden' : ''}`}
+        activeKey={theme}
+        className={cn('sidebar__theme', `${collapse ? 'hidden' : ''}`)}
         tabChange={handleThemeChange}
       />
     </div>

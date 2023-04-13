@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
 import Icon from '@/components/Icon';
 import Dropdown from '@/components/Dropdown';
+import { dropdownItems } from '@/config/config';
 const cn = classNames.bind(style);
 interface ChatItemProps {
   text: string;
@@ -12,24 +13,6 @@ interface ChatItemProps {
 }
 const ChatItem: FC<ChatItemProps> = (props) => {
   const { text, prefix = '#333', collapse } = props;
-  const dropdownItems = [
-    {
-      key: 'edit',
-      label: '编辑',
-      icon: 'edit-line',
-    },
-    {
-      key: 'paste',
-      label: '粘贴',
-      icon: 'file-copy-line',
-    },
-    {
-      key: 'delete',
-      label: '删除',
-      icon: 'delete-bin-5-line',
-      color: '#FA6E6E',
-    },
-  ];
 
   const dropdownItemClickHandler = (key: string) => {
     console.log(key, props.id);
