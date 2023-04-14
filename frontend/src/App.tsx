@@ -1,4 +1,5 @@
 import { FC, useEffect } from 'react';
+import TitleBar from './components/TitleBar';
 import SideBar from './layout/SideBar';
 import Content from './layout/Content';
 import { useLayoutStore } from '@/store/layout';
@@ -35,9 +36,12 @@ const App: FC = () => {
     ],
   });
   return (
-    <div className="flex relative h-[100vh] overflow-hidden">
-      <SideBar />
-      <Content />
+    <div className=" flex flex-col h-[100vh] overflow-hidden rounded-[10px]">
+      <TitleBar />
+      <div className="flex relative flex-1">
+        <SideBar />
+        <Content />
+      </div>
     </div>
   );
 };

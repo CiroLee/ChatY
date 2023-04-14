@@ -31,17 +31,14 @@ func main() {
 		Bind: []interface{}{
 			application,
 		},
-		Menu: menuConfig.MenuConfig(application.Ctx),
-		// windows 窗口亚克力半透明效果
+		Menu:             menuConfig.MenuConfig(application.Ctx),
+		Frameless:        true,
+		BackgroundColour: &options.RGBA{R: 0, G: 0, B: 0, A: 0},
 		Windows: &windows.Options{
 			WebviewIsTransparent: true,
-			WindowIsTranslucent:  true,
-			BackdropType:         windows.Acrylic,
 		},
-		// mac窗口半透明效果
 		Mac: &mac.Options{
 			WebviewIsTransparent: true,
-			WindowIsTranslucent:  true,
 		},
 	})
 

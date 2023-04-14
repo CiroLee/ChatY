@@ -1,7 +1,7 @@
 body {
   --color: #303030;
   --item-hover-color: #f4f4f4;
-  --bg: #fff;
+  --bg: 255 255 255;
   --content-bg: #f7f7f7;
   --border-color: #eaeaea;
   --assist-color: #a5a3a3;
@@ -17,10 +17,10 @@ body {
 body.dark {
   --color: #efefef;
   --item-hover-color: #3f3e3e;
-  --bg: #323232;
+  --bg: 50 50 50;
   --content-bg: #3a3a3a;
   --border-color: #303030;
-  --assist-color: #626262;
+  --assist-color: #6b6b6b;
   --popup-bg: #4b4b4b;
   --tabs-bg: #4b4b4b;
   --tabs-item-inactive-color: #c7c6c6;

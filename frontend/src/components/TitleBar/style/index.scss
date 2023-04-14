@@ -1,0 +1,79 @@
+.minimize-icon {
+  width: 6px;
+  height: 1px;
+  background-color: currentcolor;
+}
+
+.mac-titlebar {
+  height: 28px;
+  background-color: rgb(var(--bg));
+  cursor: default;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 8px;
+  position: relative;
+  &__btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 12px;
+    color: rgb(0 0 0 / 60%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    & i {
+      opacity: 0;
+      cursor: unset;
+    }
+    &:not(:first-child) {
+      margin-left: 8px;
+    }
+    &.close {
+      background-color: #fa4838;
+    }
+    &.minimize {
+      background-color: #f4bf4f;
+    }
+    &.fullscreen {
+      background-color: #61c554;
+      .cy-icon {
+        transform: rotate(135deg);
+        margin-left: 1px;
+        margin-top: 1px;
+      }
+    }
+  }
+}
+
+.win-titlebar {
+  height: 32px;
+  padding: 0 12px;
+  background-color: rgb(var(--bg));
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1px solid var(--border-color);
+  &__btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    & i {
+      cursor: unset;
+    }
+    &:not(:first-child) {
+      margin-left: 8px;
+    }
+    &:hover {
+      background-color: var(--item-hover-color);
+    }
+  }
+}
+
+.titlebar__btn-group {
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  &:hover i {
+    opacity: 1;
+  }
+}
