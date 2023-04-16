@@ -1,0 +1,22 @@
+.cy-button {
+  height: 32px;
+  outline: 0;
+  border-radius: 2px;
+  padding: 0 22px;
+  box-sizing: border-box;
+  background-color: var(--button-bg);
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  &:active:not(:disabled) {
+    background-color: var(--button-active-bg);
+  }
+  &.primary {
+    background-color: $brand-color;
+    color: #fff;
+    &:active:not(:disabled) {
+      background-color: $brand-active-color;
+    }
+  }
+}

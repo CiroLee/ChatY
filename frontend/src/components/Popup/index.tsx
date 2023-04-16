@@ -6,6 +6,7 @@ interface PopupProps {
   show: boolean;
   children?: React.ReactNode;
   maskClosable?: boolean;
+  blur?: boolean;
   placement?: 'top' | 'bottom' | 'left' | 'right' | 'center';
   cancel: () => void;
 }
@@ -48,7 +49,10 @@ const Popup: FC<PopupProps> = (props) => {
     <>
       {props.show || !endHidden ? (
         <div className="popup">
-          <div ref={maskRef} className={cn('popup__mask', { show: visibleAni })} onClick={maskClick}></div>
+          <div
+            ref={maskRef}
+            className={cn('popup__mask', { show: visibleAni, blur: props.blur })}
+            onClick={maskClick}></div>
           <div className={cn('popup__content', { show: visibleAni }, props.placement || 'bottom')}>
             {props.children}
           </div>

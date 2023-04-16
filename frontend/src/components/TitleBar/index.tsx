@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { useToggle } from 'react-use';
 import { globalHotKeysRegister } from '@/utils/hotKeys';
-import { useHotkeys } from 'react-hotkeys-hook';
 import Icon from '../Icon';
 import { isMac } from '@/utils/utils';
 import { WindowToggleMaximise, WindowUnmaximise, WindowMinimise } from '@wails/runtime';

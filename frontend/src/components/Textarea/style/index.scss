@@ -1,0 +1,32 @@
+.cy-textarea {
+  position: relative;
+  align-items: center;
+  background-color: rgb(var(--bg));
+  textarea {
+    width: 100%;
+    border-radius: 2px;
+    outline: 0;
+    min-height: 60px;
+    padding: 8px;
+    padding-right: 18px;
+    transition: border-color 0.1s linear;
+    border: 1px solid var(--border-color);
+    background-color: transparent;
+    &:focus,
+    &:focus-within {
+      border-color: $brand-color;
+    }
+  }
+  &.auto textarea {
+    resize: none;
+  }
+  &__clear {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+  }
+  &__count {
+    text-align: right;
+    color: var(--assist-color);
+  }
+}

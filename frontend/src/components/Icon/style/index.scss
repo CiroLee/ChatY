@@ -1,9 +1,9 @@
 .cy-icon {
   color: var(--font-color);
   font-size: var(--size);
+  line-height: 1em;
   position: relative;
   cursor: pointer;
-  line-height: var(--size);
   &.use-gradient {
     color: transparent !important;
     background-image: var(--gradient);
