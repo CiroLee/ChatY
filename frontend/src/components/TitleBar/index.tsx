@@ -1,6 +1,7 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useToggle } from 'react-use';
-import { globalHotKeysRegister } from '@/utils/hotKeys';
+import { useLayoutStore } from '@/store/layout';
+import { useHotkeys } from 'react-hotkeys-hook';
 import Icon from '../Icon';
 import { isMac } from '@/utils/utils';
 import { WindowToggleMaximise, WindowUnmaximise, WindowMinimise } from '@wails/runtime';
@@ -52,26 +53,19 @@ const WindowTitleBar: FC<TitleBarProps> = (props) => {
 
 const TitleBar: FC = () => {
   const [fullscreen, toggleFullscreen] = useToggle(false);
-  // 热键注册
-  //  - Esc 退出最大化(全屏) cmd + m(for mac) 最小化
-  globalHotKeysRegister({
-    global: [
-      {
-        keys: 'escape',
-        callback: () => {
-          if (fullscreen) {
-            WindowUnmaximise();
-            toggleFullscreen(false);
-          }
-        },
-      },
-    ],
-    mac: [
-      {
-        keys: 'meta+m',
-        callback: WindowMinimise,
-      },
-    ],
+  const { setTitleBarHeight } = useLayoutStore((state) => state);
+  // Esc 退出最大化
+  useHotkeys('escape', (event: KeyboardEvent) => {
+    event.preventDefault();
+    if (fullscreen) {
+      WindowUnmaximise();
+      toggleFullscreen(false);
+    }
+  });
+  // mac meta + m 最小化
+  useHotkeys('meta+m', (event: KeyboardEvent) => {
+    event.preventDefault();
+    WindowMinimise();
   });
 
   // 无边框模式似乎不支持全屏
@@ -80,6 +74,13 @@ const TitleBar: FC = () => {
     WindowToggleMaximise();
     toggleFullscreen();
   };
+  useEffect(() => {
+    if (isMac()) {
+      setTitleBarHeight(28);
+    } else {
+      setTitleBarHeight(32);
+    }
+  }, []);
   return isMac() ? (
     <MacTitleBar
       isFullscreen={fullscreen}

@@ -17,7 +17,7 @@ interface RadioTabsProps {
 }
 const RadioTabs: FC<RadioTabsProps> = (props) => {
   const { options = [], activeKey = '', className, tabChange } = props;
-  const [active, setActive] = useState(activeKey);
+  const [active, setActive] = useState('');
   const ref = useRef<HTMLDivElement>(null);
   const activeBarRef = useRef<HTMLDivElement>(null);
 
@@ -49,6 +49,10 @@ const RadioTabs: FC<RadioTabsProps> = (props) => {
   useLayoutEffect(() => {
     initActiveBarStyle();
   }, []);
+
+  useEffect(() => {
+    setActive(activeKey);
+  }, [activeKey]);
 
   return (
     <div className={classNames('radio-tabs', className)} ref={ref}>

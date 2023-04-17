@@ -1,10 +1,11 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useRef } from 'react';
 import Whether from '../Whether';
 import Icon from '../Icon';
 import classNames from 'classnames';
 import './style/index.scss';
-interface InputProps {
-  value: string;
+export interface InputProps {
+  type?: 'text' | 'password';
+  value?: string | number;
   placeholder?: string;
   className?: string;
   maxLength?: number;
@@ -14,10 +15,12 @@ interface InputProps {
 }
 
 const Input: FC<InputProps> = (props) => {
-  const { value, placeholder, className, maxLength, clearable, showCount, onChange } = props;
-  const [inputVal, setInputVal] = useState(value);
+  const { type = 'text', value = '', placeholder, className, maxLength, clearable, showCount, onChange } = props;
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [inputVal, setInputVal] = useState('');
   const [focus, setFocus] = useState(false);
   const [countStr, setCountStr] = useState('');
+
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (maxLength && e.target.value.length > maxLength) {
       e.target.value = e.target.value.slice(0, maxLength);
@@ -34,9 +37,9 @@ const Input: FC<InputProps> = (props) => {
   };
   const calcCountStr = (length?: string) => {
     if (maxLength) {
-      setCountStr(`${length || inputVal.length}/${maxLength}`);
+      setCountStr(`${length || String(inputVal).length}/${maxLength}`);
     } else {
-      setCountStr(`${length || inputVal.length}`);
+      setCountStr(`${length || String(inputVal).length}`);
     }
   };
 
@@ -44,10 +47,15 @@ const Input: FC<InputProps> = (props) => {
     calcCountStr();
   }, [showCount]);
 
+  useEffect(() => {
+    setInputVal(String(value));
+  }, [value]);
+
   return (
     <div className={classNames('cy-input', className, { focus })}>
       <input
-        type="text"
+        ref={inputRef}
+        type={type}
         value={inputVal}
         placeholder={placeholder}
         onFocus={() => setFocus(true)}
@@ -55,7 +63,7 @@ const Input: FC<InputProps> = (props) => {
         onChange={onChangeHandler}
       />
       <div className={classNames('cy-input__trail', { 'cy-input__count': showCount })} data-count={countStr}>
-        <Whether condition={!!clearable && !!inputVal.length}>
+        <Whether condition={!!clearable && !!String(inputVal).length}>
           <Icon name="close-circle-fill" className="cy-input__clear" onClick={clearInput} />
         </Whether>
       </div>

@@ -5,6 +5,7 @@
     border-radius: 2px;
     background-color: var(--tooltip-bg);
     box-shadow: var(--tooltip-shadow);
+    z-index: $popup-z-index;
     position: fixed;
     &::after {
       content: '';

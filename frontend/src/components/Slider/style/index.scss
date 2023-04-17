@@ -1,0 +1,39 @@
+.cy-slider {
+  position: relative;
+  &__track {
+    height: 5px;
+    background-color: $brand-color;
+    position: absolute;
+    top: calc(50% - 5px);
+    border-radius: 5px;
+  }
+}
+
+[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: $brand-color;
+  margin-top: -5px;
+  cursor: pointer;
+  transition: all 0.1s linear;
+}
+
+[type='range']::-webkit-slider-runnable-track {
+  height: 5px;
+  border-radius: 5px;
+  background-color: var(--slider-trail-color);
+}
+
+[type='range' i]::-webkit-slider-container {
+  height: 20px;
+}
+
+[type='range'] {
+  appearance: none;
+  margin: 0;
+  outline: 0;
+  background-color: transparent;
+  width: 100%;
+}

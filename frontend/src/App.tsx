@@ -4,7 +4,6 @@ import SideBar from './layout/SideBar';
 import Content from './layout/Content';
 import { useLayoutStore } from '@/store/layout';
 import { useThemeStore } from '@/store/theme';
-import { globalHotKeysRegister } from '@/utils/hotKeys';
 import { useMedia } from 'react-use';
 const App: FC = () => {
   const { toggleCollapse } = useLayoutStore((state) => state);
@@ -20,21 +19,6 @@ const App: FC = () => {
     }
     console.log('theme change');
   }, [isDark]);
-  // 全局热键注册
-  globalHotKeysRegister({
-    win: [
-      {
-        keys: 'ctrl+b',
-        callback: toggleCollapse,
-      },
-    ],
-    mac: [
-      {
-        keys: 'meta+b',
-        callback: toggleCollapse,
-      },
-    ],
-  });
   return (
     <div className=" flex flex-col h-[100vh] overflow-hidden rounded-[10px]">
       <TitleBar />

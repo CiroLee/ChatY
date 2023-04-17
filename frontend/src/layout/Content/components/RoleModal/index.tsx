@@ -18,7 +18,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
   return (
-    <Popup show={show} placement="center" blur maskClosable={true} cancel={onCancel}>
+    <Popup show={show} placement="center" maskClosable={true} cancel={onCancel}>
       <div className={cn('role-modal')}>
         <h3>{title}</h3>
         <div className="mt-6">

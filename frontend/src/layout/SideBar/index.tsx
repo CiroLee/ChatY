@@ -10,6 +10,9 @@ import logo from '@/assets/icons/logo.png';
 import style from './style/index.module.scss';
 import { themeChangeTabs } from '@/config/config';
 import { useThemeStore } from '@/store/theme';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
+import { isMac } from '@/utils/utils';
 const cn = classnames.bind(style);
 
 const SideBar: FC = () => {
@@ -17,10 +20,14 @@ const SideBar: FC = () => {
   const { theme, setTheme } = useThemeStore((state) => state);
   const [collapseList, toggleList] = useToggle(false);
 
-  const handleThemeChange = (theme: string) => {
-    // console.log('theme is: ', theme);
-    setTheme(theme);
-  };
+  useHotkeys(['ctrl+b', 'meta+b'], (event: KeyboardEvent, handler: HotkeysEvent) => {
+    event.preventDefault();
+    if (isMac() && handler.meta) {
+      toggleCollapse();
+    } else if (!isMac() && handler.ctrl) {
+      toggleCollapse();
+    }
+  });
 
   return (
     <div className={cn('sidebar', 'flex flex-col pb-[16px]', { collapse })}>
@@ -46,7 +53,7 @@ const SideBar: FC = () => {
         options={themeChangeTabs}
         activeKey={theme}
         className={cn('sidebar__theme', `${collapse ? 'hidden' : ''}`)}
-        tabChange={handleThemeChange}
+        tabChange={setTheme}
       />
     </div>
   );

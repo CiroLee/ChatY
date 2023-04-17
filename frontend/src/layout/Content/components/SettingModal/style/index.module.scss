@@ -1,0 +1,7 @@
+.setting-modal {
+  width: 400px;
+  height: 100%;
+  background-color: rgb(var(--bg));
+  padding: 18px;
+  padding-top: calc(18px + var(--header-height));
+}

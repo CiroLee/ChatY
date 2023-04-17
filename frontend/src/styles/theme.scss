@@ -10,10 +10,12 @@ body {
   --tabs-item-inactive-color: #c7c6c6;
   --tabs-item-active-bg: #fff;
   --popup-shadow: 0px 2px 12px rgb(0 0 0 / 6%);
-  --tooltip-bg: var(--popup-bg);
+  --tooltip-bg: #fff;
   --tooltip-shadow: -10px 0 18px 2px rgb(0 0 0 / 4%), 4px 0 18px 2px rgb(0 0 0 / 4%);
   --button-bg: #f1f1f1;
   --button-active-bg: #e1e1e1;
+  --slider-trail-color: #f0f0f0;
+  --slider-shadow: 0 0 12px -4px #9e41f1;
 }
 
 body.dark {
@@ -32,4 +34,5 @@ body.dark {
   --tooltip-shadow: -10px 0 18px 2px rgb(0 0 0 / 8%), 4px 0 18px 2px rgb(0 0 0 / 8%);
   --button-bg: #4c4c4c;
   --button-active-bg: #3b3b3b;
+  --slider-trail-color: #686868;
 }
