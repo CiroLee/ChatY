@@ -6,3 +6,10 @@
   justify-content: space-between;
   background-color: rgb(var(--bg));
 }
+
+.editor-input {
+  width: calc(100% - 32px);
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+}

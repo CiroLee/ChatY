@@ -77,7 +77,7 @@ const SettingModal: FC<SettingModalProps> = (props) => {
                 min={replayLengthMin}
                 value={maxReplayLength}
                 step={replayStep}
-                offset={-8}
+                offset={-12}
                 onChange={setMaxReplayLength}
               />
               <InputNumber

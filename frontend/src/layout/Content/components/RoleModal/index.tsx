@@ -40,7 +40,6 @@ const RoleModal: FC<RoleModalProps> = (props) => {
               className="flex-1 ml-3"
               maxLength={140}
               clearable
-              autoHeight
               showCount
               placeholder="请输入描述"
               value={desc}

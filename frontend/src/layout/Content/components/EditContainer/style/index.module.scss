@@ -1,0 +1,56 @@
+$editor-height: 60px;
+
+.cy-editor-wrapper {
+  box-shadow: var(--editor-shadow);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  box-sizing: border-box;
+  background-color: rgb(var(--bg));
+  transition: border-color 0.1s linear;
+  border-radius: 4px;
+  outline: 0;
+  margin: 0;
+  &:focus,
+  &:focus-within,
+  &:active {
+    outline: 0;
+  }
+  &.focus {
+    border: 1px solid $brand-color;
+  }
+}
+
+.cy-editor {
+  outline: 0;
+  min-height: $editor-height;
+  overflow: hidden;
+  &.in-max {
+    animation: in-max 0.3s ease forwards;
+  }
+  &.out-max {
+    animation: out-max 0.3s ease forwards;
+  }
+  &:active,
+  &:focus,
+  &:focus-within {
+    outline: 0;
+  }
+}
+
+@keyframes in-max {
+  from {
+    height: var(--height);
+  }
+  to {
+    height: 70vh;
+  }
+}
+
+@keyframes out-max {
+  from {
+    height: var(--height);
+  }
+  to {
+    height: $editor-height;
+  }
+}
