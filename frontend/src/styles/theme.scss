@@ -18,6 +18,18 @@ body {
   --slider-trail-color: #f0f0f0;
   --slider-shadow: 0 0 12px -4px #9e41f1;
   --editor-shadow: 0 2px 12px -8px rgb(52 52 52 / 10%);
+  --qa-shadow: 0px 2px 12px -4px rgb(0 0 0 / 10%);
+  --pre-bg: #242424;
+  --scrollbar-thumb: rgb(162 162 162 / 80%);
+  --scrollbar-thumb-hover: #929191;
+  --message-success-bg: #d8f0dc;
+  --message-success-border-color: #b5cdb9;
+  --message-info-bg: #daecff;
+  --message-info-border-color: #adc3d9;
+  --message-error-bg: #ffd1d1;
+  --message-error-border-color: #f85a5a;
+  --message-warn-bg: #f7ebce;
+  --message-warn-border-color: #db9e0e;
 }
 
 body.dark {
@@ -39,4 +51,15 @@ body.dark {
   --button-active-bg: #3b3b3b;
   --slider-trail-color: #686868;
   --editor-shadow: 0 2px 12px -8px rgb(11 11 11 / 30%);
+  --qa-shadow: 1px 1px 12px -4px rgb(0 0 0 / 30%);
+  --scrollbar-thumb: rgb(83 80 80 / 80%);
+  --scrollbar-thumb-hover: #6e6e6e;
+  --message-success-bg: #323d34;
+  --message-success-border-color: #46514d;
+  --message-info-bg: #393c40;
+  --message-info-border-color: #3d4453;
+  --message-error-bg: #4f3939;
+  --message-error-border-color: #6e4343;
+  --message-warn-bg: #4b4840;
+  --message-warn-border-color: #69572d;
 }

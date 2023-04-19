@@ -1,0 +1,75 @@
+.cy-message {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  color: var(--color);
+  border-width: 1px;
+  border-style: solid;
+  z-index: $message-z-index;
+  i {
+    margin-right: 8px;
+  }
+  &__text {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  &--info {
+    background-color: var(--message-info-bg);
+    border-color: var(--message-info-border-color);
+    i {
+      color: #1a8cff;
+    }
+  }
+  &--success {
+    background-color: var(--message-success-bg);
+    border-color: var(--message-success-border-color);
+    i {
+      color: #1fc242;
+    }
+  }
+  &--warn {
+    background-color: var(--message-warn-bg);
+    border-color: var(--message-warn-border-color);
+    i {
+      color: #ffb400;
+    }
+  }
+  &--error {
+    background-color: var(--message-error-bg);
+    border-color: var(--message-error-border-color);
+    i {
+      color: #fc4747;
+    }
+  }
+  &.out {
+    animation: message-out 0.8s forwards;
+  }
+
+  animation: message-in 0.3s both;
+}
+
+@keyframes message-in {
+  from {
+    transform: translate(-50%, -100px);
+  }
+  to {
+    transform: translate(-50%, 32px);
+  }
+}
+
+@keyframes message-out {
+  from {
+    transform: translate(-50%, 32px);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -100px);
+    opacity: 0;
+  }
+}

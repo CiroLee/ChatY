@@ -17,7 +17,6 @@ const App: FC = () => {
     } else {
       themeStr === theme && setTheme(themeStr);
     }
-    console.log('theme change');
   }, [isDark]);
   return (
     <div className=" flex flex-col h-[100vh] overflow-hidden rounded-[10px]">

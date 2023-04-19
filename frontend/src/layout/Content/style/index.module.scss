@@ -1,3 +1,10 @@
+.content {
+  height: calc(100vh - var(--header-height));
+  flex: 1;
+  background-color: var(--content-bg);
+  position: relative;
+}
+
 .session-header {
   height: 48px;
   padding: 0 16px;
@@ -7,8 +14,15 @@
   background-color: rgb(var(--bg));
 }
 
+.content-list {
+  padding-top: 24px;
+  overflow-y: auto;
+  height: calc(100vh - 48px - var(--header-height) - 146px);
+}
+
 .editor-input {
   width: calc(100% - 32px);
+  margin: auto;
   position: absolute;
   left: 16px;
   bottom: 16px;
