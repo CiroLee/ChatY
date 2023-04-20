@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import Icon from '@/components/Icon';
+import Avatar from '@/components/Avatar';
 import Message from '@/components/Message';
 import classNames from 'classnames';
 import ReactMarkdown from 'react-markdown';
@@ -17,7 +18,7 @@ export const Question: FC<QAProps> = (props) => {
   const { content, avatar, className } = props;
   return (
     <div className={classNames('cy-qa cy-question', className)}>
-      <img src={avatar} alt="" />
+      <Avatar url={avatar} />
       <div className="cy-qa__content cy-question__content">{content}</div>
     </div>
   );
@@ -54,7 +55,7 @@ export const Answer: FC<QAProps> = (props) => {
   const { content, avatar, className } = props;
   return (
     <div className={classNames('cy-qa cy-answer', className)}>
-      <img src={avatar} alt="" />
+      <Avatar url={avatar} />
       <div className="cy-qa__content cy-answer__content">
         <ReactMarkdown
           children={content}

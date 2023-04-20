@@ -33,9 +33,11 @@ const Tooltip: FC<TooltipProps> = (props) => {
 
   const updatePosition = () => {
     if (!ref.current) return;
+    // TODO 优化 top bottom left 定位逻辑
     if (align === 'right') {
-      const { x, y, width } = ref.current.getBoundingClientRect();
-      setPos({ x: x + width + xGap / 1.2, y });
+      const { x, y, width, height } = ref.current.getBoundingClientRect();
+      const bounding = contentRef.current?.getBoundingClientRect();
+      setPos({ x: x + width + xGap / 1.2, y: bounding ? y + Math.abs(height - bounding.height) / 2 : y });
     } else if (align === 'left') {
       const bounding = contentRef.current?.getBoundingClientRect();
       const contentWidth = bounding?.width || 0;
@@ -57,7 +59,7 @@ const Tooltip: FC<TooltipProps> = (props) => {
       <div
         ref={contentRef}
         className={classNames('tooltip__content', align)}
-        style={{ top: `${pos.y}px`, left: `${pos.x}px`, display: show && open ? 'block' : 'none' }}>
+        style={{ top: `${pos.y}px`, left: `${pos.x}px`, visibility: show && open ? 'visible' : 'hidden' }}>
         <span>{text}</span>
       </div>
     </div>

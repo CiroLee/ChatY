@@ -35,8 +35,6 @@
     &.bottom::after {
       left: 50%;
       top: -10px;
-
-      // background-color: red;
       transform: translateX(-50%) rotate(90deg);
     }
   }

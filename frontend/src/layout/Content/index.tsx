@@ -35,6 +35,7 @@ const Content: FC = () => {
   fmt.Println()
   ~~~
   `;
+
   return (
     <div className={cn('content')} style={{ '--header-height': `${titleBarHeight}px` } as React.CSSProperties}>
       <div className={cn('session-header')}>
@@ -61,7 +62,7 @@ const Content: FC = () => {
         <Answer className="ml-[16px]" avatar="https://loremflickr.com/320/240/cat" content={contentDemo} />
         <Answer className="ml-[16px]" avatar="https://loremflickr.com/320/240/cat" content={contentDemo} />
       </div>
-      <div className={cn('editor-input', { collapse })}>
+      <div className={cn('editor-input')}>
         <EditContainer />
       </div>
       <RoleModal

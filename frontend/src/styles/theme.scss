@@ -1,12 +1,14 @@
 body {
   --color: #303030;
   --item-hover-color: #f4f4f4;
+  --item-checked-bg: rgb(219 200 237 / 26%);
+  --item-checked-hover-color: rgb(219 200 237 / 42%);
   --bg: 255 255 255;
   --content-bg: #f7f7f7;
   --border-color: #ebebeb;
-  --assist-color: #a5a3a3;
+  --assist-color: #989898;
   --tip-color: #c2c2c2;
-  --popup-bg: #f4f4f4;
+  --popup-bg: #fff;
   --tabs-bg: #f4f4f4;
   --tabs-item-inactive-color: #c7c6c6;
   --tabs-item-active-bg: #fff;
@@ -35,10 +37,12 @@ body {
 body.dark {
   --color: #efefef;
   --item-hover-color: #3f3e3e;
+  --item-checked-bg: rgb(88 83 94 / 26%);
+  --item-checked-hover-color: rgb(88 83 94 / 32%);
   --bg: 50 50 50;
   --content-bg: #3a3a3a;
   --border-color: #3e3e3e;
-  --assist-color: #626262;
+  --assist-color: #707070;
   --tip-color: #878787;
   --popup-bg: #4b4b4b;
   --tabs-bg: #4b4b4b;

@@ -1,0 +1,132 @@
+$xlarge: 56px;
+$large: 48px;
+$medium: 40px;
+$small: 32px;
+
+.cy-avatar {
+  width: $medium;
+  height: $medium;
+  border-radius: 50%;
+  position: relative;
+  background-color: var(--avatar-bg);
+  font-size: $medium;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  --shadow: var(--avatar-bg);
+  &.square {
+    border-radius: 0.06em;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: $medium;
+    object-fit: var(--avatar-fit, fill);
+  }
+  &.square img {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.06em;
+    object-fit: var(--avatar-fit, fill);
+  }
+  &.xlarge {
+    width: $xlarge;
+    height: $xlarge;
+    font-size: $xlarge;
+  }
+  &.large {
+    width: $large;
+    height: $large;
+    font-size: $large;
+  }
+  &.small {
+    width: $small;
+    height: $small;
+    font-size: $small;
+  }
+  &.box-shadow {
+    box-shadow: 1px 3px 12px -4px var(--shadow, rgb(0 0 0 / 40%));
+  }
+  span {
+    color: var(--avatar-text-color);
+    font-size: 0.45em;
+  }
+  &__text {
+    transform: scale(var(--avatar-text-scale));
+  }
+  &::after {
+    content: '';
+    width: 0.32em;
+    height: 0.32em;
+    border-radius: 0.32em;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+  }
+  &.square::after {
+    content: '';
+    width: 0.32em;
+    height: 0.32em;
+    border-radius: 0.32em;
+    position: absolute;
+    right: -0.1em;
+    bottom: -0.1em;
+  }
+  &.online::after {
+    background-color: #0cdd40;
+  }
+  &.offline {
+    img {
+      filter: saturate(0.2);
+      opacity: 0.8;
+    }
+    &::after {
+      background-color: #bfbfbf;
+    }
+  }
+  &__dot {
+    width: 0.32em;
+    height: 0.32em;
+    line-height: 0.32em;
+    border-radius: 2em;
+    position: absolute;
+    left: 0.7em;
+    top: 0;
+    background-color: red;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 2;
+    &.num-dot {
+      width: unset;
+      padding: 0 0.085em;
+    }
+    span {
+      font-size: 0.2em;
+    }
+  }
+  &.square .avatar__dot {
+    left: 0.7em;
+    top: -0.1em;
+  }
+  &__checked {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 14px;
+    width: 14px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color:  #13cb5c;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    & .cy-icon {
+      margin-top: 1px;
+      display: block;
+      color:#fff;
+    }
+  }
+}

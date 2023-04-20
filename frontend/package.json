@@ -9,7 +9,7 @@
   },
   "lint-staged": {
     "src/**/*.{jsx,tsx,ts,js,json}": [
-      "eslint --config eslintrc.js"
+      "eslint --config .eslintrc.js"
     ],
     "*.{less,css,sass,scss}": [
       "stylelint --fix"

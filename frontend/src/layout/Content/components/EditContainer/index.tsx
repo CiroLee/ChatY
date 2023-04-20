@@ -18,8 +18,6 @@ const EditContainer: FC<EditContainerProps> = (props) => {
     ['enter', 'meta+j', 'ctrl+j'],
     (event: KeyboardEvent, handler: HotkeysEvent) => {
       event.preventDefault();
-      console.log(handler);
-
       if (event.key.toLowerCase() === 'enter') {
         let content = (event.target as HTMLDivElement).innerHTML.replaceAll('<br>', '\n');
         content = JSON.stringify(content);
@@ -32,10 +30,9 @@ const EditContainer: FC<EditContainerProps> = (props) => {
   );
 
   const toggleMaxInput = (handler: HotkeysEvent) => {
-    console.log(isMac());
-    if (isMac() && handler?.keys?.[0] === 'h' && handler.meta) {
+    if (isMac() && handler?.keys?.[0] === 'j' && handler.meta) {
       toggleMaxHandler();
-    } else if (!isMac() && handler?.keys?.[0] === 'h' && handler.ctrl) {
+    } else if (!isMac() && handler?.keys?.[0] === 'j' && handler.ctrl) {
       toggleMaxHandler();
     }
   };
@@ -60,7 +57,7 @@ const EditContainer: FC<EditContainerProps> = (props) => {
   return (
     <div>
       <p className={cn('cy-editor-tip', { max })}>
-        Enter 发送，Shift+Enter 换行，{isMac() ? '⌘' : 'Ctrl'} + H 半屏/原始输入
+        Enter 发送，Shift+Enter 换行，{isMac() ? '⌘' : 'Ctrl'} + J 半屏/原始输入
       </p>
       <div className={cn('cy-editor-wrapper', { focus })}>
         <div

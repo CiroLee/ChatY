@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useToggle } from 'react-use';
 import Icon from '@/components/Icon';
 import ChatItem from './components/ChatItem';
@@ -12,13 +12,27 @@ import { themeChangeTabs } from '@/config/config';
 import { useThemeStore } from '@/store/theme';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
-import { isMac } from '@/utils/utils';
+import { isMac, getAvatarUrl } from '@/utils/utils';
 const cn = classnames.bind(style);
+
+const mockSessions = [
+  {
+    id: '001',
+    text: '翻译狗',
+    prefix: 'avatar-idea',
+  },
+  {
+    id: '002',
+    text: '名字特别长的文字哈哈哈',
+    prefix: 'avatar-code',
+  },
+];
 
 const SideBar: FC = () => {
   const { collapse, toggleCollapse } = useLayoutStore((state) => state);
   const { theme, setTheme } = useThemeStore((state) => state);
   const [collapseList, toggleList] = useToggle(false);
+  const [currentSession, setCurrentSession] = useState('001');
 
   useHotkeys(['ctrl+b', 'meta+b'], (event: KeyboardEvent, handler: HotkeysEvent) => {
     event.preventDefault();
@@ -42,12 +56,18 @@ const SideBar: FC = () => {
         <Icon name={collapseList ? 'contract-up-down-line' : 'expand-up-down-line'} size="18px" onClick={toggleList} />
       </div>
       <ol className={cn('sidebar__list', 'flex-1', `${collapseList ? 'hidden' : 'block'}`)}>
-        <Tooltip text="翻译狗" align="right" open={collapse}>
-          <ChatItem id="chat1" text="翻译狗" prefix="#c0d293" collapse={collapse} />
-        </Tooltip>
-        <Tooltip text="chat2" align="right" open={collapse}>
-          <ChatItem id="chat2" text="chat2" prefix="#c0d293" collapse={collapse} />
-        </Tooltip>
+        {mockSessions.map((session) => (
+          <Tooltip key={session.id} text={session.text} align="right" open={collapse}>
+            <ChatItem
+              id={session.id}
+              text={session.text}
+              prefix={getAvatarUrl(session.prefix)}
+              checked={session.id === currentSession}
+              collapse={collapse}
+              onClick={() => setCurrentSession(session.id)}
+            />
+          </Tooltip>
+        ))}
       </ol>
       <RadioTabs
         options={themeChangeTabs}

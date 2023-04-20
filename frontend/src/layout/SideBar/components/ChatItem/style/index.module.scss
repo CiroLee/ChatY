@@ -1,44 +1,42 @@
 .chat-item {
-  height: 36px;
+  height: 52px;
   display: flex;
   align-items: center;
-  transition: background-color 0.1s ease;
+  transition: background-color 0.2s ease;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
+  border-radius: 2px;
   &__left {
     padding: 0 6px;
     height: 100%;
     position: relative;
     border-radius: 2px;
-    &:hover {
-      background-color: var(--item-hover-color);
-    }
-    &::after {
-      content: '';
-      width: 1px;
-      height: 40%;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: 0;
-      background-color: var(--item-hover-color);
-    }
+    overflow: hidden;
+  }
+  &:hover {
+    background-color: var(--item-hover-color);
   }
   &__prefix {
-    width: 14px;
-    height: 14px;
+    width: 20px;
+    height: 20px;
     border-radius: 3px;
     margin-right: 6px;
-    margin-top: 0.6px;
-    opacity: 1;
+    object-fit: fill;
   }
   &__collapse {
     .chat-item__prefix {
       margin-right: 0;
-      margin-left: 4px;
+      margin-left: 2px;
       & + span {
         opacity: 0;
       }
+    }
+  }
+  &__checked {
+    background-color: var(--item-checked-bg);
+    &:hover {
+      background-color: var(--item-checked-hover-color);
     }
   }
 }

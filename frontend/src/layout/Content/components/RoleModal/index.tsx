@@ -3,7 +3,9 @@ import Popup from '@/components/Popup';
 import Input from '@/components/Input';
 import Textarea from '@/components/Textarea';
 import Button from '@/components/Button';
+import Avatar from '@/components/Avatar';
 import classNames from 'classnames/bind';
+import { avatars } from '@/config/config';
 import style from './style/index.module.scss';
 const cn = classNames.bind(style);
 
@@ -13,14 +15,40 @@ interface RoleModalProps {
   show: boolean;
   onCancel: () => void;
 }
+const defaultAvatarKey = avatars[0][0];
 const RoleModal: FC<RoleModalProps> = (props) => {
   const { show, onCancel, title } = props;
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
+  const [selectedAvatar, setSelectedAvatar] = useState(defaultAvatarKey);
+  const handleChooseAvatar = (name: string) => {
+    setSelectedAvatar(name);
+  };
+  const handleOk = () => {
+    console.log(name, desc, selectedAvatar);
+    onCancel();
+  };
   return (
     <Popup show={show} placement="center" maskClosable={true} cancel={onCancel}>
       <div className={cn('role-modal')}>
         <h3>{title}</h3>
+        <div className="mt-6">
+          <div className="flex items-center">
+            <label>头像</label>
+            <div className="ml-3">
+              {avatars.map((arr) => (
+                <Avatar
+                  key={arr[0]}
+                  url={arr[1]}
+                  checked={arr[0] === selectedAvatar}
+                  size="small"
+                  onClick={() => handleChooseAvatar(arr[0])}
+                  className="mr-2 cursor-pointer"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
         <div className="mt-6">
           <div className="flex items-center">
             <label>名称</label>
@@ -48,7 +76,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
           </div>
           <div className="flex justify-end mt-[44px]">
             <Button onClick={onCancel}>取消</Button>
-            <Button type="primary" className="ml-2">
+            <Button type="primary" className="ml-2" onClick={handleOk}>
               确认
             </Button>
           </div>
