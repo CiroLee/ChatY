@@ -2,9 +2,11 @@ import { FC, useState } from 'react';
 import { useToggle } from 'react-use';
 import { useHotkeys } from 'react-hotkeys-hook';
 import classNames from 'classnames/bind';
-import style from './style/index.module.scss';
+import { getChatCompletionStream } from '@/api';
+import { Role } from '@/types/openai';
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
 import { isMac } from '@/utils/utils';
+import style from './style/index.module.scss';
 const cn = classNames.bind(style);
 interface EditContainerProps {
   className?: string;
@@ -19,9 +21,28 @@ const EditContainer: FC<EditContainerProps> = (props) => {
     (event: KeyboardEvent, handler: HotkeysEvent) => {
       event.preventDefault();
       if (event.key.toLowerCase() === 'enter') {
-        let content = (event.target as HTMLDivElement).innerHTML.replaceAll('<br>', '\n');
+        let content = (event.target as HTMLDivElement).innerText;
         content = JSON.stringify(content);
         console.log('ENTER what-you-write is: ', content);
+        let str = '';
+        getChatCompletionStream(
+          {
+            messages: [
+              {
+                role: Role.assistant,
+                content,
+              },
+            ],
+            maxTokens: 1024,
+            temperature: 0.6,
+          },
+          (data) => {
+            str += data.content;
+            console.log(str);
+
+            // console.log('data:::', data);
+          },
+        );
       } else {
         toggleMaxInput(handler);
       }

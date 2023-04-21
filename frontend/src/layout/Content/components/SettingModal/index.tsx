@@ -4,12 +4,15 @@ import Input from '@/components/Input';
 import InputNumber from '@/components/InputNumber';
 import Slider from '@/components/Slider';
 import { useLayoutStore } from '@/store/layout';
+import { useSettingStore } from '@/store/setting';
+import { useThemeStore } from '@/store/theme';
 import { themeChangeTabs } from '@/config/config';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
-import { useThemeStore } from '@/store/theme';
+
 import RadioTabs from '@/components/RadioTabs';
-import { useSettingStore } from '@/store/setting';
+import Icon from '@/components/Icon';
+
 const cn = classNames.bind(style);
 
 const temperatureMin = 0.1;
@@ -26,7 +29,9 @@ interface SettingModalProps {
 const SettingModal: FC<SettingModalProps> = (props) => {
   const { titleBarHeight } = useLayoutStore((state) => state);
   const { theme, setTheme } = useThemeStore((state) => state);
-  const { temperature, maxReplayLength, setTemperature, setMaxReplayLength } = useSettingStore((state) => state);
+  const { apiKey, setApiKey, temperature, maxReplayLength, setTemperature, setMaxReplayLength } = useSettingStore(
+    (state) => state,
+  );
   const { show, onCancel } = props;
   const handleTempNumberBlur = (value: string) => {
     setTemperature(Number(value));
@@ -37,11 +42,14 @@ const SettingModal: FC<SettingModalProps> = (props) => {
   return (
     <Popup show={show} cancel={onCancel} maskClosable placement="right">
       <div className={cn('setting-modal')} style={{ '--header-height': `${titleBarHeight}px` } as React.CSSProperties}>
-        <h3 className="font-bold">设置</h3>
+        <div className="flex justify-between items-center">
+          <h3 className="font-bold">设置</h3>
+          <Icon name="close-line" size="18px" onClick={onCancel} />
+        </div>
         <div className="mt-6">
           <div>
             <label className="mb-2 block">Open AI Key</label>
-            <Input type="password" placeholder="请输入Open AI Key" value="" />
+            <Input type="password" placeholder="请输入Open AI Key" value={apiKey} onBlur={setApiKey} />
           </div>
           <div className="mt-4">
             <label className="mb-2 block">主题</label>
