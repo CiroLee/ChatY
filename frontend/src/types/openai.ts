@@ -1,8 +1,4 @@
-export enum Role {
-  system = 'system',
-  user = 'user',
-  assistant = 'assistant',
-}
+export type Role = 'system' | 'user' | 'assistant';
 export interface ChatMessage {
   role: Role;
   content: string;

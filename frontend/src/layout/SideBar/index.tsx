@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useToggle } from 'react-use';
 import Icon from '@/components/Icon';
 import ChatItem from './components/ChatItem';
@@ -6,13 +6,17 @@ import Tooltip from '@/components/Tooltip';
 import RadioTabs from '@/components/RadioTabs';
 import classnames from 'classnames/bind';
 import { useLayoutStore } from '@/store/layout';
-import logo from '@/assets/icons/logo.png';
-import style from './style/index.module.scss';
 import { themeChangeTabs } from '@/config/config';
 import { useThemeStore } from '@/store/theme';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
-import { isMac, getAvatarUrl } from '@/utils/utils';
+import { getAvatarUrl } from '@/utils/chat';
+import { isMac, omit } from '@/utils/utils';
+
+import { chatSessionDB } from '@/db';
+import logo from '@/assets/icons/logo.png';
+import style from './style/index.module.scss';
+import { ChatSession } from '@/types/db';
 const cn = classnames.bind(style);
 
 const mockSessions = [
@@ -33,6 +37,7 @@ const SideBar: FC = () => {
   const { theme, setTheme } = useThemeStore((state) => state);
   const [collapseList, toggleList] = useToggle(false);
   const [currentSession, setCurrentSession] = useState('001');
+  const [chatList, setChatList] = useState<ChatSession[]>([]);
 
   useHotkeys(['ctrl+b', 'meta+b'], (event: KeyboardEvent, handler: HotkeysEvent) => {
     event.preventDefault();
@@ -42,6 +47,22 @@ const SideBar: FC = () => {
       toggleCollapse();
     }
   });
+
+  const getChatList = async () => {
+    try {
+      const list = (await chatSessionDB.queryAll()).map((item) => omit<ChatSession>(item, ['list']));
+      setChatList(list);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getChatList();
+    chatSessionDB.chats.hook('creating', (_, obj) => {
+      console.log(obj);
+    });
+  }, []);
 
   return (
     <div className={cn('sidebar', 'flex flex-col pb-[16px]', { collapse })}>
@@ -56,12 +77,12 @@ const SideBar: FC = () => {
         <Icon name={collapseList ? 'contract-up-down-line' : 'expand-up-down-line'} size="18px" onClick={toggleList} />
       </div>
       <ol className={cn('sidebar__list', 'flex-1', `${collapseList ? 'hidden' : 'block'}`)}>
-        {mockSessions.map((session) => (
-          <Tooltip key={session.id} text={session.text} align="right" open={collapse}>
+        {chatList.map((session) => (
+          <Tooltip key={session.chatId} text={session.name} align="right" open={collapse}>
             <ChatItem
               id={session.id}
-              text={session.text}
-              prefix={getAvatarUrl(session.prefix)}
+              text={session.name}
+              prefix={getAvatarUrl(session.avatarName)}
               checked={session.id === currentSession}
               collapse={collapse}
               onClick={() => setCurrentSession(session.id)}

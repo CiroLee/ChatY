@@ -3,7 +3,6 @@ import { useToggle } from 'react-use';
 import { useHotkeys } from 'react-hotkeys-hook';
 import classNames from 'classnames/bind';
 import { getChatCompletionStream } from '@/api';
-import { Role } from '@/types/openai';
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
 import { isMac } from '@/utils/utils';
 import style from './style/index.module.scss';
@@ -29,7 +28,7 @@ const EditContainer: FC<EditContainerProps> = (props) => {
           {
             messages: [
               {
-                role: Role.assistant,
+                role: 'assistant',
                 content,
               },
             ],

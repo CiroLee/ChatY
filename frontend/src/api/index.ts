@@ -1,6 +1,6 @@
 import { fetchEventSource, type EventSourceMessage } from '@microsoft/fetch-event-source';
 import { OPEN_AI_MODELS, OPEN_AI_HOST } from '@/config/constant.config';
-import { getApiKey } from '@/utils/utils';
+import { getApiKey } from '@/utils/chat';
 import type { ChatMessage, ChatCompletionCbData } from '@/types/openai';
 
 const url = '/v1/chat/completions';

@@ -1,37 +1,79 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import Message from '@/components/Message';
 import Popup from '@/components/Popup';
 import Input from '@/components/Input';
 import Textarea from '@/components/Textarea';
 import Button from '@/components/Button';
 import Avatar from '@/components/Avatar';
+import { chatSessionDB } from '@/db';
 import classNames from 'classnames/bind';
 import { avatars } from '@/config/config';
 import style from './style/index.module.scss';
+import { nanoId } from '@/utils/utils';
 const cn = classNames.bind(style);
 
 interface RoleModalProps {
-  title?: string;
   action: 'create' | 'edit';
   show: boolean;
+  name?: string;
+  description?: string;
+  avatarName?: string;
   onCancel: () => void;
 }
 const defaultAvatarKey = avatars[0][0];
 const RoleModal: FC<RoleModalProps> = (props) => {
-  const { show, onCancel, title } = props;
-  const [name, setName] = useState('');
+  const { show, onCancel, action, name = '', avatarName = '', description = '' } = props;
+  const [roleName, setName] = useState('');
   const [desc, setDesc] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState(defaultAvatarKey);
+  const message = new Message();
   const handleChooseAvatar = (name: string) => {
     setSelectedAvatar(name);
   };
-  const handleOk = () => {
-    console.log(name, desc, selectedAvatar);
+  const createRole = async () => {
+    try {
+      await chatSessionDB.create({
+        chatId: nanoId(),
+        name: roleName,
+        description: desc,
+        avatarName: selectedAvatar,
+        list: [],
+        createAt: Date.parse(new Date().toString()) / 1000,
+      });
+      message.success('创建成功');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const clear = () => {
+    setName('');
+    setDesc('');
+    setSelectedAvatar(defaultAvatarKey);
+  };
+  const handleOnCancel = () => {
+    clear();
     onCancel();
   };
+  const handleOk = async () => {
+    console.log(roleName, desc, selectedAvatar);
+    if (!roleName) {
+      message.warn('名称不能为空');
+      return;
+    }
+    if (action === 'create') {
+      createRole();
+    }
+    onCancel();
+  };
+  useEffect(() => {
+    setName(name);
+    setDesc(description);
+  }, [name, description, avatarName]);
   return (
-    <Popup show={show} placement="center" maskClosable={true} cancel={onCancel}>
+    <Popup show={show} placement="center" maskClosable={true} cancel={handleOnCancel}>
       <div className={cn('role-modal')}>
-        <h3>{title}</h3>
+        <h3>{action === 'create' ? '创建角色' : '修改角色'}</h3>
         <div className="mt-6">
           <div className="flex items-center">
             <label>头像</label>
@@ -58,7 +100,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
               clearable
               placeholder="请输入名称"
               showCount
-              value={name}
+              value={roleName}
               onChange={setName}
             />
           </div>
@@ -75,7 +117,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
             />
           </div>
           <div className="flex justify-end mt-[44px]">
-            <Button onClick={onCancel}>取消</Button>
+            <Button onClick={handleOnCancel}>取消</Button>
             <Button type="primary" className="ml-2" onClick={handleOk}>
               确认
             </Button>

@@ -1,26 +1,21 @@
-import { avatars } from '@/config/config';
+/**
+ * description: common function utils
+ */
+import type { ObjType } from '@/types/common';
+import { customAlphabet } from 'nanoid';
+const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'; // for nanoid
 export const isMac = () => {
   const ua = navigator.userAgent;
   return /macintosh|mac os x/i.test(ua);
 };
 
-export const setThemeClass = (theme: string) => {
-  const darkMatches = window.matchMedia('(prefers-color-scheme: dark)');
-  const isDark = darkMatches.matches;
-  if (theme === 'auto') {
-    isDark ? (document.body.className = 'dark') : document.body.classList.remove('dark');
-  } else {
-    theme === 'dark' ? (document.body.className = 'dark') : document.body.classList.remove('dark');
-  }
+export const nanoId = (num = 12) => {
+  return customAlphabet(alphabet, num)();
 };
 
-export const getAvatarUrl = (avatarName: string) => {
-  return avatars.find((arr) => arr[0] === avatarName)?.[1] || '';
-};
-
-// get apiKey from the storage
-export const getApiKey = () => {
-  const settingStr = window.localStorage.getItem('setting');
-  const setting: { state: { apiKey: string } } = JSON.parse(settingStr || '{}');
-  return setting.state.apiKey || '';
+export const omit = <T>(obj: ObjType, arr: string[]): T => {
+  if (!Array.isArray(arr)) return obj;
+  return Object.keys(obj)
+    .filter((key) => !arr.includes(key))
+    .reduce((acc: ObjType, key: string) => ((acc[key] = obj[key]), acc), {});
 };

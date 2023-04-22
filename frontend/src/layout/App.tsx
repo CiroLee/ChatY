@@ -1,12 +1,15 @@
 import { FC, useEffect } from 'react';
-import TitleBar from './components/TitleBar';
-import SideBar from './layout/SideBar';
-import Content from './layout/Content';
-import { useLayoutStore } from '@/store/layout';
+import TitleBar from '../components/TitleBar';
+import RoleModal from './components/RoleModal';
+import SettingModal from './components/SettingModal';
+import SideBar from './SideBar';
+import Content from './Content';
 import { useThemeStore } from '@/store/theme';
 import { useMedia } from 'react-use';
+import { useModalStore } from '@/store/modal';
 const App: FC = () => {
-  const { toggleCollapse } = useLayoutStore((state) => state);
+  const { roleAction, roleModalInfo, showRoleModal, showSettingModal, toggleRoleModal, toggleSettingModal } =
+    useModalStore((state) => state);
   const { theme, setTheme } = useThemeStore((state) => state);
   const isDark = useMedia('(prefers-color-scheme: dark)');
   const themeStr = isDark ? 'dark' : 'light';
@@ -25,6 +28,8 @@ const App: FC = () => {
         <SideBar />
         <Content />
       </div>
+      <RoleModal action={roleAction} show={showRoleModal} {...roleModalInfo} onCancel={() => toggleRoleModal(false)} />
+      <SettingModal show={showSettingModal} onCancel={() => toggleSettingModal(false)} />
     </div>
   );
 };

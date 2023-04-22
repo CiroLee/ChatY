@@ -1,23 +1,17 @@
-import { FC, useState } from 'react';
-import { useToggle } from 'react-use';
+import { FC } from 'react';
 import Icon from '@/components/Icon';
 import EditContainer from './components/EditContainer';
-import SettingModal from './components/SettingModal';
-import RoleModal from './components/RoleModal';
 import { Question, Answer } from './components/QA';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
 import { useLayoutStore } from '@/store/layout';
+import { useModalStore } from '@/store/modal';
 const cn = classNames.bind(style);
 const Content: FC = () => {
-  const { titleBarHeight, collapse } = useLayoutStore((state) => state);
-  const [showRoleModal, toggleRoleModal] = useToggle(false);
-  const [showSettingModal, toggleSettingModal] = useToggle(false);
-  const [roleAction, setRoleAction] = useState<'create' | 'edit'>('create');
-  const [roleModalTitle, setRoleModalTitle] = useState('');
+  const { titleBarHeight } = useLayoutStore((state) => state);
+  const { toggleRoleModal, setRoleAction, toggleSettingModal } = useModalStore((state) => state);
   const createRole = () => {
     toggleRoleModal(true);
-    setRoleModalTitle('创建角色');
     setRoleAction('create');
   };
 
@@ -65,13 +59,6 @@ const Content: FC = () => {
       <div className={cn('editor-input')}>
         <EditContainer />
       </div>
-      <RoleModal
-        title={roleModalTitle}
-        action={roleAction}
-        show={showRoleModal}
-        onCancel={() => toggleRoleModal(false)}
-      />
-      <SettingModal show={showSettingModal} onCancel={() => toggleSettingModal(false)} />
     </div>
   );
 };

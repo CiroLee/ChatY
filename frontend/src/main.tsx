@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
-import { setThemeClass } from './utils/utils';
-import App from './App';
+import { setThemeClass } from './utils/chat';
+import App from './layout/App';
 import './styles/theme.scss';
 import './styles/index.scss';
 import 'remixicon/fonts/remixicon.css';
@@ -8,7 +8,7 @@ import './styles/reset.css';
 
 const container = document.getElementById('root');
 
-const root = createRoot(container!);
+const root = createRoot(container as HTMLElement);
 
 // 整体挂在前设置主题，避免闪烁
 (function presetTheme() {

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { setThemeClass } from '../utils/utils';
+import { setThemeClass } from '../utils/chat';
 interface ThemeStore {
   theme: string;
   setTheme: (theme: string) => void;
