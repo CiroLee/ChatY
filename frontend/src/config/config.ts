@@ -5,9 +5,10 @@ import AvatarCat from '@/assets/avatars/avatar-cat.png';
 import AvatarCode from '@/assets/avatars/avatar-code.png';
 import AvatarDog from '@/assets/avatars/avatar-dog.png';
 import AvatarIdea from '@/assets/avatars/avatar-idea.png';
-import AvatarKetty from '@/assets/avatars/avatar-ketty.png';
+import AvatarKitty from '@/assets/avatars/avatar-kitty.png';
 import AvatarMario from '@/assets/avatars/avatar-mario.png';
 import AvatarSimpson from '@/assets/avatars/avatar-simpson.png';
+import AvatarTranslate from '@/assets/avatars/avatar-translate.png';
 
 export const themeChangeTabs = [
   {
@@ -48,10 +49,11 @@ export const avatars: string[][] = [
   ['avatar-assist', AvatarAssist],
   ['avatar-atom', AvatarAtom],
   ['avatar-calculator', AvatarCalculator],
+  ['avatar-translate', AvatarTranslate],
   ['avatar-cat', AvatarCat],
   ['avatar-code', AvatarCode],
   ['avatar-dog', AvatarDog],
-  ['avatar-ketty', AvatarKetty],
+  ['avatar-kitty', AvatarKitty],
   ['avatar-mario', AvatarMario],
   ['avatar-simpson', AvatarSimpson],
 ];

@@ -1,4 +1,3 @@
-import { Role } from '@/types/openai';
 import { create } from 'zustand';
 interface RoleModalInfo {
   name: string;

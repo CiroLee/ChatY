@@ -7,9 +7,13 @@ import Content from './Content';
 import { useThemeStore } from '@/store/theme';
 import { useMedia } from 'react-use';
 import { useModalStore } from '@/store/modal';
+import { chatSessionDB } from '@/db';
+import { ChatSession } from '@/types/db';
+import { useChatSessionStore } from '@/store/chat';
 const App: FC = () => {
   const { roleAction, roleModalInfo, showRoleModal, showSettingModal, toggleRoleModal, toggleSettingModal } =
     useModalStore((state) => state);
+  const { setChatList } = useChatSessionStore((state) => state);
   const { theme, setTheme } = useThemeStore((state) => state);
   const isDark = useMedia('(prefers-color-scheme: dark)');
   const themeStr = isDark ? 'dark' : 'light';
@@ -21,6 +25,19 @@ const App: FC = () => {
       themeStr === theme && setTheme(themeStr);
     }
   }, [isDark]);
+  const getAllChatList = async () => {
+    try {
+      const list = await chatSessionDB.queryAll();
+      setChatList(list as ChatSession[]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllChatList();
+    console.log(123);
+  }, []);
   return (
     <div className=" flex flex-col h-[100vh] overflow-hidden rounded-[10px]">
       <TitleBar />

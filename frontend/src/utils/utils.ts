@@ -19,3 +19,7 @@ export const omit = <T>(obj: ObjType, arr: string[]): T => {
     .filter((key) => !arr.includes(key))
     .reduce((acc: ObjType, key: string) => ((acc[key] = obj[key]), acc), {});
 };
+
+export const timestamp = () => {
+  return Date.parse(new Date().toString()) / 1000;
+};

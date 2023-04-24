@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-interface SettingStore {
+export interface SettingStore {
   apiKey: string;
   temperature: number;
   maxReplayLength: number;
@@ -14,7 +14,7 @@ export const useSettingStore = create<SettingStore>()(
     (set) => ({
       apiKey: '',
       temperature: 0.6,
-      maxReplayLength: 2048,
+      maxReplayLength: 1024,
       setTemperature: (temperature: number) => set(() => ({ temperature })),
       setMaxReplayLength: (maxReplayLength: number) => set(() => ({ maxReplayLength })),
       setApiKey: (key: string) => set(() => ({ apiKey: key })),

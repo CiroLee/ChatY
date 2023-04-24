@@ -14,12 +14,23 @@
     box-shadow: var(--qa-shadow);
     max-width: 92%;
   }
+  ol,
+  ul,
+  li {
+    list-style-type: disc;
+    padding-left: 16px;
+    text-indent: -14px;
+  }
+  ol {
+    list-style-type: decimal;
+  }
 }
 
 .cy-question {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  white-space: pre-wrap;
   &__content {
     margin-right: 6px;
     border-top-right-radius: 0;

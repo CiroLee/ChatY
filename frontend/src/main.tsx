@@ -4,7 +4,6 @@ import App from './layout/App';
 import './styles/theme.scss';
 import './styles/index.scss';
 import 'remixicon/fonts/remixicon.css';
-import './styles/reset.css';
 
 const container = document.getElementById('root');
 

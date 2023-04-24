@@ -9,7 +9,9 @@ import { chatSessionDB } from '@/db';
 import classNames from 'classnames/bind';
 import { avatars } from '@/config/config';
 import style from './style/index.module.scss';
-import { nanoId } from '@/utils/utils';
+import { nanoId, timestamp } from '@/utils/utils';
+import { useChatSessionStore } from '@/store/chat';
+import { IndexableType } from 'dexie';
 const cn = classNames.bind(style);
 
 interface RoleModalProps {
@@ -26,20 +28,24 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   const [roleName, setName] = useState('');
   const [desc, setDesc] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState(defaultAvatarKey);
+  const { chatList, setChatList } = useChatSessionStore((state) => state);
   const message = new Message();
   const handleChooseAvatar = (name: string) => {
     setSelectedAvatar(name);
   };
   const createRole = async () => {
     try {
-      await chatSessionDB.create({
+      const chatItem = {
         chatId: nanoId(),
         name: roleName,
         description: desc,
         avatarName: selectedAvatar,
         list: [],
-        createAt: Date.parse(new Date().toString()) / 1000,
-      });
+        createAt: timestamp(),
+      };
+      const id = await chatSessionDB.create(chatItem);
+      setChatList([...chatList, { ...chatItem, id: id as number }]);
+
       message.success('创建成功');
     } catch (error) {
       console.error(error);
@@ -64,7 +70,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
     if (action === 'create') {
       createRole();
     }
-    onCancel();
+    handleOnCancel();
   };
   useEffect(() => {
     setName(name);

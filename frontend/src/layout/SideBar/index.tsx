@@ -11,33 +11,19 @@ import { useThemeStore } from '@/store/theme';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
 import { getAvatarUrl } from '@/utils/chat';
-import { isMac, omit } from '@/utils/utils';
-
-import { chatSessionDB } from '@/db';
+import { isMac } from '@/utils/utils';
+import { useChatSessionStore } from '@/store/chat';
 import logo from '@/assets/icons/logo.png';
 import style from './style/index.module.scss';
-import { ChatSession } from '@/types/db';
+
 const cn = classnames.bind(style);
-
-const mockSessions = [
-  {
-    id: '001',
-    text: '翻译狗',
-    prefix: 'avatar-idea',
-  },
-  {
-    id: '002',
-    text: '名字特别长的文字哈哈哈',
-    prefix: 'avatar-code',
-  },
-];
-
 const SideBar: FC = () => {
   const { collapse, toggleCollapse } = useLayoutStore((state) => state);
   const { theme, setTheme } = useThemeStore((state) => state);
+  const { setSession } = useChatSessionStore((state) => state);
   const [collapseList, toggleList] = useToggle(false);
-  const [currentSession, setCurrentSession] = useState('001');
-  const [chatList, setChatList] = useState<ChatSession[]>([]);
+  const [currentSession, setCurrentSession] = useState('');
+  const { chatList } = useChatSessionStore((state) => state);
 
   useHotkeys(['ctrl+b', 'meta+b'], (event: KeyboardEvent, handler: HotkeysEvent) => {
     event.preventDefault();
@@ -48,21 +34,33 @@ const SideBar: FC = () => {
     }
   });
 
+  const setCurrentSessionHandler = (id: string) => {
+    setCurrentSession(id);
+    changToCurrentSession(id);
+    localStorage.setItem('currentSession', id);
+  };
+
+  // 切换到当前会话
+  const changToCurrentSession = (sessionId: string) => {
+    const session = chatList.find((item) => item.chatId === sessionId);
+    session && setSession(session);
+  };
+
   const getChatList = async () => {
     try {
-      const list = (await chatSessionDB.queryAll()).map((item) => omit<ChatSession>(item, ['list']));
-      setChatList(list);
+      if (!localStorage.getItem('currentSession')) {
+        setCurrentSessionHandler(chatList[0]?.chatId || '');
+      } else {
+        setCurrentSession(localStorage.getItem('currentSession') || '');
+      }
     } catch (error) {
       console.error(error);
     }
   };
-
+  // 监听列表变化
   useEffect(() => {
     getChatList();
-    chatSessionDB.chats.hook('creating', (_, obj) => {
-      console.log(obj);
-    });
-  }, []);
+  }, [chatList]);
 
   return (
     <div className={cn('sidebar', 'flex flex-col pb-[16px]', { collapse })}>
@@ -73,23 +71,23 @@ const SideBar: FC = () => {
         </div>
         <Icon name={`${collapse ? 'layout-left-line' : 'layout-right-line'}`} size="18px" onClick={toggleCollapse} />
       </div>
-      <div className={cn('flex mt-[12px]', `${collapse ? 'justify-center' : 'justify-end'}`)}>
+      <div className={cn('flex mt-[12px] px-[12px]', `${collapse ? 'justify-center' : 'justify-end'}`)}>
         <Icon name={collapseList ? 'contract-up-down-line' : 'expand-up-down-line'} size="18px" onClick={toggleList} />
       </div>
-      <ol className={cn('sidebar__list', 'flex-1', `${collapseList ? 'hidden' : 'block'}`)}>
-        {chatList.map((session) => (
-          <Tooltip key={session.chatId} text={session.name} align="right" open={collapse}>
+      <div className={cn('sidebar__list', `${collapseList ? 'hidden' : 'block'}`)}>
+        {chatList.map((item) => (
+          <Tooltip key={item.chatId} text={item.name} align="right" open={collapse}>
             <ChatItem
-              id={session.id}
-              text={session.name}
-              prefix={getAvatarUrl(session.avatarName)}
-              checked={session.id === currentSession}
+              id={item.chatId}
+              text={item.name}
+              prefix={getAvatarUrl(item.avatarName)}
+              checked={item.chatId === currentSession}
               collapse={collapse}
-              onClick={() => setCurrentSession(session.id)}
+              onClick={() => setCurrentSessionHandler(item.chatId)}
             />
           </Tooltip>
         ))}
-      </ol>
+      </div>
       <RadioTabs
         options={themeChangeTabs}
         activeKey={theme}

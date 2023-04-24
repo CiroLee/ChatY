@@ -1,13 +1,14 @@
 import { avatars } from '@/config/config';
+import type { SettingStore } from '@/store/setting';
 export const getAvatarUrl = (avatarName?: string) => {
   return avatars.find((arr) => arr[0] === avatarName)?.[1] || '';
 };
 
 // get apiKey from the storage
-export const getApiKey = () => {
+export const getSettingStorage = () => {
   const settingStr = window.localStorage.getItem('setting');
-  const setting: { state: { apiKey: string } } = JSON.parse(settingStr || '{}');
-  return setting.state.apiKey || '';
+  const setting: { state: SettingStore } = JSON.parse(settingStr || '{}');
+  return setting.state;
 };
 
 export const setThemeClass = (theme: string) => {

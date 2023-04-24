@@ -1,7 +1,7 @@
 import { Role } from './openai';
 
 export interface ChatSession {
-  id: string;
+  id: number;
   chatId: string;
   name: string;
   avatarName?: string;

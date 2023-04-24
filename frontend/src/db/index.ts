@@ -15,6 +15,10 @@ class chatSession extends Dexie {
   async queryAll() {
     return this.chats.toArray();
   }
+  async update(id: number, data: Partial<Pick<ChatSession, 'id'>>) {
+    if (id < 0) return;
+    return this.chats.update(id, data);
+  }
 }
 
 export const chatSessionDB = new chatSession();

@@ -1,10 +1,11 @@
 import { FC, useState } from 'react';
 import { useToggle } from 'react-use';
+import { useChatSessionStore } from '@/store/chat';
 import { useHotkeys } from 'react-hotkeys-hook';
 import classNames from 'classnames/bind';
 import { getChatCompletionStream } from '@/api';
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
-import { isMac } from '@/utils/utils';
+import { isMac, nanoId, timestamp } from '@/utils/utils';
 import style from './style/index.module.scss';
 const cn = classNames.bind(style);
 interface EditContainerProps {
@@ -15,15 +16,21 @@ const EditContainer: FC<EditContainerProps> = (props) => {
   const [max, toggleMax] = useToggle(false);
   const [height, setHeight] = useState(0);
   const [focus, setFocus] = useState(false);
+  const { addQuestion, updateAnswerStream } = useChatSessionStore((state) => state);
   const ref = useHotkeys(
     ['enter', 'meta+j', 'ctrl+j'],
     (event: KeyboardEvent, handler: HotkeysEvent) => {
       event.preventDefault();
       if (event.key.toLowerCase() === 'enter') {
-        let content = (event.target as HTMLDivElement).innerText;
-        content = JSON.stringify(content);
-        console.log('ENTER what-you-write is: ', content);
-        let str = '';
+        const content = (event.target as HTMLDivElement).innerText.replace(/(\r|\r\n|↵)/g, '\n');
+        addQuestion({
+          id: nanoId(),
+          role: 'user',
+          content: `${content}`,
+          createAt: timestamp(),
+        });
+        (event.target as HTMLDivElement).innerText = '';
+
         getChatCompletionStream(
           {
             messages: [
@@ -36,10 +43,12 @@ const EditContainer: FC<EditContainerProps> = (props) => {
             temperature: 0.6,
           },
           (data) => {
-            str += data.content;
-            console.log(str);
-
-            // console.log('data:::', data);
+            updateAnswerStream({
+              id: data.id,
+              role: 'assistant',
+              content: data.content,
+              createAt: timestamp(),
+            });
           },
         );
       } else {

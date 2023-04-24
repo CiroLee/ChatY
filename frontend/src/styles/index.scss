@@ -3,6 +3,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  li {
+    margin: 0;
+    padding: 0;
+  }
+}
+
 body {
   color: var(--color);
   line-height: 1.5;

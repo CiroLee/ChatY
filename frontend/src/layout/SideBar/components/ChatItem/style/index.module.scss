@@ -8,7 +8,7 @@
   overflow: hidden;
   border-radius: 2px;
   &__left {
-    padding: 0 6px;
+    padding: 0 8px;
     height: 100%;
     position: relative;
     border-radius: 2px;
@@ -27,7 +27,7 @@
   &__collapse {
     .chat-item__prefix {
       margin-right: 0;
-      margin-left: 2px;
+      margin-left: 12px;
       & + span {
         opacity: 0;
       }
