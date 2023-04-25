@@ -3,20 +3,21 @@ import classNames from 'classnames';
 import './style/index.scss';
 interface TooltipProps {
   text: string;
-  align: 'left' | 'right' | 'top' | 'bottom';
+  align: 'left' | 'right' | 'top' | 'bottom' | 'topRight';
   open?: boolean;
   children: React.ReactNode;
+  disabled?: boolean;
 }
 const xGap = 16;
-const yGap = 12;
+const yGap = 20;
 const Tooltip: FC<TooltipProps> = (props) => {
-  const { children, align, text, open = true } = props;
+  const { children, align, text, open = true, disabled } = props;
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [show, setShow] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (ref.current && open) {
+    if (ref.current && open && !disabled) {
       ref.current.addEventListener('mouseenter', () => {
         setShow(true);
         updatePosition();
@@ -44,12 +45,16 @@ const Tooltip: FC<TooltipProps> = (props) => {
       const { x, y, width } = ref.current.getBoundingClientRect();
       setPos({ x: x - width - contentWidth, y: y - yGap });
     } else if (align === 'top') {
-      const { y, height } = ref.current.getBoundingClientRect();
-      setPos({ x: 0, y: y - height - yGap * 1.5 });
+      const { y, height, left } = ref.current.getBoundingClientRect();
+      const bounding = contentRef.current?.getBoundingClientRect();
+      setPos({ x: left - (bounding?.width ? bounding?.width / 2 : 0) + xGap / 2, y: y - height - yGap * 1.5 });
     } else if (align === 'bottom') {
       const { x, y, height, width } = ref.current.getBoundingClientRect();
-      const bounding = contentRef.current?.getBoundingClientRect();
       setPos({ x: x - width / 2.5, y: y + height + yGap });
+    } else if (align === 'topRight') {
+      const { y, height, left } = ref.current.getBoundingClientRect();
+      const bounding = contentRef.current?.getBoundingClientRect();
+      setPos({ x: left - (bounding?.width ? bounding?.width : 0) + xGap, y: y - height - yGap * 1.5 });
     }
   };
 

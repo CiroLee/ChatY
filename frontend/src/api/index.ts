@@ -2,7 +2,7 @@ import { fetchEventSource, type EventSourceMessage } from '@microsoft/fetch-even
 import { OPEN_AI_MODELS, OPEN_AI_HOST } from '@/config/constant.config';
 import { useChatSessionStore } from '@/store/chat';
 import { getSettingStorage } from '@/utils/chat';
-import { omit } from '@/utils/utils';
+import { omit } from 'fe-gear';
 import { chatSessionDB } from '@/db';
 import type { ChatMessage, ChatCompletionCbData } from '@/types/openai';
 
@@ -20,8 +20,10 @@ export const getChatCompletionStream = async (
   if (!apiKey) return;
   const abortController = new AbortController();
   const desc = useChatSessionStore.getState().session.description;
+  const { changeChatStatus } = useChatSessionStore.getState();
   const setAbortController = useChatSessionStore.getState().setAbortController;
   setAbortController(abortController);
+  changeChatStatus('fetching');
 
   fetchEventSource(OPEN_AI_HOST + url, {
     method: 'POST',
@@ -52,12 +54,14 @@ export const getChatCompletionStream = async (
         created: jsonData.created,
         content: jsonData.choices[0].delta.content,
       };
+      changeChatStatus('outputting');
       callback(cbData);
     },
     onclose() {
       // save to db and sync to store
       const data = useChatSessionStore.getState().session;
       chatSessionDB.update(data.id, omit(data, ['id']));
+      changeChatStatus('done');
     },
     onerror(err) {
       throw new Error(err);

@@ -9,7 +9,8 @@ import Whether from '@/components/Whether';
 const cn = classNames.bind(style);
 interface ChatItemProps {
   text: string;
-  id: string;
+  id: number;
+  chatId: string;
   prefix?: string;
   collapse?: boolean;
   checked?: boolean;

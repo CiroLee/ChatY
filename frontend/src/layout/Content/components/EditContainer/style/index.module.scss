@@ -3,8 +3,6 @@ $editor-height: 60px;
 .cy-editor-tip {
   color: var(--tip-color);
   font-size: 12px;
-  padding-left: 4px;
-  margin-bottom: 8px;
   transition: opacity 0.1s;
   &.max {
     opacity: 0;
@@ -28,6 +26,10 @@ $editor-height: 60px;
   }
   &.focus {
     border: 1px solid $brand-color;
+  }
+  &.disabled {
+    border-color: var(--border-color);
+    cursor: not-allowed;
   }
 }
 

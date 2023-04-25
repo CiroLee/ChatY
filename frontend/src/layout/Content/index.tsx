@@ -13,7 +13,7 @@ const cn = classNames.bind(style);
 const Content: FC = () => {
   const contentListRef = useRef<HTMLDivElement>(null);
   const { titleBarHeight } = useLayoutStore((state) => state);
-  const { session } = useChatSessionStore((state) => state);
+  const { session, chatStatus } = useChatSessionStore((state) => state);
   const { toggleRoleModal, setRoleAction, toggleSettingModal } = useModalStore((state) => state);
   const createRole = () => {
     toggleRoleModal(true);
@@ -29,6 +29,15 @@ const Content: FC = () => {
     }
   };
 
+  const chatStatusText = (status: string) => {
+    switch (status) {
+      case 'fetching':
+        return '思考中...';
+      case 'outputting':
+        return '输出中...';
+    }
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, []);
@@ -41,6 +50,7 @@ const Content: FC = () => {
     <div className={cn('content')} style={{ '--header-height': `${titleBarHeight}px` } as React.CSSProperties}>
       <div className={cn('session-header')}>
         <h3 className="text-[18px]">{session.name}</h3>
+        <div>{chatStatusText(chatStatus)}</div>
         <div className="flex items-center h-full">
           <Icon name="add-line" size="18px" onClick={createRole} />
           <Icon name="settings-3-line" size="18px" className="ml-[12px]" onClick={() => toggleSettingModal(true)} />

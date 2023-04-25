@@ -27,6 +27,11 @@
       bottom: -10px;
       transform: translateX(-50%) rotate(-90deg);
     }
+    &.topRight::after {
+      right: -10px;
+      bottom: -10px;
+      transform: translateX(-50%) rotate(-90deg);
+    }
     &.left::after {
       right: -10px;
       top: 50%;

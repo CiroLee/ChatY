@@ -10,6 +10,9 @@ dependencies:
   dexie:
     specifier: ^3.2.3
     version: 3.2.3
+  fe-gear:
+    specifier: ^1.0.2
+    version: 1.0.2
   nanoid:
     specifier: ^4.0.2
     version: 4.0.2
@@ -2011,6 +2014,10 @@ packages:
     resolution: {integrity: sha512-CJ0HCB5tL5fYTEA7ToAq5+kTwd++Borf1/bifxd9iT70QcXr4MRrO3Llf8Ifs70q+SJcGHFtnIE/Nw6giCtECA==}
     dependencies:
       format: 0.2.2
+    dev: false
+
+  /fe-gear@1.0.2:
+    resolution: {integrity: sha512-bwVxG/FV6HbFmtFyEuWrSVwweFxe8lQWKJ2RV2idlqeb7Sd9dCpbpZ/tIQIMV1WyGQ9rASMmcEipBXhiTd3heA==}
     dev: false
 
   /file-entry-cache@6.0.1:

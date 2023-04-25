@@ -2,9 +2,11 @@ import { ChatItem, ChatSession } from '@/types/db';
 import { create } from 'zustand';
 
 interface ChatStore {
+  chatStatus: 'idle' | 'fetching' | 'outputting' | 'done';
   session: ChatSession; // 当前会话信息, 从chatList里得到
   chatList: ChatSession[]; // 所有会话列表 用于初始化sidebar和当前会话内容面板
   abortController?: AbortController;
+  changeChatStatus: (status: 'idle' | 'fetching' | 'outputting' | 'done') => void;
   addQuestion: (item: ChatItem) => void;
   updateAnswerStream: (item: ChatItem) => void;
   setSession: (session: ChatSession) => void;
@@ -13,6 +15,7 @@ interface ChatStore {
 }
 
 export const useChatSessionStore = create<ChatStore>((set) => ({
+  chatStatus: 'idle',
   session: {
     id: 0,
     chatId: '',
@@ -32,6 +35,7 @@ export const useChatSessionStore = create<ChatStore>((set) => ({
       }
       return { ...session, list: [] };
     }),
+  changeChatStatus: (status: 'idle' | 'fetching' | 'outputting' | 'done') => set(() => ({ chatStatus: status })),
   setChatList: (list: ChatSession[]) => set(() => ({ chatList: list })),
   setAbortController: (abortController: AbortController) => set(() => ({ abortController })),
   addQuestion: (item: ChatItem) =>

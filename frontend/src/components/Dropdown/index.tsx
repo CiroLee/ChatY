@@ -23,12 +23,18 @@ const Dropdown: FC<DropdownProps> = (props) => {
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [show, setShow] = useState(false);
 
-  const openDropdown = () => {
-    if (ref.current) {
+  const openDropdown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const targetType = (event.target as HTMLElement).parentElement?.dataset.type;
+    if (ref.current && targetType !== 'dropdown') {
       const { x, y, height, width } = ref.current.getBoundingClientRect();
       setPos({ x: x - itemWidth + width, y: y + height + gap });
       setShow(true);
     }
+  };
+
+  const itemOnClickHandler = (key: string) => {
+    setShow(false);
+    props.itemOnClick(key);
   };
 
   useEffect(() => {
@@ -44,11 +50,18 @@ const Dropdown: FC<DropdownProps> = (props) => {
   }, []);
 
   return (
-    <div ref={ref} onClick={openDropdown}>
+    <div ref={ref} onClick={(event) => openDropdown(event)}>
       {props.children}
-      <div className="dropdown" style={{ top: `${pos.y}px`, left: `${pos.x}px`, display: show ? 'block' : 'none' }}>
+      <div
+        data-type="dropdown"
+        className="dropdown"
+        style={{ top: `${pos.y}px`, left: `${pos.x}px`, display: show ? 'block' : 'none' }}>
         {props.items.map((item) => (
-          <li key={item.key} style={{ color: item.color || 'inherit' }} onClick={() => props.itemOnClick(item.key)}>
+          <li
+            data-type="dropdown"
+            key={item.key}
+            style={{ color: item.color || 'inherit' }}
+            onClick={() => itemOnClickHandler(item.key)}>
             <Whether condition={!!item.icon}>
               <Icon name={item.icon} color={item.color} />
             </Whether>

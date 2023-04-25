@@ -24,7 +24,7 @@ const SideBar: FC = () => {
   const { theme, setTheme } = useThemeStore((state) => state);
   const { setSession } = useChatSessionStore((state) => state);
   const [collapseList, toggleList] = useToggle(false);
-  const [currentSession, setCurrentSession] = useState('');
+  const [currentSessionId, setCurrentSessionId] = useState('');
   const { chatList } = useChatSessionStore((state) => state);
 
   useHotkeys(['ctrl+b', 'meta+b'], (event: KeyboardEvent, handler: HotkeysEvent) => {
@@ -36,10 +36,10 @@ const SideBar: FC = () => {
     }
   });
 
-  const setCurrentSessionHandler = (id: string) => {
-    setCurrentSession(id);
+  const setCurrentSessionIdHandler = (id: string) => {
+    setCurrentSessionId(id);
     changToCurrentSession(id);
-    localStorage.setItem('currentSession', id);
+    localStorage.setItem('currentSessionId', id);
   };
 
   // 切换到当前会话
@@ -54,12 +54,12 @@ const SideBar: FC = () => {
   };
 
   const getChatList = async () => {
-    const id = localStorage.getItem('currentSession');
+    const id = localStorage.getItem('currentSessionId');
     if (id) {
-      setCurrentSession(id);
+      setCurrentSessionId(id);
       changToCurrentSession(id);
     } else {
-      setCurrentSessionHandler(chatList[0]?.chatId || '');
+      setCurrentSessionIdHandler(chatList[0]?.chatId || '');
     }
   };
   // 监听列表变化
@@ -83,12 +83,13 @@ const SideBar: FC = () => {
         {chatList.map((item) => (
           <Tooltip key={item.chatId} text={item.name} align="right" open={collapse}>
             <ChatItem
-              id={item.chatId}
+              id={item.id}
+              chatId={item.chatId}
               text={item.name}
               prefix={getAvatarUrl(item.avatarName)}
-              checked={item.chatId === currentSession}
+              checked={item.chatId === currentSessionId}
               collapse={collapse}
-              onClick={() => setCurrentSessionHandler(item.chatId)}
+              onClick={() => setCurrentSessionIdHandler(item.chatId)}
             />
           </Tooltip>
         ))}
