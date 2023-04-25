@@ -55,7 +55,7 @@ export const getChatCompletionStream = async (
       callback(cbData);
     },
     onclose() {
-      // save session data
+      // save to db and sync to store
       const data = useChatSessionStore.getState().session;
       chatSessionDB.update(data.id, omit(data, ['id']));
     },

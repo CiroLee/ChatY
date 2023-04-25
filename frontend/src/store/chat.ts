@@ -2,8 +2,8 @@ import { ChatItem, ChatSession } from '@/types/db';
 import { create } from 'zustand';
 
 interface ChatStore {
-  session: ChatSession;
-  chatList: ChatSession[];
+  session: ChatSession; // 当前会话信息, 从chatList里得到
+  chatList: ChatSession[]; // 所有会话列表 用于初始化sidebar和当前会话内容面板
   abortController?: AbortController;
   addQuestion: (item: ChatItem) => void;
   updateAnswerStream: (item: ChatItem) => void;

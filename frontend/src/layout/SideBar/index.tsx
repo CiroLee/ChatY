@@ -15,6 +15,8 @@ import { isMac } from '@/utils/utils';
 import { useChatSessionStore } from '@/store/chat';
 import logo from '@/assets/icons/logo.png';
 import style from './style/index.module.scss';
+import { chatSessionDB } from '@/db';
+import { ChatSession } from '@/types/db';
 
 const cn = classnames.bind(style);
 const SideBar: FC = () => {
@@ -41,20 +43,23 @@ const SideBar: FC = () => {
   };
 
   // 切换到当前会话
-  const changToCurrentSession = (sessionId: string) => {
-    const session = chatList.find((item) => item.chatId === sessionId);
-    session && setSession(session);
+  const changToCurrentSession = async (sessionId: string) => {
+    try {
+      const chatSessions = await chatSessionDB.queryAll();
+      const session = chatSessions.find((item) => item.chatId === sessionId);
+      session && setSession(session as ChatSession);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const getChatList = async () => {
-    try {
-      if (!localStorage.getItem('currentSession')) {
-        setCurrentSessionHandler(chatList[0]?.chatId || '');
-      } else {
-        setCurrentSession(localStorage.getItem('currentSession') || '');
-      }
-    } catch (error) {
-      console.error(error);
+    const id = localStorage.getItem('currentSession');
+    if (id) {
+      setCurrentSession(id);
+      changToCurrentSession(id);
+    } else {
+      setCurrentSessionHandler(chatList[0]?.chatId || '');
     }
   };
   // 监听列表变化

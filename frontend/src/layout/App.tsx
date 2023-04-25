@@ -36,7 +36,6 @@ const App: FC = () => {
 
   useEffect(() => {
     getAllChatList();
-    console.log(123);
   }, []);
   return (
     <div className=" flex flex-col h-[100vh] overflow-hidden rounded-[10px]">
