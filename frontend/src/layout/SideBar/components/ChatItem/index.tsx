@@ -5,6 +5,8 @@ import Icon from '@/components/Icon';
 import Dropdown from '@/components/Dropdown';
 import { dropdownItems } from '@/config/config';
 import Whether from '@/components/Whether';
+import { useModalStore } from '@/store/modal';
+import { useChatSessionStore } from '@/store/chat';
 
 const cn = classNames.bind(style);
 interface ChatItemProps {
@@ -18,8 +20,21 @@ interface ChatItemProps {
 }
 const ChatItem: FC<ChatItemProps> = (props) => {
   const { text, prefix, collapse, checked } = props;
+  const { chatList } = useChatSessionStore((state) => state);
+  const { setRoleAction, setRoleModalInfo, toggleRoleModal } = useModalStore((state) => state);
   const dropdownItemClickHandler = (key: string) => {
-    console.log(key, props);
+    if (key === 'edit') {
+      const roleInfo = chatList.find((item) => item.chatId === props.chatId);
+      console.log(roleInfo);
+      setRoleModalInfo({
+        id: props.id,
+        name: roleInfo?.name || '',
+        description: roleInfo?.description || '',
+        avatarName: roleInfo?.avatarName || '',
+      });
+      setRoleAction('edit');
+      toggleRoleModal(true);
+    }
   };
   return (
     <div className={cn('chat-item', { 'chat-item__collapse': collapse, 'chat-item__checked': checked })}>

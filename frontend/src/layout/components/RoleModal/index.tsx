@@ -11,7 +11,7 @@ import { avatars } from '@/config/config';
 import style from './style/index.module.scss';
 import { nanoId, timestamp } from '@/utils/utils';
 import { useChatSessionStore } from '@/store/chat';
-import { IndexableType } from 'dexie';
+import { useModalStore } from '@/store/modal';
 const cn = classNames.bind(style);
 
 interface RoleModalProps {
@@ -29,6 +29,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   const [desc, setDesc] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState(defaultAvatarKey);
   const { chatList, setChatList } = useChatSessionStore((state) => state);
+  const { roleModalInfo } = useModalStore((state) => state);
   const message = new Message();
   const handleChooseAvatar = (name: string) => {
     setSelectedAvatar(name);
@@ -52,6 +53,26 @@ const RoleModal: FC<RoleModalProps> = (props) => {
     }
   };
 
+  const editRole = async () => {
+    try {
+      const updatedData = {
+        name: roleName,
+        description: desc,
+        avatarName: selectedAvatar,
+      };
+      const newChatList = chatList.map((item) => {
+        if (item.id === roleModalInfo.id) {
+          return { ...item, ...updatedData };
+        }
+        return item;
+      });
+      await chatSessionDB.update(roleModalInfo.id, updatedData);
+      setChatList(newChatList);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const clear = () => {
     setName('');
     setDesc('');
@@ -69,6 +90,8 @@ const RoleModal: FC<RoleModalProps> = (props) => {
     }
     if (action === 'create') {
       createRole();
+    } else if (action === 'edit') {
+      editRole();
     }
     handleOnCancel();
   };

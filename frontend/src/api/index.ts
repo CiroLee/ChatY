@@ -1,7 +1,7 @@
 import { fetchEventSource, type EventSourceMessage } from '@microsoft/fetch-event-source';
 import { OPEN_AI_MODELS, OPEN_AI_HOST } from '@/config/constant.config';
 import { useChatSessionStore } from '@/store/chat';
-import { getSettingStorage } from '@/utils/chat';
+import { useSettingStore } from '@/store/setting';
 import { omit } from 'fe-gear';
 import { chatSessionDB } from '@/db';
 import type { ChatMessage, ChatCompletionCbData } from '@/types/openai';
@@ -16,10 +16,10 @@ export const getChatCompletionStream = async (
   req: chatCompletionStreamReq,
   callback: (data: ChatCompletionCbData) => void,
 ) => {
-  const { apiKey, temperature, maxReplayLength } = getSettingStorage();
+  const { apiKey, temperature, maxReplayLength } = useSettingStore.getState();
   if (!apiKey) return;
   const abortController = new AbortController();
-  const desc = useChatSessionStore.getState().session.description;
+  const { description } = useChatSessionStore.getState().session;
   const { changeChatStatus } = useChatSessionStore.getState();
   const setAbortController = useChatSessionStore.getState().setAbortController;
   setAbortController(abortController);
@@ -29,7 +29,7 @@ export const getChatCompletionStream = async (
     method: 'POST',
     body: JSON.stringify({
       model: OPEN_AI_MODELS.GPT3,
-      messages: [{ role: 'system', content: desc }, ...req.messages],
+      messages: [{ role: 'system', content: description }, ...req.messages],
       temperature: req.temperature || temperature,
       max_tokens: req.maxTokens || maxReplayLength,
       stream: true,

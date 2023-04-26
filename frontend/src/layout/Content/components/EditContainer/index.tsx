@@ -49,8 +49,6 @@ const EditContainer: FC<EditContainerProps> = (props) => {
                 content,
               },
             ],
-            maxTokens: 1024,
-            temperature: 0.6,
           },
           (data) => {
             updateAnswerStream({
@@ -103,44 +101,57 @@ const EditContainer: FC<EditContainerProps> = (props) => {
     }
   };
 
+  useEffect(() => {
+    console.log(chatStatus);
+  }, [chatStatus]);
+
   return (
     <div>
       <div className="mb-2 px-[6px] flex justify-between">
         <div className={cn('cy-editor-tip', { max })}>
-          Enter 发送，Shift+Enter 换行，{isMac() ? '⌘' : 'Ctrl'} + J 半屏/原始输入
+          <span className={cn('tip')}>Enter 发送，Shift+Enter 换行，{isMac() ? '⌘' : 'Ctrl'} + J 半屏/原始输入</span>
         </div>
-        <div className="flex items-center">
+        <div className={cn('cy-editor-tip', { max })}>
           <Tooltip text="清空记录" align="top">
-            <Icon
-              name="brush-3-line"
-              size="15px"
-              className={cn('relative mr-3 top-[1px]', {
-                'cursor-not-allowed opacity-60': isAnyTrue([
-                  chatStatus !== 'done' && chatStatus !== 'idle',
-                  !session.list.length,
-                ]),
-              })}
-              onClick={clearChatSession}
-            />
+            <div className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')} onClick={clearChatSession}>
+              <Icon
+                name="brush-3-line"
+                size="15px"
+                className={cn('relative', {
+                  'cursor-not-allowed opacity-60': isAnyTrue([
+                    chatStatus !== 'done' && chatStatus !== 'idle',
+                    !session.list.length,
+                  ]),
+                })}
+              />
+            </div>
           </Tooltip>
           <Tooltip text="停止回答" align="top">
-            <Icon
-              name="stop-fill"
-              size="22px"
-              color="#f34747"
-              className={cn('relative mr-3 top-[2px]', {
-                'cursor-not-allowed opacity-60': isAnyTrue([chatStatus === 'done', chatStatus === 'idle']),
-              })}
-            />
+            <div className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')}>
+              <Icon
+                name="stop-fill"
+                size="22px"
+                color="#f34747"
+                className={cn('top-[1px]', {
+                  'cursor-not-allowed opacity-60': isAnyTrue([chatStatus !== 'outputting', chatStatus !== 'fetching']),
+                })}
+              />
+            </div>
           </Tooltip>
           <Tooltip text="重新回答" align="topRight">
-            <Icon
-              name="refresh-line"
-              size="16px"
-              className={cn('relative', {
-                'cursor-not-allowed opacity-60': isAnyTrue([chatStatus !== 'done', chatStatus === 'idle']),
-              })}
-            />
+            <div className={cn('w-[20px] h-[20px] flex items-center justify-center')}>
+              <Icon
+                name="refresh-line"
+                size="16px"
+                className={cn({
+                  'cursor-not-allowed opacity-60': isAnyTrue([
+                    chatStatus !== 'done',
+                    chatStatus !== 'idle',
+                    !session.list.length,
+                  ]),
+                })}
+              />
+            </div>
           </Tooltip>
         </div>
       </div>

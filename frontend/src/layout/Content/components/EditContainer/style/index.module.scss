@@ -1,7 +1,12 @@
 $editor-height: 60px;
 
 .cy-editor-tip {
-  color: var(--tip-color);
+  display: flex;
+  align-items: center;
+  .tip {
+    color: var(--tip-color);
+  }
+
   font-size: 12px;
   transition: opacity 0.1s;
   &.max {

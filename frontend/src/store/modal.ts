@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 interface RoleModalInfo {
+  id: number;
   name: string;
   description: string;
   avatarName: string;
@@ -17,6 +18,7 @@ interface ModalStore {
 
 export const useModalStore = create<ModalStore>((set) => ({
   roleModalInfo: {
+    id: 0,
     name: '',
     description: '',
     avatarName: '',
