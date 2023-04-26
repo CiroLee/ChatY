@@ -83,7 +83,6 @@ const RoleModal: FC<RoleModalProps> = (props) => {
     onCancel();
   };
   const handleOk = async () => {
-    console.log(roleName, desc, selectedAvatar);
     if (!roleName) {
       message.warn('名称不能为空');
       return;
@@ -98,7 +97,9 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   useEffect(() => {
     setName(name);
     setDesc(description);
+    setSelectedAvatar(avatarName);
   }, [name, description, avatarName]);
+
   return (
     <Popup show={show} placement="center" maskClosable={true} cancel={handleOnCancel}>
       <div className={cn('role-modal')}>

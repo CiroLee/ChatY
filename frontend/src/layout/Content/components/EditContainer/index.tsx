@@ -11,6 +11,8 @@ import style from './style/index.module.scss';
 import Icon from '@/components/Icon';
 import Tooltip from '@/components/Tooltip';
 import { chatSessionDB } from '@/db';
+import { ChatItem } from '@/types/db';
+import { saveSessionDB } from '@/utils/chat';
 const cn = classNames.bind(style);
 interface EditContainerProps {
   className?: string;
@@ -20,8 +22,43 @@ const EditContainer: FC<EditContainerProps> = (props) => {
   const [max, toggleMax] = useToggle(false);
   const [height, setHeight] = useState(0);
   const [focus, setFocus] = useState(false);
-  const { chatStatus, session, addQuestion, setSession, updateAnswerStream } = useChatSessionStore((state) => state);
+  const [abortController, setAbortController] = useState<AbortController>();
+  const { chatStatus, session, chatList, setChatList, addQuestion, setSession, updateAnswerStream } =
+    useChatSessionStore((state) => state);
 
+  const questionHandler = (content: string, push = true) => {
+    // 添加到store的会话列表中
+    push &&
+      addQuestion({
+        id: nanoId(16),
+        role: 'user',
+        content: `${content}`,
+        createAt: timestamp(),
+      });
+    // TODO 发起请求时，根据配置，选择是否携带历史记录
+    getChatCompletionStream(
+      {
+        messages: [
+          {
+            role: 'assistant',
+            content,
+          },
+        ],
+      },
+      (data, controller) => {
+        if (!abortController) {
+          setAbortController(controller);
+        }
+
+        updateAnswerStream({
+          id: data.id,
+          role: 'assistant',
+          content: data.content,
+          createAt: timestamp(),
+        });
+      },
+    );
+  };
   const ref = useHotkeys(
     ['enter', 'meta+j', 'ctrl+j'],
     (event: KeyboardEvent, handler: HotkeysEvent) => {
@@ -29,36 +66,8 @@ const EditContainer: FC<EditContainerProps> = (props) => {
       if (event.key.toLowerCase() === 'enter') {
         const content = (event.target as HTMLDivElement).innerText.replace(/(\r|\r\n|↵)/g, '\n');
         if (!content) return;
-
-        // 添加到store的会话列表中
-        addQuestion({
-          id: nanoId(),
-          role: 'user',
-          content: `${content}`,
-          createAt: timestamp(),
-        });
-
+        questionHandler(content);
         (event.target as HTMLDivElement).innerText = '';
-
-        // TODO 发起请求时，根据配置，选择是否携带历史记录
-        getChatCompletionStream(
-          {
-            messages: [
-              {
-                role: 'assistant',
-                content,
-              },
-            ],
-          },
-          (data) => {
-            updateAnswerStream({
-              id: data.id,
-              role: 'assistant',
-              content: data.content,
-              createAt: timestamp(),
-            });
-          },
-        );
       } else {
         toggleMaxInput(handler);
       }
@@ -91,6 +100,8 @@ const EditContainer: FC<EditContainerProps> = (props) => {
     setFocus(false);
   };
 
+  // 底部按钮事件
+  // 清除历史
   const clearChatSession = async () => {
     if (isAnyTrue([chatStatus !== 'done' && chatStatus !== 'idle', !session.list.length])) return;
     try {
@@ -98,6 +109,37 @@ const EditContainer: FC<EditContainerProps> = (props) => {
       setSession({ ...session, list: [] });
     } catch (error) {
       console.error(error);
+    }
+  };
+  // 再次回答
+  const reAnswer = () => {
+    if (isAnyTrue([chatStatus !== 'idle' && chatStatus !== 'done', !session.list.length])) return;
+    const lastQuestion = session.list.findLast((item) => item.role === 'user') as ChatItem;
+    // 最后一个元素可能不是回答，例如中途取消回答，最后一个元素还是question
+    const lastItem = session.list[session.list.length - 1];
+    // 如果最后一个元素为回答(assistant, 则从列表中删掉)
+    if (lastItem.role === 'assistant') {
+      // 同步修改session中的list和chatList中对应条目的list
+      const newChatList = chatList.map((item) => {
+        if (item.chatId === session.chatId) {
+          return {
+            ...item,
+            list: item.list.filter((item) => item.id !== lastItem.id),
+          };
+        }
+        return item;
+      });
+      setChatList(newChatList);
+      chatSessionDB.update(session.id, { list: session.list.filter((item) => item.id !== lastItem.id) });
+    }
+    questionHandler(lastQuestion.content, lastItem.role === 'assistant');
+  };
+
+  // 停止回答 停止回答不会触发sse的 onclose，所以这里要主动保存一下
+  const stopAnswer = () => {
+    if (abortController) {
+      abortController?.abort();
+      saveSessionDB();
     }
   };
 
@@ -127,26 +169,25 @@ const EditContainer: FC<EditContainerProps> = (props) => {
             </div>
           </Tooltip>
           <Tooltip text="停止回答" align="top">
-            <div className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')}>
+            <div className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')} onClick={stopAnswer}>
               <Icon
                 name="stop-fill"
                 size="22px"
                 color="#f34747"
                 className={cn('top-[1px]', {
-                  'cursor-not-allowed opacity-60': isAnyTrue([chatStatus !== 'outputting', chatStatus !== 'fetching']),
+                  'cursor-not-allowed opacity-60': isAllTrue([chatStatus !== 'outputting', chatStatus !== 'fetching']),
                 })}
               />
             </div>
           </Tooltip>
           <Tooltip text="重新回答" align="topRight">
-            <div className={cn('w-[20px] h-[20px] flex items-center justify-center')}>
+            <div className={cn('w-[20px] h-[20px] flex items-center justify-center')} onClick={reAnswer}>
               <Icon
                 name="refresh-line"
                 size="16px"
                 className={cn({
                   'cursor-not-allowed opacity-60': isAnyTrue([
-                    chatStatus !== 'done',
-                    chatStatus !== 'idle',
+                    chatStatus !== 'idle' && chatStatus !== 'done',
                     !session.list.length,
                   ]),
                 })}

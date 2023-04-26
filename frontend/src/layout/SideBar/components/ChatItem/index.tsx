@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import classNames from 'classnames/bind';
-import style from './style/index.module.scss';
 import Icon from '@/components/Icon';
 import Dropdown from '@/components/Dropdown';
 import { dropdownItems } from '@/config/config';
 import Whether from '@/components/Whether';
 import { useModalStore } from '@/store/modal';
 import { useChatSessionStore } from '@/store/chat';
-
+import style from './style/index.module.scss';
+import { nanoId, timestamp } from '@/utils/utils';
+import { chatSessionDB } from '@/db';
 const cn = classNames.bind(style);
 interface ChatItemProps {
   text: string;
@@ -20,12 +21,11 @@ interface ChatItemProps {
 }
 const ChatItem: FC<ChatItemProps> = (props) => {
   const { text, prefix, collapse, checked } = props;
-  const { chatList } = useChatSessionStore((state) => state);
+  const { chatList, setChatList } = useChatSessionStore((state) => state);
   const { setRoleAction, setRoleModalInfo, toggleRoleModal } = useModalStore((state) => state);
-  const dropdownItemClickHandler = (key: string) => {
+  const dropdownItemClickHandler = async (key: string) => {
     if (key === 'edit') {
       const roleInfo = chatList.find((item) => item.chatId === props.chatId);
-      console.log(roleInfo);
       setRoleModalInfo({
         id: props.id,
         name: roleInfo?.name || '',
@@ -34,6 +34,23 @@ const ChatItem: FC<ChatItemProps> = (props) => {
       });
       setRoleAction('edit');
       toggleRoleModal(true);
+    } else if (key === 'copy') {
+      const target = chatList.find((item) => item.chatId === props.chatId);
+      if (!target) return;
+      const chatItem = {
+        chatId: nanoId(),
+        name: target.name + ' copied',
+        description: target.description,
+        avatarName: target.avatarName,
+        list: [],
+        createAt: timestamp(),
+      };
+      const id = await chatSessionDB.create(chatItem);
+      setChatList([...chatList, { ...chatItem, id: id as number }]);
+    } else if (key === 'delete') {
+      chatSessionDB.remove(props.id);
+      const newChatList = chatList.filter((item) => item.chatId !== props.chatId);
+      setChatList(newChatList);
     }
   };
   return (

@@ -5,13 +5,11 @@ interface ChatStore {
   chatStatus: 'idle' | 'fetching' | 'outputting' | 'done';
   session: ChatSession; // 当前会话信息, 从chatList里得到
   chatList: ChatSession[]; // 所有会话列表 用于初始化sidebar和当前会话内容面板
-  abortController?: AbortController;
   changeChatStatus: (status: 'idle' | 'fetching' | 'outputting' | 'done') => void;
   addQuestion: (item: ChatItem) => void;
   updateAnswerStream: (item: ChatItem) => void;
   setSession: (session: ChatSession) => void;
   setChatList: (list: ChatSession[]) => void;
-  setAbortController: (abortController: AbortController) => void;
 }
 
 export const useChatSessionStore = create<ChatStore>((set) => ({
@@ -37,7 +35,6 @@ export const useChatSessionStore = create<ChatStore>((set) => ({
     }),
   changeChatStatus: (status: 'idle' | 'fetching' | 'outputting' | 'done') => set(() => ({ chatStatus: status })),
   setChatList: (list: ChatSession[]) => set(() => ({ chatList: list })),
-  setAbortController: (abortController: AbortController) => set(() => ({ abortController })),
   addQuestion: (item: ChatItem) =>
     set((state) => ({ session: { ...state.session, list: [...state.session.list, item] } })),
   updateAnswerStream: (item: ChatItem) =>

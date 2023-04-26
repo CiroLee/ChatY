@@ -32,13 +32,11 @@ const CodeTitleBar: FC<CodeTitleBarProps> = (props) => {
   const message = new Message();
   const copyCode = () => {
     if (typeof props.codes === 'string') {
-      ClipboardSetText(props.codes).then((res) => {
-        console.log(res);
+      ClipboardSetText(props.codes).then(() => {
         message.success('已复制到剪贴板');
       });
     } else if (Array.isArray(props.codes)) {
-      ClipboardSetText(props.codes[0] as string).then((res) => {
-        console.log(res);
+      ClipboardSetText(props.codes[0] as string).then(() => {
         message.success('已复制到剪贴板');
       });
     }

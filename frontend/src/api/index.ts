@@ -2,8 +2,7 @@ import { fetchEventSource, type EventSourceMessage } from '@microsoft/fetch-even
 import { OPEN_AI_MODELS, OPEN_AI_HOST } from '@/config/constant.config';
 import { useChatSessionStore } from '@/store/chat';
 import { useSettingStore } from '@/store/setting';
-import { omit } from 'fe-gear';
-import { chatSessionDB } from '@/db';
+import { saveSessionDB } from '@/utils/chat';
 import type { ChatMessage, ChatCompletionCbData } from '@/types/openai';
 
 const url = '/v1/chat/completions';
@@ -14,15 +13,13 @@ interface chatCompletionStreamReq {
 }
 export const getChatCompletionStream = async (
   req: chatCompletionStreamReq,
-  callback: (data: ChatCompletionCbData) => void,
+  callback: (data: ChatCompletionCbData, controller?: AbortController) => void,
 ) => {
   const { apiKey, temperature, maxReplayLength } = useSettingStore.getState();
   if (!apiKey) return;
   const abortController = new AbortController();
   const { description } = useChatSessionStore.getState().session;
   const { changeChatStatus } = useChatSessionStore.getState();
-  const setAbortController = useChatSessionStore.getState().setAbortController;
-  setAbortController(abortController);
   changeChatStatus('fetching');
 
   fetchEventSource(OPEN_AI_HOST + url, {
@@ -42,6 +39,7 @@ export const getChatCompletionStream = async (
     signal: abortController.signal,
     async onopen(res) {
       // connect good
+      // TODO 完善状态 401 429 ...
       if (res.ok) return;
       // ...others
     },
@@ -55,13 +53,11 @@ export const getChatCompletionStream = async (
         content: jsonData.choices[0].delta.content,
       };
       changeChatStatus('outputting');
-      callback(cbData);
+      callback(cbData, abortController);
     },
     onclose() {
       // save to db and sync to store
-      const data = useChatSessionStore.getState().session;
-      chatSessionDB.update(data.id, omit(data, ['id']));
-      changeChatStatus('done');
+      saveSessionDB();
     },
     onerror(err) {
       throw new Error(err);

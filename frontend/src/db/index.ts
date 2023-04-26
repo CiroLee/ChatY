@@ -19,6 +19,9 @@ class chatSession extends Dexie {
     if (id < 0) return;
     return this.chats.update(id, data);
   }
+  async remove(id: number) {
+    this.chats.delete(id);
+  }
 }
 
 export const chatSessionDB = new chatSession();
