@@ -34,10 +34,6 @@ const Textarea: FC<TextAreaProps> = (props) => {
     showCount && calcCountStr('0');
   };
 
-  useEffect(() => {
-    calcCountStr();
-  }, [showCount]);
-
   const calcCountStr = (length?: string) => {
     if (maxLength) {
       setCountStr(`${length || inputVal.length}/${maxLength}`);
@@ -45,6 +41,15 @@ const Textarea: FC<TextAreaProps> = (props) => {
       setCountStr(`${length || inputVal.length}`);
     }
   };
+
+  useEffect(() => {
+    calcCountStr();
+  }, [showCount]);
+
+  useEffect(() => {
+    setInputVal(value);
+  }, [value]);
+
   return (
     <div className={classNames('cy-textarea', className)}>
       <textarea value={inputVal} rows={rows} placeholder={placeholder} onChange={onChangeHandler} />

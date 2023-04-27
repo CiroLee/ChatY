@@ -6,6 +6,21 @@
     border-radius: 16px;
     object-fit: fill;
   }
+  &__function-bar {
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+    height: 22px;
+    margin-top: 6px;
+    padding: 0 8px;
+    .cy-icon {
+      opacity: 0.2;
+      transition: opacity 0.2s;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
   &__content {
     margin-top: 12px;
     background-color: rgb(var(--bg));
@@ -32,8 +47,13 @@
   align-items: flex-end;
   white-space: pre-wrap;
   &__content {
+    width: auto;
+    flex-grow: 1;
     margin-right: 6px;
     border-top-right-radius: 0;
+  }
+  .cy-qa__function-bar {
+    margin-right: 6px;
   }
 }
 
@@ -45,6 +65,9 @@
   &__content {
     margin-left: 6px;
     border-top-left-radius: 0;
+  }
+  .cy-qa__function-bar {
+    margin-left: 6px;
   }
   &__codes {
     margin: 12px 0;
@@ -58,13 +81,5 @@
     border-top-right-radius: 3px;
     border-bottom: 1px solid #3b3b3b;
     color: #cdcdcd;
-    .cy-icon {
-      opacity: 0.4;
-      transition: opacity 0.2s;
-      margin-top: 2px;
-      &:hover {
-        opacity: 1;
-      }
-    }
   }
 }

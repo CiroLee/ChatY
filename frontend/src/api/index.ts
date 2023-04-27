@@ -60,6 +60,7 @@ export const getChatCompletionStream = async (
       saveSessionDB();
     },
     onerror(err) {
+      changeChatStatus('idle');
       throw new Error(err);
     },
   });

@@ -24,10 +24,10 @@ interface RoleModalProps {
 }
 const defaultAvatarKey = avatars[0][0];
 const RoleModal: FC<RoleModalProps> = (props) => {
-  const { show, onCancel, action, name = '', avatarName = '', description = '' } = props;
+  const { show, onCancel, action, name = '', avatarName, description = '' } = props;
   const [roleName, setName] = useState('');
   const [desc, setDesc] = useState('');
-  const [selectedAvatar, setSelectedAvatar] = useState(defaultAvatarKey);
+  const [selectedAvatar, setSelectedAvatar] = useState('');
   const { chatList, setChatList } = useChatSessionStore((state) => state);
   const { roleModalInfo } = useModalStore((state) => state);
   const message = new Message();
@@ -73,13 +73,8 @@ const RoleModal: FC<RoleModalProps> = (props) => {
     }
   };
 
-  const clear = () => {
-    setName('');
-    setDesc('');
-    setSelectedAvatar(defaultAvatarKey);
-  };
   const handleOnCancel = () => {
-    clear();
+    // clear();
     onCancel();
   };
   const handleOk = async () => {
@@ -97,8 +92,8 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   useEffect(() => {
     setName(name);
     setDesc(description);
-    setSelectedAvatar(avatarName);
-  }, [name, description, avatarName]);
+    setSelectedAvatar(avatarName || defaultAvatarKey);
+  }, [show]);
 
   return (
     <Popup show={show} placement="center" maskClosable={true} cancel={handleOnCancel}>

@@ -2,6 +2,10 @@ package app
 
 import (
 	"context"
+	"io/fs"
+	"os"
+
+	wailsRuntime "github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -18,4 +22,29 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) Startup(ctx context.Context) {
 	a.Ctx = ctx
+}
+
+func (a *App) SaveFile(data string) (bool, error) {
+	filename, err := wailsRuntime.SaveFileDialog(a.Ctx, wailsRuntime.SaveDialogOptions{
+		Title: "保存",
+		Filters: []wailsRuntime.FileFilter{
+			{
+				DisplayName: "Markdown Files (*.md)|*.md",
+				Pattern:     "*.md",
+			},
+		},
+		DefaultFilename:      "undefined.md",
+		CanCreateDirectories: true,
+	})
+	if err != nil {
+		return false, err
+	}
+
+	err = os.WriteFile(filename, []byte(data), fs.ModePerm)
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }

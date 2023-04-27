@@ -3,10 +3,12 @@ import Icon from '@/components/Icon';
 import Avatar from '@/components/Avatar';
 import Message from '@/components/Message';
 import classNames from 'classnames';
+import { useChatSessionStore } from '@/store/chat';
 import ReactMarkdown from 'react-markdown';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { ClipboardSetText } from '@wails/runtime';
+import { SaveFile } from '@wails/go/app/App';
 import './style/index.scss';
 
 interface QAProps {
@@ -14,12 +16,44 @@ interface QAProps {
   avatar?: string;
   className?: string;
 }
+
+interface FunctionBarProps {
+  className?: string;
+  content: string;
+}
+
+const message = new Message();
+const FunctionBar: FC<FunctionBarProps> = (props) => {
+  const { chatStatus } = useChatSessionStore((state) => state);
+  const copyHandler = () => {
+    ClipboardSetText(props.content).then(() => {
+      message.success('已复制到剪贴板');
+    });
+  };
+  const saveMDhandler = () => {
+    SaveFile(props.content).catch((err) => {
+      console.error(err);
+    });
+  };
+  return (
+    <div
+      className={classNames(
+        'cy-qa__function-bar',
+        `${chatStatus !== 'idle' && chatStatus !== 'done' ? 'invisible' : 'visible'}`,
+        props.className,
+      )}>
+      <Icon name="file-copy-line" size="16px" onClick={copyHandler} />
+      <Icon name="markdown-line" size="16px" className="ml-2" onClick={saveMDhandler} />
+    </div>
+  );
+};
 export const Question: FC<QAProps> = (props) => {
   const { content, avatar, className } = props;
   return (
     <div className={classNames('cy-qa cy-question', className)}>
       <Avatar url={avatar} />
       <div className="cy-qa__content cy-question__content">{content}</div>
+      <FunctionBar content={content} />
     </div>
   );
 };
@@ -29,7 +63,6 @@ interface CodeTitleBarProps {
   language?: string;
 }
 const CodeTitleBar: FC<CodeTitleBarProps> = (props) => {
-  const message = new Message();
   const copyCode = () => {
     if (typeof props.codes === 'string') {
       ClipboardSetText(props.codes).then(() => {
@@ -86,6 +119,7 @@ export const Answer: FC<QAProps> = (props) => {
             },
           }}></ReactMarkdown>
       </div>
+      <FunctionBar content={content} />
     </div>
   );
 };

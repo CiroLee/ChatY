@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, memo } from 'react';
 import TitleBar from '../components/TitleBar';
 import RoleModal from './components/RoleModal';
 import SettingModal from './components/SettingModal';
@@ -11,8 +11,15 @@ import { chatSessionDB } from '@/db';
 import { ChatSession } from '@/types/db';
 import { useChatSessionStore } from '@/store/chat';
 const App: FC = () => {
-  const { roleAction, roleModalInfo, showRoleModal, showSettingModal, toggleRoleModal, toggleSettingModal } =
-    useModalStore((state) => state);
+  const {
+    roleAction,
+    roleModalInfo,
+    showRoleModal,
+    showSettingModal,
+    toggleRoleModal,
+    toggleSettingModal,
+    setRoleModalInfo,
+  } = useModalStore((state) => state);
   const { setChatList } = useChatSessionStore((state) => state);
   const { theme, setTheme } = useThemeStore((state) => state);
   const isDark = useMedia('(prefers-color-scheme: dark)');
@@ -34,9 +41,20 @@ const App: FC = () => {
     }
   };
 
+  const handleRoleModalClose = () => {
+    setRoleModalInfo({
+      id: 0,
+      name: '',
+      avatarName: '',
+      description: '',
+    });
+    toggleRoleModal(false);
+  };
+
   useEffect(() => {
     getAllChatList();
   }, []);
+
   return (
     <div className=" flex flex-col h-[100vh] overflow-hidden rounded-[10px]">
       <TitleBar />
@@ -44,7 +62,7 @@ const App: FC = () => {
         <SideBar />
         <Content />
       </div>
-      <RoleModal action={roleAction} show={showRoleModal} {...roleModalInfo} onCancel={() => toggleRoleModal(false)} />
+      <RoleModal action={roleAction} show={showRoleModal} {...roleModalInfo} onCancel={handleRoleModalClose} />
       <SettingModal show={showSettingModal} onCancel={() => toggleSettingModal(false)} />
     </div>
   );
