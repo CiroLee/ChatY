@@ -3,10 +3,8 @@
   background-color: rgb(var(--bg));
   width: 200px;
   height: 100%;
-
-  // padding: 0 12px;
   overflow: hidden;
-  transition: width 0.15s ease;
+  transition: width 0.2s linear;
   position: relative;
   &__logo {
     display: flex;
@@ -35,7 +33,6 @@
   }
   &__list {
     max-height: 76vh;
-    margin-top: 12px;
     overflow-x: hidden;
     overflow-y: auto;
   }

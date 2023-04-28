@@ -8,7 +8,6 @@ export interface ChatSession {
   createAt: number;
   description?: string;
   list: ChatItem[];
-  abortController?: AbortController;
 }
 
 export interface ChatItem {

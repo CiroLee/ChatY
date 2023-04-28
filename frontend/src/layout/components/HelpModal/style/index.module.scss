@@ -1,0 +1,38 @@
+.help-modal {
+  border-radius: 4px;
+  padding: 18px;
+  width: 86vw;
+  max-width: 780px;
+  min-height: 420px;
+  background-color: rgb(var(--bg));
+  &__logo {
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    display: block;
+  }
+}
+
+.help-modal__about {
+  .site-btn {
+    height: 42px;
+    padding: 0 8px;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    &::after {
+      content: '';
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      position: absolute;
+      background-color: $brand-color;
+      transition: width 0.2s ease;
+    }
+    &:hover::after {
+      width: 100%;
+    }
+  }
+}

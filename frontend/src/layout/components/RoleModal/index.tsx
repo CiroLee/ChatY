@@ -74,7 +74,6 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   };
 
   const handleOnCancel = () => {
-    // clear();
     onCancel();
   };
   const handleOk = async () => {

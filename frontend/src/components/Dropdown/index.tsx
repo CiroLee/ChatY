@@ -3,7 +3,6 @@ import './style/index.scss';
 import Icon from '../Icon';
 import Whether from '../Whether';
 
-// TODO: accept hover trigger
 interface DropdownItem {
   key: string;
   label: string;

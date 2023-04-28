@@ -41,7 +41,8 @@ $editor-height: 60px;
 .cy-editor {
   outline: 0;
   min-height: $editor-height;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   &.in-max {
     animation: in-max 0.3s ease forwards;
   }

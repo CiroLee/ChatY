@@ -33,7 +33,8 @@ const EditContainer: FC<EditContainerProps> = (props) => {
 
   const message = new Message();
 
-  const questionHandler = (content: string, push = true) => {
+  const questionHandler = async (content: string, push = true) => {
+    if (!isAllTrue([chatStatus === 'done' || chatStatus === 'idle', session.chatId])) return;
     const num = Math.ceil((session.list.length * contextRange) / 100);
     const historyContents = session.list
       .filter((_, index) => index >= num)
@@ -47,37 +48,42 @@ const EditContainer: FC<EditContainerProps> = (props) => {
         content: `${content}`,
         createAt: timestamp(),
       });
-    getChatCompletionStream(
-      {
-        messages: [
-          ...historyContents,
-          {
-            role: 'user',
-            content,
-          },
-        ],
-      },
-      (data, controller) => {
-        if (!abortController) {
-          setAbortController(controller);
-        }
+    try {
+      await getChatCompletionStream(
+        {
+          messages: [
+            ...historyContents,
+            {
+              role: 'user',
+              content,
+            },
+          ],
+        },
+        (data, controller) => {
+          if (!abortController) {
+            setAbortController(controller);
+          }
 
-        updateAnswerStream({
-          id: data.id,
-          role: 'assistant',
-          content: data.content,
-          createAt: timestamp(),
-        });
-      },
-    );
+          updateAnswerStream({
+            id: data.id,
+            role: 'assistant',
+            content: data.content,
+            createAt: timestamp(),
+          });
+        },
+      );
+    } catch (error) {
+      console.error(error);
+      message.error((error as Error)?.message || 'Oops, something went wrong');
+    }
   };
   const ref = useHotkeys(
     ['enter', 'meta+j', 'ctrl+j'],
     (event: KeyboardEvent, handler: HotkeysEvent) => {
       event.preventDefault();
       if (event.key.toLowerCase() === 'enter') {
-        const content = (event.target as HTMLDivElement).innerText.replace(/(\r|\r\n|↵)/g, '\n');
-        if (!content) return;
+        const content = (event.target as HTMLDivElement).innerText.replace(/(\r|\r\n)/g, '\n');
+        if (!content.replaceAll(/(\r|\r\n|\n)/g, '')) return;
         if (!apiKey) {
           message.warn('还未设置apiKey，请先设置');
           return;
@@ -138,6 +144,7 @@ const EditContainer: FC<EditContainerProps> = (props) => {
   };
 
   const exportChats = () => {
+    if (isAnyTrue([chatStatus !== 'idle' && chatStatus !== 'done', !session.list.length])) return;
     let mdData = '';
     session.list.forEach((item) => {
       if (item.role === 'assistant') {
@@ -205,11 +212,11 @@ const EditContainer: FC<EditContainerProps> = (props) => {
       <div
         className={cn('cy-editor-wrapper', {
           focus,
-          disabled: isAllTrue([chatStatus !== 'done', chatStatus !== 'idle']),
+          disabled: !isAllTrue([chatStatus === 'done' || chatStatus === 'idle', session.chatId]),
         })}>
         <div
           ref={ref as React.LegacyRef<HTMLDivElement>}
-          contentEditable={chatStatus === 'done' || chatStatus === 'idle'}
+          contentEditable={isAllTrue([chatStatus === 'done' || chatStatus === 'idle', session.chatId])}
           suppressContentEditableWarning
           onFocus={() => setFocus(true)}
           onBlur={onBlurHandler}

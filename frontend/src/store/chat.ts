@@ -22,7 +22,6 @@ export const useChatSessionStore = create<ChatStore>((set) => ({
     createAt: 0,
     description: '',
     list: [],
-    abortController: undefined,
   },
   chatList: [],
 

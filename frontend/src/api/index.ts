@@ -1,5 +1,5 @@
 import { fetchEventSource, type EventSourceMessage } from '@microsoft/fetch-event-source';
-import { OPEN_AI_MODELS, OPEN_AI_HOST } from '@/config/constant.config';
+import { OPEN_AI_MODELS, OPEN_AI_HOST, HTTP_STATUS } from '@/config/constant.config';
 import { useChatSessionStore } from '@/store/chat';
 import { useSettingStore } from '@/store/setting';
 import { saveSessionDB } from '@/utils/chat';
@@ -22,7 +22,7 @@ export const getChatCompletionStream = async (
   const { changeChatStatus } = useChatSessionStore.getState();
   changeChatStatus('fetching');
 
-  fetchEventSource(OPEN_AI_HOST + url, {
+  await fetchEventSource(OPEN_AI_HOST + url, {
     method: 'POST',
     body: JSON.stringify({
       model: OPEN_AI_MODELS.GPT3,
@@ -39,8 +39,13 @@ export const getChatCompletionStream = async (
     signal: abortController.signal,
     async onopen(res) {
       // connect good
-      // TODO 完善状态 401 429 ...
       if (res.ok) return;
+      changeChatStatus('idle');
+      if (res.status === HTTP_STATUS.Unauthorized) {
+        throw new Error('Unauthorized');
+      } else if (res.status === HTTP_STATUS.TooManyRequest) {
+        throw new Error('TooManyRequest');
+      }
       // ...others
     },
     async onmessage(msg: EventSourceMessage) {

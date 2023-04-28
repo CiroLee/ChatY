@@ -31,6 +31,7 @@ const Input: FC<InputProps> = (props) => {
   const [inputVal, setInputVal] = useState('');
   const [focus, setFocus] = useState(false);
   const [countStr, setCountStr] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (maxLength && e.target.value.length > maxLength) {
@@ -71,7 +72,7 @@ const Input: FC<InputProps> = (props) => {
     <div className={classNames('cy-input', className, { focus })}>
       <input
         ref={inputRef}
-        type={type}
+        type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
         value={inputVal}
         placeholder={placeholder}
         onFocus={() => setFocus(true)}
@@ -80,7 +81,15 @@ const Input: FC<InputProps> = (props) => {
       />
       <div className={classNames('cy-input__trail', { 'cy-input__count': showCount })} data-count={countStr}>
         <Whether condition={!!clearable && !!String(inputVal).length}>
-          <Icon name="close-circle-fill" className="cy-input__clear" onClick={clearInput} />
+          <Icon name="close-circle-fill" className="cy-input__btn" onClick={clearInput} />
+        </Whether>
+        <Whether condition={type === 'password'}>
+          <Icon
+            name={showPassword ? 'eye-line' : 'eye-close-line'}
+            className="cy-input__btn"
+            style={{ marginRight: 0 }}
+            onClick={() => setShowPassword(!showPassword)}
+          />
         </Whether>
       </div>
     </div>

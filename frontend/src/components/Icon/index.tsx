@@ -11,7 +11,7 @@ interface Icon {
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 const transToCssVariables = (props: Icon) => {
-  const { color = 'inherit', size = 'inherit' } = props;
+  const { color = 'inherit', size = 'inherit', style = {} } = props;
 
   const temp = {
     '--font-color': color,
@@ -26,7 +26,7 @@ const transToCssVariables = (props: Icon) => {
       [key as keyof typeof properties]: value,
     };
   }
-  return properties;
+  return { ...properties, ...style };
 };
 
 const Icon: FC<Icon> = (props: Icon) => {

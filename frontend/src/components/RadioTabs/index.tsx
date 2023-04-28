@@ -4,7 +4,7 @@ import Icon from '../Icon';
 import classNames from 'classnames';
 import './style/index.scss';
 
-interface TabItem {
+export interface TabItem {
   label?: string;
   value: string;
   icon?: string;

@@ -17,6 +17,9 @@
     height: 100%;
     padding: 0 8px;
     background-color: transparent;
+    &[type='password'] {
+      font-size: 10px;
+    }
   }
   &__trail {
     height: 100%;
@@ -25,7 +28,7 @@
     padding-right: 8px;
     color: var(--assist-color);
   }
-  &__clear:first-child {
+  &__btn {
     margin-right: 4px;
   }
   &__count::after {

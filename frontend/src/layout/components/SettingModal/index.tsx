@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import Popup from '@/components/Popup';
 import Input from '@/components/Input';
 import InputNumber from '@/components/InputNumber';

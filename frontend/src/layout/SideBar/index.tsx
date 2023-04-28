@@ -23,7 +23,6 @@ const SideBar: FC = () => {
   const { collapse, toggleCollapse } = useLayoutStore((state) => state);
   const { theme, setTheme } = useThemeStore((state) => state);
   const { setSession } = useChatSessionStore((state) => state);
-  const [collapseList, toggleList] = useToggle(false);
   const [currentSessionId, setCurrentSessionId] = useState('');
   const { chatList } = useChatSessionStore((state) => state);
 
@@ -76,10 +75,7 @@ const SideBar: FC = () => {
         </div>
         <Icon name={`${collapse ? 'layout-left-line' : 'layout-right-line'}`} size="18px" onClick={toggleCollapse} />
       </div>
-      <div className={cn('flex mt-[12px] px-[12px]', `${collapse ? 'justify-center' : 'justify-end'}`)}>
-        <Icon name={collapseList ? 'contract-up-down-line' : 'expand-up-down-line'} size="18px" onClick={toggleList} />
-      </div>
-      <div className={cn('sidebar__list', `${collapseList ? 'hidden' : 'block'}`)}>
+      <div className={cn('sidebar__list')}>
         {chatList.map((item) => (
           <Tooltip key={item.chatId} text={item.name} align="right" open={collapse}>
             <ChatItem

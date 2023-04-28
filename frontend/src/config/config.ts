@@ -9,8 +9,10 @@ import AvatarKitty from '@/assets/avatars/avatar-kitty.png';
 import AvatarMario from '@/assets/avatars/avatar-mario.png';
 import AvatarSimpson from '@/assets/avatars/avatar-simpson.png';
 import AvatarTranslate from '@/assets/avatars/avatar-translate.png';
+import { HotKeysMap } from '@/types/config';
+import type { TabItem } from '@/components/RadioTabs';
 
-export const themeChangeTabs = [
+export const themeChangeTabs: TabItem[] = [
   {
     value: 'auto',
     icon: 'contrast-line',
@@ -22,6 +24,19 @@ export const themeChangeTabs = [
   {
     value: 'dark',
     icon: 'moon-line',
+  },
+];
+
+export const helpChangeTabs: TabItem[] = [
+  {
+    value: 'hotkeys',
+    icon: 'command-line',
+    label: '快捷键',
+  },
+  {
+    value: 'about',
+    icon: 'information-line',
+    label: '关于',
   },
 ];
 
@@ -43,6 +58,45 @@ export const dropdownItems = [
     color: '#FA6E6E',
   },
 ];
+
+export const hotKeysConfig = (isMac: boolean): HotKeysMap => {
+  return {
+    simpleShortCuts: [
+      {
+        keys: isMac ? '⌘ + N' : 'Ctrl + N',
+        text: '新建角色',
+      },
+      {
+        keys: isMac ? '⌘ + X' : 'Ctrl + X',
+        text: '打开设置',
+      },
+      {
+        keys: isMac ? '⌘ + H' : 'Ctrl + H',
+        text: '查看帮助',
+      },
+    ],
+    layout: [
+      {
+        keys: isMac ? '⌘ + B' : 'Ctrl + B',
+        text: '收起/展开侧边栏',
+      },
+    ],
+    editor: [
+      {
+        keys: isMac ? '⌘ + J' : 'Ctrl + J',
+        text: '切换半屏/原始输入',
+      },
+      {
+        keys: 'Enter',
+        text: '发送信息',
+      },
+      {
+        keys: 'Shift + Enter',
+        text: '换行',
+      },
+    ],
+  };
+};
 
 export const avatars: string[][] = [
   ['avatar-idea', AvatarIdea],

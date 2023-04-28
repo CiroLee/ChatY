@@ -21,7 +21,7 @@ interface ChatItemProps {
 }
 const ChatItem: FC<ChatItemProps> = (props) => {
   const { text, prefix, collapse, checked } = props;
-  const { chatList, setChatList } = useChatSessionStore((state) => state);
+  const { session, chatList, setChatList, setSession } = useChatSessionStore((state) => state);
   const { setRoleAction, setRoleModalInfo, toggleRoleModal } = useModalStore((state) => state);
   const dropdownItemClickHandler = async (key: string) => {
     if (key === 'edit') {
@@ -51,6 +51,15 @@ const ChatItem: FC<ChatItemProps> = (props) => {
       chatSessionDB.remove(props.id);
       const newChatList = chatList.filter((item) => item.chatId !== props.chatId);
       setChatList(newChatList);
+      setSession({
+        id: 0,
+        chatId: '',
+        name: '',
+        avatarName: '',
+        description: '',
+        list: [],
+        createAt: 0,
+      });
     }
   };
   return (

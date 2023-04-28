@@ -10,14 +10,17 @@ import { useModalStore } from '@/store/modal';
 import { chatSessionDB } from '@/db';
 import { ChatSession } from '@/types/db';
 import { useChatSessionStore } from '@/store/chat';
+import HelpModal from './components/HelpModal';
 const App: FC = () => {
   const {
     roleAction,
     roleModalInfo,
     showRoleModal,
     showSettingModal,
+    showHelpModal,
     toggleRoleModal,
     toggleSettingModal,
+    toggleHelpModal,
     setRoleModalInfo,
   } = useModalStore((state) => state);
   const { setChatList } = useChatSessionStore((state) => state);
@@ -64,6 +67,7 @@ const App: FC = () => {
       </div>
       <RoleModal action={roleAction} show={showRoleModal} {...roleModalInfo} onCancel={handleRoleModalClose} />
       <SettingModal show={showSettingModal} onCancel={() => toggleSettingModal(false)} />
+      <HelpModal show={showHelpModal} onCancel={() => toggleHelpModal(false)} />
     </div>
   );
 };
