@@ -37,40 +37,36 @@ const Tooltip: FC<TooltipProps> = (props) => {
   const updatePosition = () => {
     if (!ref.current) return;
     // TODO 优化定位
-    if (align === 'right') {
-      const { x, y, width, height } = ref.current.getBoundingClientRect();
-      const bounding = contentRef.current?.getBoundingClientRect();
-      setPos({
-        x: x + width + xGap + offsetX,
-        y: bounding ? y + Math.abs(height - bounding.height) / 2 + offsetY : y + offsetY,
-      });
-    } else if (align === 'left') {
-      const bounding = contentRef.current?.getBoundingClientRect();
-      const contentWidth = bounding?.width || 0;
-      const { x, y, width } = ref.current.getBoundingClientRect();
-      setPos({ x: x - width - contentWidth + offsetX, y: y - yGap + offsetY });
-    } else if (align === 'top') {
-      const { y, height, left } = ref.current.getBoundingClientRect();
-      const bounding = contentRef.current?.getBoundingClientRect();
-      setPos({
-        x: left - (bounding?.width ? bounding?.width / 2 : 0) + xGap / 2 + offsetX,
-        y: y - height - yGap + offsetY,
-      });
-    } else if (align === 'bottom') {
-      const { y, height, left } = ref.current.getBoundingClientRect();
-      const bounding = contentRef.current?.getBoundingClientRect();
-      setPos({
-        x: left - (bounding?.width ? bounding?.width / 2 : 0) + xGap / 2 + offsetX,
-        y: y + height + yGap + offsetY,
-      });
-    } else if (align === 'topRight') {
-      const { y, height, left } = ref.current.getBoundingClientRect();
-      const bounding = contentRef.current?.getBoundingClientRect();
-      setPos({
-        x: left - (bounding?.width ? bounding?.width : 0) + xGap + offsetX,
-        y: y - height - yGap + offsetY,
-      });
+    const { x, y, width, height, left } = ref.current.getBoundingClientRect();
+    const bounding = contentRef.current?.getBoundingClientRect();
+    const contentWidth = bounding?.width || 0;
+    let posX = 0;
+    let posY = 0;
+    switch (align) {
+      case 'left':
+        posX = x - width - contentWidth + offsetX;
+        posY = y - yGap + offsetY;
+        break;
+      case 'top':
+        posX = left - (bounding?.width ? bounding?.width / 2 : 0) + xGap / 2 + offsetX;
+        posY = y - height - yGap + offsetY;
+        break;
+      case 'right':
+        posX = x + width + xGap + offsetX;
+        posY = bounding ? y + Math.abs(height - bounding.height) / 2 + offsetY : y + offsetY;
+        break;
+      case 'bottom':
+        posX = left - (bounding?.width ? bounding?.width / 2 : 0) + xGap / 2 + offsetX;
+        posY = y + height + yGap + offsetY;
+        break;
+      case 'topRight':
+        posX = left - (bounding?.width ? bounding?.width : 0) + xGap + offsetX;
+        posY = y - height - yGap + offsetY;
+        break;
+      default:
+        return;
     }
+    setPos({ x: posX, y: posY });
   };
 
   return (

@@ -1,4 +1,5 @@
-import { FC, useEffect, memo } from 'react';
+import { FC, useEffect } from 'react';
+import classNames from 'classnames';
 import TitleBar from '../components/TitleBar';
 import RoleModal from './components/RoleModal';
 import SettingModal from './components/SettingModal';
@@ -11,6 +12,7 @@ import { chatSessionDB } from '@/db';
 import { ChatSession } from '@/types/db';
 import { useChatSessionStore } from '@/store/chat';
 import HelpModal from './components/HelpModal';
+import { isMac } from '@/utils/utils';
 const App: FC = () => {
   const {
     roleAction,
@@ -59,7 +61,7 @@ const App: FC = () => {
   }, []);
 
   return (
-    <div className=" flex flex-col h-[100vh] overflow-hidden rounded-[10px]">
+    <div className={classNames('flex flex-col h-[100vh] overflow-hidden', { 'rounded-[10px]': isMac() })}>
       <TitleBar />
       <div className="flex relative flex-1">
         <SideBar />

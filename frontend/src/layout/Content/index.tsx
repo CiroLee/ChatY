@@ -105,13 +105,13 @@ const Content: FC = () => {
             ),
           )}
         </div>
+        <div className={cn('editor-input')}>
+          <EditContainer />
+        </div>
       </Whether>
       <Whether condition={!session.chatId}>
         <SimpleShortcuts className={cn('content-list', 'pt-0')} />
       </Whether>
-      <div className={cn('editor-input')}>
-        <EditContainer />
-      </div>
     </div>
   );
 };

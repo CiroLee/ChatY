@@ -19,6 +19,12 @@
     background-color: transparent;
     &[type='password'] {
       font-size: 10px;
+      &::-ms-clear {
+        display: none;
+      }
+      &::-ms-reveal {
+        display: none;
+      }
     }
   }
   &__trail {
