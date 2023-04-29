@@ -3,15 +3,17 @@ import classNames from 'classnames';
 import './style/index.scss';
 interface TooltipProps {
   text: string;
+  offsetX?: number;
+  offsetY?: number;
   align: 'left' | 'right' | 'top' | 'bottom' | 'topRight';
   open?: boolean;
   children: React.ReactNode;
   disabled?: boolean;
 }
-const xGap = 16;
+const xGap = 18;
 const yGap = 20;
 const Tooltip: FC<TooltipProps> = (props) => {
-  const { children, align, text, open = true, disabled } = props;
+  const { children, align, text, open = true, disabled, offsetX = 0, offsetY = 0 } = props;
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [show, setShow] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -34,27 +36,40 @@ const Tooltip: FC<TooltipProps> = (props) => {
 
   const updatePosition = () => {
     if (!ref.current) return;
-    // TODO 优化 top bottom left 定位逻辑
+    // TODO 优化定位
     if (align === 'right') {
       const { x, y, width, height } = ref.current.getBoundingClientRect();
       const bounding = contentRef.current?.getBoundingClientRect();
-      setPos({ x: x + width + xGap / 1.2, y: bounding ? y + Math.abs(height - bounding.height) / 2 : y });
+      setPos({
+        x: x + width + xGap + offsetX,
+        y: bounding ? y + Math.abs(height - bounding.height) / 2 + offsetY : y + offsetY,
+      });
     } else if (align === 'left') {
       const bounding = contentRef.current?.getBoundingClientRect();
       const contentWidth = bounding?.width || 0;
       const { x, y, width } = ref.current.getBoundingClientRect();
-      setPos({ x: x - width - contentWidth, y: y - yGap });
+      setPos({ x: x - width - contentWidth + offsetX, y: y - yGap + offsetY });
     } else if (align === 'top') {
       const { y, height, left } = ref.current.getBoundingClientRect();
       const bounding = contentRef.current?.getBoundingClientRect();
-      setPos({ x: left - (bounding?.width ? bounding?.width / 2 : 0) + xGap / 2, y: y - height - yGap * 1.5 });
+      setPos({
+        x: left - (bounding?.width ? bounding?.width / 2 : 0) + xGap / 2 + offsetX,
+        y: y - height - yGap + offsetY,
+      });
     } else if (align === 'bottom') {
-      const { x, y, height, width } = ref.current.getBoundingClientRect();
-      setPos({ x: x - width / 2.5, y: y + height + yGap });
+      const { y, height, left } = ref.current.getBoundingClientRect();
+      const bounding = contentRef.current?.getBoundingClientRect();
+      setPos({
+        x: left - (bounding?.width ? bounding?.width / 2 : 0) + xGap / 2 + offsetX,
+        y: y + height + yGap + offsetY,
+      });
     } else if (align === 'topRight') {
       const { y, height, left } = ref.current.getBoundingClientRect();
       const bounding = contentRef.current?.getBoundingClientRect();
-      setPos({ x: left - (bounding?.width ? bounding?.width : 0) + xGap, y: y - height - yGap * 1.5 });
+      setPos({
+        x: left - (bounding?.width ? bounding?.width : 0) + xGap + offsetX,
+        y: y - height - yGap + offsetY,
+      });
     }
   };
 

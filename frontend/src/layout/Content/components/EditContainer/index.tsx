@@ -167,7 +167,7 @@ const EditContainer: FC<EditContainerProps> = (props) => {
           <span className={cn('tip')}>Enter 发送，Shift+Enter 换行，{isMac() ? '⌘' : 'Ctrl'} + J 半屏/原始输入</span>
         </div>
         <div className={cn('cy-editor-tip', { max })}>
-          <Tooltip text="清空记录" align="top">
+          <Tooltip text="清空记录" align="top" offsetY={-12}>
             <div className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')} onClick={clearChatSession}>
               <Icon
                 name="brush-3-line"
@@ -181,19 +181,19 @@ const EditContainer: FC<EditContainerProps> = (props) => {
               />
             </div>
           </Tooltip>
-          <Tooltip text="停止回答" align="top">
+          <Tooltip text="停止回答" align="top" offsetY={-12}>
             <div className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')} onClick={stopAnswer}>
               <Icon
                 name="stop-fill"
                 size="22px"
                 color="#f34747"
-                className={cn({
+                className={cn('top-[1px]', {
                   'cursor-not-allowed opacity-60': isAllTrue([chatStatus !== 'outputting', chatStatus !== 'fetching']),
                 })}
               />
             </div>
           </Tooltip>
-          <Tooltip text="导出记录" align="topRight">
+          <Tooltip text="导出记录" align="topRight" offsetY={-12}>
             <div className={cn('w-[20px] h-[20px] flex items-center justify-center')} onClick={exportChats}>
               <Icon
                 name="save-2-line"

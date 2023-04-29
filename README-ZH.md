@@ -9,7 +9,6 @@ ChatY 是基于 wails 开发的开源 GPT 桌面客户端。它也许是你电�
 
 ![macos](https://img.shields.io/badge/-macOS-black?style=flat-square&logo=apple&logoColor=white)
 ![windows](https://img.shields.io/badge/-Windows-blue?style=flat-square&logo=windows&logoColor=white)
-![linux](https://img.shields.io/badge/-Linux-orange?style=flat-square&logo=linux&logoColor=white)
 
 preview  
 ![chaty-light](images/chaty-1-light.png)  

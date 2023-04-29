@@ -9,7 +9,6 @@ ChatY is an open source GPT desktop client developed based on wails. It is proba
 
 ![macos](https://img.shields.io/badge/-macOS-black?style=flat-square&logo=apple&logoColor=white)
 ![windows](https://img.shields.io/badge/-Windows-blue?style=flat-square&logo=windows&logoColor=white)
-![linux](https://img.shields.io/badge/-Linux-orange?style=flat-square&logo=linux&logoColor=white)
 
 preview  
 ![chaty-light](images/chaty-1-light.png)  

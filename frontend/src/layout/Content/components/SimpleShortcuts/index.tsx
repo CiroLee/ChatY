@@ -27,7 +27,7 @@ const SimpleShortcuts: FC<SimpleShortcutsProps> = (props) => {
   return (
     <div className={classNames(props.className, 'flex flex-col justify-center items-center')}>
       <Whether condition={!apiKey}>
-        <div className="h-[36px] flex items-center px-4 text-[var(--message-warn-border-color)] mb-3">
+        <div className="h-[36px] flex items-center px-4 text-[var(--brand-color)] mb-3">
           <span>还未设置ApiKey，请点击右上角的</span>
           <Icon name="settings-3-line" size="18px" />
           <span>设置{apiKey}</span>
