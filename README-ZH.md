@@ -5,7 +5,7 @@
 
 [English](README.md) | 中文
 
-ChatY 是基于 wails 开发的开源 GPT 桌面客户端。它也许是你电脑中最漂亮的 ChatGPT 助手。
+ChatY 是基于 [wails](https://github.com/wailsapp/wails)开发的开源 GPT 桌面客户端。它也许是你电脑中最漂亮的 ChatGPT 助手。
 
 ![macos](https://img.shields.io/badge/-macOS-black?style=flat-square&logo=apple&logoColor=white)
 ![windows](https://img.shields.io/badge/-Windows-blue?style=flat-square&logo=windows&logoColor=white)

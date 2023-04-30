@@ -12,6 +12,7 @@ import style from './style/index.module.scss';
 
 import RadioTabs from '@/components/RadioTabs';
 import Icon from '@/components/Icon';
+import Switch from '@/components/Switch';
 
 const cn = classNames.bind(style);
 
@@ -37,10 +38,12 @@ const SettingModal: FC<SettingModalProps> = (props) => {
     setApiKey,
     temperature,
     maxReplayLength,
+    showToken,
     contextRange,
     setTemperature,
     setMaxReplayLength,
     setContextRange,
+    setShowToken,
   } = useSettingStore((state) => state);
   const { show, onCancel } = props;
   const handleTempNumberBlur = (value: string) => {
@@ -60,15 +63,20 @@ const SettingModal: FC<SettingModalProps> = (props) => {
           <Icon name="close-line" size="18px" onClick={onCancel} />
         </div>
         <div className="mt-6">
-          <div>
-            <label className="mb-2 block">Open AI Key</label>
-            <Input type="password" placeholder="请输入Open AI Key" value={apiKey} onBlur={setApiKey} />
-          </div>
+          <label className="mb-2 block">Open AI Key</label>
+          <Input type="password" placeholder="请输入Open AI Key" value={apiKey} onBlur={setApiKey} />
           <div className="mt-6">
             <label className="mb-2 block">主题</label>
             <RadioTabs options={themeChangeTabs} activeKey={theme} className="w-[60%]" tabChange={setTheme} />
           </div>
-          <div className="mt-4">
+          <div className="mt-6">
+            <div className="flex items-center">
+              <label className="block mr-4">显示token用量</label>
+              <Switch checked={showToken} onChange={setShowToken} />
+              <span className="ml-3">{showToken ? '开' : '关'}</span>
+            </div>
+          </div>
+          <div className="mt-6">
             <label className="mb-1 block">发散度</label>
             <div className="flex items-center">
               <Slider

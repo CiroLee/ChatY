@@ -2,8 +2,10 @@ import { avatars } from '@/config/config';
 import { chatSessionDB } from '@/db';
 import { useChatSessionStore } from '@/store/chat';
 import { omit } from 'fe-gear';
+import GPT3Tokenizer from 'gpt3-tokenizer';
 const { changeChatStatus } = useChatSessionStore.getState();
 
+const tokenizer = new GPT3Tokenizer({ type: 'gpt3' });
 export const getAvatarUrl = (avatarName?: string) => {
   return avatars.find((arr) => arr[0] === avatarName)?.[1] || '';
 };
@@ -22,4 +24,9 @@ export const saveSessionDB = () => {
   const data = useChatSessionStore.getState().session;
   chatSessionDB.update(data.id, omit(data, ['id']));
   changeChatStatus('done');
+};
+
+export const tokenNum = (str: string): number => {
+  const encoded = tokenizer.encode(str);
+  return tokenizer.decode(encoded.bpe).length;
 };

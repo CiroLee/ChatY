@@ -6,15 +6,18 @@ import classNames from 'classnames';
 import { useChatSessionStore } from '@/store/chat';
 import ReactMarkdown from 'react-markdown';
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import { tokenNum } from '@/utils/chat';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { ClipboardSetText } from '@wails/runtime';
 import { SaveFile } from '@wails/go/app/App';
 import './style/index.scss';
+import Whether from '@/components/Whether';
 
 interface QAProps {
   content: string;
   avatar?: string;
   className?: string;
+  showToken?: boolean;
 }
 
 interface FunctionBarProps {
@@ -23,6 +26,7 @@ interface FunctionBarProps {
 }
 
 const message = new Message();
+
 const FunctionBar: FC<FunctionBarProps> = (props) => {
   const { chatStatus } = useChatSessionStore((state) => state);
   const copyHandler = () => {
@@ -48,10 +52,17 @@ const FunctionBar: FC<FunctionBarProps> = (props) => {
   );
 };
 export const Question: FC<QAProps> = (props) => {
-  const { content, avatar, className } = props;
+  const { content, avatar, showToken, className } = props;
   return (
     <div className={classNames('cy-qa cy-question', className)}>
-      <Avatar url={avatar} />
+      <div className="flex">
+        <div className="flex flex-col justify-end mr-3">
+          <Whether condition={!!showToken}>
+            <div className="text-[var(--assist-color)] text-[12px]">token:{tokenNum(content)}</div>
+          </Whether>
+        </div>
+        <Avatar url={avatar} />
+      </div>
       <div className="cy-qa__content cy-question__content">{content}</div>
       <FunctionBar content={content} />
     </div>
@@ -83,10 +94,17 @@ const CodeTitleBar: FC<CodeTitleBarProps> = (props) => {
 };
 
 export const Answer: FC<QAProps> = (props) => {
-  const { content, avatar, className } = props;
+  const { content, avatar, showToken, className } = props;
   return (
     <div className={classNames('cy-qa cy-answer', className)}>
-      <Avatar url={avatar} />
+      <div className="flex">
+        <Avatar url={avatar} />
+        <div className="flex flex-col justify-end ml-3">
+          <Whether condition={!!showToken}>
+            <div className="text-[var(--assist-color)] text-[12px]">token:{tokenNum(content)}</div>
+          </Whether>
+        </div>
+      </div>
       <div className="cy-qa__content cy-answer__content">
         <ReactMarkdown
           children={content}

@@ -14,6 +14,7 @@ import Whether from '@/components/Whether';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
 import { isMac } from '@/utils/utils';
+import { useSettingStore } from '@/store/setting';
 const cn = classNames.bind(style);
 const Content: FC = () => {
   const contentListRef = useRef<HTMLDivElement>(null);
@@ -21,6 +22,7 @@ const Content: FC = () => {
   const { session, chatStatus } = useChatSessionStore((state) => state);
   const { showHelpModal, showSettingModal, toggleRoleModal, setRoleAction, toggleSettingModal, toggleHelpModal } =
     useModalStore((state) => state);
+  const { showToken } = useSettingStore((state) => state);
 
   useHotkeys(['ctrl+n', 'meta+n'], (event: KeyboardEvent, handler: HotkeysEvent) => {
     event.preventDefault();
@@ -94,11 +96,18 @@ const Content: FC = () => {
         <div ref={contentListRef} className={cn('content-list')}>
           {session.list.map((item) =>
             item.role === 'user' ? (
-              <Question avatar={AvatarDefault} className="mr-[16px] mb-[16px]" key={item.id} content={item.content} />
+              <Question
+                className="mr-[16px] mb-[16px]"
+                avatar={AvatarDefault}
+                key={item.id}
+                showToken={showToken}
+                content={item.content}
+              />
             ) : (
               <Answer
                 className="ml-[16px] mb-[16px]"
                 key={item.id}
+                showToken={showToken}
                 avatar={getAvatarUrl(session.avatarName)}
                 content={item.content}
               />

@@ -5,6 +5,8 @@ export interface SettingStore {
   temperature: number;
   maxReplayLength: number;
   contextRange: number;
+  showToken: boolean;
+  setShowToken: (showToken: boolean) => void;
   setTemperature: (temperature: number) => void;
   setMaxReplayLength: (maxReplayLength: number) => void;
   setApiKey: (key: string) => void;
@@ -18,6 +20,8 @@ export const useSettingStore = create<SettingStore>()(
       temperature: 0.6,
       maxReplayLength: 1024,
       contextRange: 50,
+      showToken: false,
+      setShowToken: (showToken: boolean) => set(() => ({ showToken })),
       setTemperature: (temperature: number) => set(() => ({ temperature })),
       setMaxReplayLength: (maxReplayLength: number) => set(() => ({ maxReplayLength })),
       setApiKey: (key: string) => set(() => ({ apiKey: key })),

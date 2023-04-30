@@ -1,0 +1,68 @@
+$active-color: #34c759;
+$default-color: rgb(120 120 128 / 26%);
+$disabled-color: rgb(120 120 128 / 16%);
+
+.cy-switch {
+  height: var(--sw-height);
+  display: inline-block;
+  position: relative;
+}
+
+.cy-switch-label {
+  min-width: var(--sw-width);
+  height: var(--sw-height);
+  border-radius: calc(var(--sw-height) / 2);
+  background: $default-color;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  position: relative;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease;
+  &::before {
+    content: '';
+    width: var(--diameter);
+    height: var(--diameter);
+    border-radius: calc(var(--diameter) / 2);
+    background: #fff;
+    transition: all 0.3s ease;
+    position: relative;
+    margin-left: 0;
+    box-shadow: 0 3px 8px rgb(0 0 0 / 15%), 0 3px 1px rgb(0 0 0 / 6%);
+  }
+  &.circle-ani::before {
+    width: calc(var(--diameter) + var(--ani-len));
+  }
+}
+
+[type='checkbox'] {
+  min-width: var(--sw-width);
+  height: var(--sw-height);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  z-index: 1;
+  cursor: pointer;
+  &:checked + .cy-switch-label {
+    background-color: $brand-color;
+  }
+  &:checked + .cy-switch-label::before {
+    margin-left: var(--ml);
+  }
+  &:checked + .cy-switch-label.circle-ani::before {
+    margin-left: calc(var(--ml) - var(--ani-len));
+  }
+  &:disabled {
+    cursor: not-allowed;
+  }
+  &:disabled + .cy-switch-label {
+    background-color: $disabled-color;
+  }
+  &:disabled + .cy-switch-label::before {
+    background-color: rgb(255 255 255 / 90%);
+  }
+  &:checked:disabled + .cy-switch-label {
+    background-color: rgb(var(--brand-color-rgb) / 70%);
+  }
+}

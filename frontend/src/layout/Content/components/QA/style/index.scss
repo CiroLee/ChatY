@@ -29,15 +29,21 @@
     box-shadow: var(--qa-shadow);
     max-width: 92%;
   }
+
+  // 重置markdown内的一些样式
   ol,
   ul,
   li {
     list-style-type: disc;
-    padding-left: 16px;
-    text-indent: -14px;
+    list-style-position: inside;
+    padding-left: 1em;
+    text-indent: -1em;
   }
   ol {
     list-style-type: decimal;
+  }
+  li p {
+    margin: 12px 0;
   }
 }
 
