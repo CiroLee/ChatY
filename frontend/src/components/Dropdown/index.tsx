@@ -53,7 +53,7 @@ const Dropdown: FC<DropdownProps> = (props) => {
       {props.children}
       <div
         data-type="dropdown"
-        className="dropdown"
+        className="cy-dropdown"
         style={{ top: `${pos.y}px`, left: `${pos.x}px`, display: show ? 'block' : 'none' }}>
         {props.items.map((item) => (
           <li

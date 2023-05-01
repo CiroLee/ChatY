@@ -21,7 +21,7 @@ interface ChatItemProps {
 }
 const ChatItem: FC<ChatItemProps> = (props) => {
   const { text, prefix, collapse, checked } = props;
-  const { session, chatList, setChatList, setSession } = useChatSessionStore((state) => state);
+  const { chatList, setChatList, setSession } = useChatSessionStore((state) => state);
   const { setRoleAction, setRoleModalInfo, toggleRoleModal } = useModalStore((state) => state);
   const dropdownItemClickHandler = async (key: string) => {
     if (key === 'edit') {
