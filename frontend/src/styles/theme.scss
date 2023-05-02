@@ -34,6 +34,9 @@ body {
   --message-error-border-color: #f85a5a;
   --message-warn-bg: #f7ebce;
   --message-warn-border-color: #e0be6f;
+  --confirm-info-color: #5ca0e8;
+  --confirm-warn-color: #f9a821;
+  --confirm-error-color: #e84c3d;
   --shortcut-bg: #e4e4e4;
 }
 
@@ -69,5 +72,8 @@ body.dark {
   --message-error-border-color: #6e4343;
   --message-warn-bg: #4b4840;
   --message-warn-border-color: #69572d;
+  --confirm-info-color: #5ca0e8;
+  --confirm-warn-color: #f9a821;
+  --confirm-error-color: #e84c3d;
   --shortcut-bg: #4b4b4b;
 }

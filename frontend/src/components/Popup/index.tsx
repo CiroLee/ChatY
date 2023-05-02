@@ -7,7 +7,7 @@ interface PopupProps {
   children?: React.ReactNode;
   maskClosable?: boolean;
   placement?: 'top' | 'bottom' | 'left' | 'right' | 'center';
-  cancel: () => void;
+  cancel?: () => void;
 }
 const Popup: FC<PopupProps> = (props) => {
   const maskRef = useRef<HTMLDivElement | null>(null);
@@ -17,7 +17,7 @@ const Popup: FC<PopupProps> = (props) => {
   const maskClick = () => {
     if (!props.maskClosable) return;
     setVisibleAni(false);
-    props?.cancel();
+    props?.cancel?.();
   };
 
   // 触发动画

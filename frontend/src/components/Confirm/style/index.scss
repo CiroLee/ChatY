@@ -1,0 +1,28 @@
+.cy-confirm {
+  width: 40vw;
+  border-radius: 4px;
+  padding: 18px;
+  background-color: rgb(var(--bg));
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+  &__title {
+    margin-left: 8px;
+    font-weight: bold;
+  }
+  &__content {
+    margin-top: 12px;
+    &:empty {
+      display: none;
+    }
+  }
+  &__footer {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+    button:not(:last-child) {
+      margin-right: 8px;
+    }
+  }
+}

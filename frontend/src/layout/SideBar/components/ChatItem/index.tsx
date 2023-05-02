@@ -1,7 +1,8 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import classNames from 'classnames/bind';
 import Icon from '@/components/Icon';
 import Dropdown from '@/components/Dropdown';
+import Confirm from '@/components/Confirm';
 import { dropdownItems } from '@/config/config';
 import Whether from '@/components/Whether';
 import { useModalStore } from '@/store/modal';
@@ -21,6 +22,7 @@ interface ChatItemProps {
 }
 const ChatItem: FC<ChatItemProps> = (props) => {
   const { text, prefix, collapse, checked } = props;
+  const [showConfirm, setShowConfirm] = useState(false);
   const { chatList, setChatList, setSession } = useChatSessionStore((state) => state);
   const { setRoleAction, setRoleModalInfo, toggleRoleModal } = useModalStore((state) => state);
   const dropdownItemClickHandler = async (key: string) => {
@@ -48,19 +50,23 @@ const ChatItem: FC<ChatItemProps> = (props) => {
       const id = await chatSessionDB.create(chatItem);
       setChatList([...chatList, { ...chatItem, id: id as number }]);
     } else if (key === 'delete') {
-      chatSessionDB.remove(props.id);
-      const newChatList = chatList.filter((item) => item.chatId !== props.chatId);
-      setChatList(newChatList);
-      setSession({
-        id: 0,
-        chatId: '',
-        name: '',
-        avatarName: '',
-        description: '',
-        list: [],
-        createAt: 0,
-      });
+      setShowConfirm(true);
     }
+  };
+  const confirmToDelete = () => {
+    chatSessionDB.remove(props.id);
+    const newChatList = chatList.filter((item) => item.chatId !== props.chatId);
+    setChatList(newChatList);
+    setSession({
+      id: 0,
+      chatId: '',
+      name: '',
+      avatarName: '',
+      description: '',
+      list: [],
+      createAt: 0,
+    });
+    setShowConfirm(false);
   };
   return (
     <div className={cn('chat-item', { 'chat-item__collapse': collapse, 'chat-item__checked': checked })}>
@@ -75,6 +81,14 @@ const ChatItem: FC<ChatItemProps> = (props) => {
           </div>
         </Dropdown>
       </Whether>
+      <Confirm
+        type="error"
+        title="提示"
+        show={showConfirm}
+        onCancel={() => setShowConfirm(false)}
+        onConfirm={confirmToDelete}>
+        删除对话后不可恢复,确认删除?
+      </Confirm>
     </div>
   );
 };
