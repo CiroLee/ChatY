@@ -57,6 +57,7 @@ const ChatItem: FC<ChatItemProps> = (props) => {
     chatSessionDB.remove(props.id);
     const newChatList = chatList.filter((item) => item.chatId !== props.chatId);
     setChatList(newChatList);
+    // 清空当前session
     setSession({
       id: 0,
       chatId: '',
@@ -76,7 +77,7 @@ const ChatItem: FC<ChatItemProps> = (props) => {
       </div>
       <Whether condition={!collapse}>
         <Dropdown items={dropdownItems} itemOnClick={dropdownItemClickHandler}>
-          <div className="mx-[12px]">
+          <div className={cn('chat-item__setting')}>
             <Icon name="more-line" color="var(--assist-color)" />
           </div>
         </Dropdown>

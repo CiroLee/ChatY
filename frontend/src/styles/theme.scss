@@ -5,6 +5,7 @@ body {
   --item-hover-color: #f0f0f0;
   --item-checked-bg: rgb(219 200 237 / 26%);
   --item-checked-hover-color: rgb(219 200 237 / 42%);
+  --setting-hover-color: rgb(219 200 237 / 52%);
   --bg: 255 255 255;
   --content-bg: #f7f7f7;
   --border-color: #ebebeb;
@@ -45,6 +46,7 @@ body.dark {
   --item-hover-color: #424242;
   --item-checked-bg: rgb(88 83 94 / 26%);
   --item-checked-hover-color: rgb(88 83 94 / 32%);
+  --setting-hover-color: rgb(88 83 94 / 62%);
   --bg: 50 50 50;
   --content-bg: #3a3a3a;
   --border-color: #3e3e3e;

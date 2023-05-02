@@ -39,4 +39,16 @@
       background-color: var(--item-checked-hover-color);
     }
   }
+  &__setting {
+    width: 20px;
+    height: 20px;
+    margin: 0 8px;
+    display: flex;
+    justify-content: center;
+    border-radius: 2px;
+    align-items: center;
+    &:hover {
+      background-color: var(--setting-hover-color);
+    }
+  }
 }

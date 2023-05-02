@@ -11,6 +11,7 @@ import AvatarSimpson from '@/assets/avatars/avatar-simpson.png';
 import AvatarTranslate from '@/assets/avatars/avatar-translate.png';
 import { HotKeysMap } from '@/types/config';
 import type { TabItem } from '@/components/RadioTabs';
+import { ChatSession } from '@/types/db';
 
 export const themeChangeTabs: TabItem[] = [
   {
@@ -111,3 +112,13 @@ export const avatars: string[][] = [
   ['avatar-mario', AvatarMario],
   ['avatar-simpson', AvatarSimpson],
 ];
+
+// 初始化的默认chat
+export const defaultChat: Omit<ChatSession, 'id'> = {
+  chatId: 'default-001',
+  avatarName: 'avatar-idea',
+  createAt: 0,
+  name: '智能问答助手',
+  list: [],
+  description: 'You are an intelligent quiz assistant. You will answer any question I ask.',
+};

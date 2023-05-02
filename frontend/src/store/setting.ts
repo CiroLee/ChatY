@@ -6,6 +6,8 @@ export interface SettingStore {
   maxReplayLength: number;
   contextRange: number;
   showToken: boolean;
+  defaulted: boolean;
+  setDefaultChat: (defaulted: boolean) => void;
   setShowToken: (showToken: boolean) => void;
   setTemperature: (temperature: number) => void;
   setMaxReplayLength: (maxReplayLength: number) => void;
@@ -21,6 +23,8 @@ export const useSettingStore = create<SettingStore>()(
       maxReplayLength: 1024,
       contextRange: 50,
       showToken: false,
+      defaulted: false,
+      setDefaultChat: (defaulted: boolean) => set(() => ({ defaulted })),
       setShowToken: (showToken: boolean) => set(() => ({ showToken })),
       setTemperature: (temperature: number) => set(() => ({ temperature })),
       setMaxReplayLength: (maxReplayLength: number) => set(() => ({ maxReplayLength })),
