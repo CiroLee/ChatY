@@ -31,6 +31,38 @@ ChatY 是基于 [wails](https://github.com/wailsapp/wails)开发的开源 GPT �
 
 [下载地址](https://github.com/CiroLee/ChatY/releases)
 
+## 开发
+
+开发环境:
+
+- [node >= 14](https://nodejs.org/en/download/)
+- [go >= 1.18](https://go.dev/)
+- [wails](https://wails.io/)
+- [pnpm(推荐)](https://pnpm.io/)
+
+克隆仓库到本地
+
+```bash
+git clone https://github.com/CiroLee/ChatY.git
+```
+
+启动应用
+
+```bash
+# cd the project
+wails dev
+```
+
+打包
+
+```bash
+# 根据你的系统环境构建
+wails build
+
+# 多平台构建
+make build version=your own version
+```
+
 ## LICENSE
 
 [MIT License](https://github.com/CiroLee/ChatY/blob/main/LICENSE)

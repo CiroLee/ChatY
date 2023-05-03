@@ -30,6 +30,38 @@ ChatY is an open source GPT desktop client developed based on [wails](https://gi
 
 [download here](https://github.com/CiroLee/ChatY/releases)
 
+## Development
+
+development environment requires:
+
+- [node >= 14](https://nodejs.org/en/download/)
+- [go >= 1.18](https://go.dev/)
+- [wails](https://wails.io/)
+- [pnpm(recommend)](https://pnpm.io/)
+
+clone the repo
+
+```bash
+git clone https://github.com/CiroLee/ChatY.git
+```
+
+run the project in development mode
+
+```bash
+# cd the project
+wails dev
+```
+
+build
+
+```bash
+# build base on your os
+wails build
+
+# build for multiple platforms
+make build version=your own version
+```
+
 ## LICENSE
 
 [MIT License](https://github.com/CiroLee/ChatY/blob/main/LICENSE)
