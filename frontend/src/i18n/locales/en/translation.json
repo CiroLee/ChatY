@@ -1,0 +1,68 @@
+{
+  "settings": {
+    "title": "Settings",
+    "open-ai-key": "Open AI Key",
+    "theme": "theme",
+    "tokenCount": "token count",
+    "temperature": "temperature",
+    "maxToken": "max_token",
+    "contextRange": "context range",
+    "placeholderInputKey": "please input openAI key"
+  },
+  "chat": {
+    "thinking": "thinking...",
+    "outputting": "outputting..."
+  },
+  "dropdown": {
+    "edit": "edit",
+    "delete": "delete",
+    "copy": "copy"
+  },
+  "message": {
+    "warnOfEmptyName": "name can not be empty",
+    "createSucceed": "create succeed",
+    "secretKeyUnset": "The openAI key has not been set yet, please set it first",
+    "copiedToClipboard": "copied"
+  },
+  "tooltip": {
+    "stopAnswer": "stop answer",
+    "exportChat": "export chat",
+    "clearChat": "clear chat"
+  },
+  "modal": {
+    "tips": "Tips",
+    "warnBeforeDeleteChat": "After the conversation is deleted, it cannot be restored, confirm the deletion?",
+    "modifyRole": "Modify role",
+    "createRole": "Create role",
+    "placeholderInputName": "please input name",
+    "placeholderInputDescription": "please input description",
+    "emptySecretKey": "The secret key has not been set yet, do you want to set it now?",
+    "goToSet": "go to setting",
+    "emptySecretKeyTips": "You need to set up the secret key before you can continue to use it"
+  },
+  "about": {
+    "softwareDesc": "ChatY is an open source GPT desktop client developed based on wails. It may be the most beautiful ChatGPT assistant in your computer.",
+    "shortcuts": "Shortcuts",
+    "about": "About"
+  },
+  "hotkeys": {
+    "enter": "send",
+    "shiftEnter": "line break",
+    "toggleInputMode": "toggle input mode",
+    "newRole": "new role",
+    "openSetting": "setting",
+    "help": "help",
+    "toggleSidebar": "toggle sidebar"
+  },
+  "global": {
+    "open": "open",
+    "close": "close",
+    "avatar": "avatar",
+    "name": "name",
+    "description": "description",
+    "cancel": "cancel",
+    "confirm": "confirm",
+    "issue": "issue",
+    "language": "language"
+  }
+}

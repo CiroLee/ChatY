@@ -26,7 +26,6 @@ func (a *App) Startup(ctx context.Context) {
 
 func (a *App) SaveFile(data string) (bool, error) {
 	filename, err := wailsRuntime.SaveFileDialog(a.Ctx, wailsRuntime.SaveDialogOptions{
-		Title: "保存",
 		Filters: []wailsRuntime.FileFilter{
 			{
 				DisplayName: "Markdown Files (*.md)|*.md",

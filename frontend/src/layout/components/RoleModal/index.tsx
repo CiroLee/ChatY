@@ -11,7 +11,9 @@ import { avatars } from '@/config/config';
 import style from './style/index.module.scss';
 import { nanoId, timestamp } from '@/utils/utils';
 import { useChatSessionStore } from '@/store/chat';
+import { useSettingStore } from '@/store/setting';
 import { useModalStore } from '@/store/modal';
+import { useTranslation } from 'react-i18next';
 const cn = classNames.bind(style);
 
 interface RoleModalProps {
@@ -29,8 +31,10 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   const [desc, setDesc] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState('');
   const { chatList, setChatList } = useChatSessionStore((state) => state);
+  const { language } = useSettingStore((state) => state);
   const { roleModalInfo } = useModalStore((state) => state);
   const message = new Message();
+  const { t } = useTranslation();
   const handleChooseAvatar = (name: string) => {
     setSelectedAvatar(name);
   };
@@ -47,7 +51,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
       const id = await chatSessionDB.create(chatItem);
       setChatList([...chatList, { ...chatItem, id: id as number }]);
 
-      message.success('创建成功');
+      message.success(t('message.createSucceed'));
     } catch (error) {
       console.error(error);
     }
@@ -78,7 +82,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   };
   const handleOk = async () => {
     if (!roleName) {
-      message.warn('名称不能为空');
+      message.warn(t('message.warnOfEmptyName'));
       return;
     }
     if (action === 'create') {
@@ -97,10 +101,10 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   return (
     <Popup show={show} placement="center" maskClosable={true} cancel={handleOnCancel}>
       <div className={cn('role-modal')}>
-        <h3>{action === 'create' ? '创建角色' : '修改角色'}</h3>
+        <h3>{action === 'create' ? t('modal.createRole') : t('modal.modifyRole')}</h3>
         <div className="mt-6">
           <div className="flex items-center">
-            <label>头像</label>
+            <label className={cn({ 'w-[70px]': language === 'en' })}>{t('global.avatar')}</label>
             <div className="ml-3">
               {avatars.map((arr) => (
                 <Avatar
@@ -117,33 +121,33 @@ const RoleModal: FC<RoleModalProps> = (props) => {
         </div>
         <div className="mt-6">
           <div className="flex items-center">
-            <label>名称</label>
+            <label className={cn({ 'w-[70px]': language === 'en' })}>{t('global.name')}</label>
             <Input
               className="flex-1 ml-3"
               maxLength={20}
               clearable
-              placeholder="请输入名称"
+              placeholder={t('modal.placeholderInputName') || ''}
               showCount
               value={roleName}
               onChange={setName}
             />
           </div>
           <div className="flex mt-4">
-            <label className="mt-1">描述</label>
+            <label className={cn('mt-1', { ' w-[70px]': language === 'en' })}>{t('global.description')}</label>
             <Textarea
               className="flex-1 ml-3"
               maxLength={140}
               clearable
               showCount
-              placeholder="请输入描述"
+              placeholder={t('modal.placeholderInputDescription') || ''}
               value={desc}
               onChange={setDesc}
             />
           </div>
           <div className="flex justify-end mt-[44px]">
-            <Button onClick={handleOnCancel}>取消</Button>
+            <Button onClick={handleOnCancel}>{t('global.cancel')}</Button>
             <Button type="primary" className="ml-2" onClick={handleOk}>
-              确认
+              {t('global.confirm')}
             </Button>
           </div>
         </div>

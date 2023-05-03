@@ -19,6 +19,7 @@ ChatY 是基于 [wails](https://github.com/wailsapp/wails)开发的开源 GPT �
 ## 功能
 
 - 支持多平台
+- 支持国际化 i18n(默认为中文)
 - 更加自由的 prompts 管理
 - 数据完全本地化，不会记录用户数据
 - UI 完全独立，不依赖第三方 UI 库

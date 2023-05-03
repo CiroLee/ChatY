@@ -19,6 +19,7 @@ ChatY is an open source GPT desktop client developed based on [wails](https://gi
 ## Features
 
 - Support for multiple platforms.
+- Support i18n(default is Chinese).
 - Data is completely localized, no user data is recorded.
 - UI is completely independent and does not rely on third-party UI libraries.
 - Interaction is simple and easy to use, supporting shortcut key operation.

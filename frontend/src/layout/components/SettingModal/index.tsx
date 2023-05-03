@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import Popup from '@/components/Popup';
 import Input from '@/components/Input';
 import InputNumber from '@/components/InputNumber';
@@ -6,7 +7,7 @@ import Slider from '@/components/Slider';
 import { useLayoutStore } from '@/store/layout';
 import { useSettingStore } from '@/store/setting';
 import { useThemeStore } from '@/store/theme';
-import { themeChangeTabs } from '@/config/config';
+import { themeChangeTabs, languageTabs } from '@/config/config';
 import classNames from 'classnames/bind';
 import style from './style/index.module.scss';
 
@@ -33,10 +34,12 @@ interface SettingModalProps {
 const SettingModal: FC<SettingModalProps> = (props) => {
   const { titleBarHeight } = useLayoutStore((state) => state);
   const { theme, setTheme } = useThemeStore((state) => state);
+  const { t } = useTranslation();
   const {
     apiKey,
     setApiKey,
     temperature,
+    language,
     maxReplayLength,
     showToken,
     contextRange,
@@ -44,6 +47,7 @@ const SettingModal: FC<SettingModalProps> = (props) => {
     setMaxReplayLength,
     setContextRange,
     setShowToken,
+    setLanguage,
   } = useSettingStore((state) => state);
   const { show, onCancel } = props;
   const handleTempNumberBlur = (value: string) => {
@@ -59,25 +63,34 @@ const SettingModal: FC<SettingModalProps> = (props) => {
     <Popup show={show} cancel={onCancel} maskClosable placement="right">
       <div className={cn('setting-modal')} style={{ '--header-height': `${titleBarHeight}px` } as React.CSSProperties}>
         <div className="flex justify-between items-center">
-          <h3 className="font-bold">设置</h3>
+          <h3 className="font-bold">{t('settings.title')}</h3>
           <Icon name="close-line" size="18px" onClick={onCancel} />
         </div>
         <div className="mt-6">
-          <label className="mb-2 block">Open AI Key</label>
-          <Input type="password" placeholder="请输入Open AI Key" value={apiKey} onBlur={setApiKey} />
+          <label className="mb-2 block">{t('settings.open-ai-key')}</label>
+          <Input
+            type="password"
+            placeholder={t('settings.placeholderInputKey') || ''}
+            value={apiKey}
+            onBlur={setApiKey}
+          />
           <div className="mt-6">
-            <label className="mb-2 block">主题</label>
+            <label className="mb-2 block">{t('settings.theme')}</label>
             <RadioTabs options={themeChangeTabs} activeKey={theme} className="w-[60%]" tabChange={setTheme} />
           </div>
           <div className="mt-6">
+            <label className="mb-1 block">{t('global.language')}</label>
+            <RadioTabs options={languageTabs} activeKey={language} className="w-[60%]" tabChange={setLanguage} />
+          </div>
+          <div className="mt-6">
             <div className="flex items-center">
-              <label className="block mr-4">显示token用量</label>
+              <label className="block mr-4">{t('settings.tokenCount')}</label>
               <Switch checked={showToken} onChange={setShowToken} />
-              <span className="ml-3">{showToken ? '开' : '关'}</span>
+              <span className="ml-3">{showToken ? t('global.open') : t('global.close')}</span>
             </div>
           </div>
           <div className="mt-6">
-            <label className="mb-1 block">发散度</label>
+            <label className="mb-1 block">{t('settings.temperature')}</label>
             <div className="flex items-center">
               <Slider
                 className="flex-1 ml-[4px]"
@@ -98,7 +111,7 @@ const SettingModal: FC<SettingModalProps> = (props) => {
             </div>
           </div>
           <div className="mt-6">
-            <label className="mb-1 block">最大回文长度</label>
+            <label className="mb-1 block">{t('settings.maxToken')}</label>
             <div className="flex items-center">
               <Slider
                 className="flex-1 ml-[4px]"
@@ -119,7 +132,7 @@ const SettingModal: FC<SettingModalProps> = (props) => {
               />
             </div>
             <div className="mt-6">
-              <label className="mb-1 block">上下文范围</label>
+              <label className="mb-1 block">{t('settings.contextRange')}</label>
               <div className="flex items-center">
                 <Slider
                   className="flex-1 ml-[4px]"

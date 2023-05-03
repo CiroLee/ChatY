@@ -1,0 +1,68 @@
+{
+  "settings": {
+    "title": "设置",
+    "open-ai-key": "OpenAI 秘钥",
+    "theme": "主题",
+    "tokenCount": "显示token用量",
+    "temperature": "发散度",
+    "maxToken": "最大回文长度",
+    "contextRange": "上下文范围",
+    "placeholderInputKey": "请输入openAI秘钥"
+  },
+  "chat": {
+    "thinking": "思考中...",
+    "outputting": "输出中..."
+  },
+  "dropdown": {
+    "edit": "编辑",
+    "delete": "删除",
+    "copy": "复制"
+  },
+  "message": {
+    "warnOfEmptyName": "名称不能为空",
+    "createSucceed": "创建成功",
+    "secretKeyUnset": "还未设置openAI秘钥，请先设置",
+    "copiedToClipboard": "已复制的到剪贴板"
+  },
+  "tooltip": {
+    "stopAnswer": "停止回答",
+    "exportChat": "导出记录",
+    "clearChat": "清空记录"
+  },
+  "modal": {
+    "tips": "提示",
+    "warnBeforeDeleteChat": "对话删除后无法恢复，确认删除?",
+    "modifyRole": "修改角色",
+    "createRole": "创建角色",
+    "placeholderInputName": "请输入名称",
+    "placeholderInputDescription": "请输入描述",
+    "emptySecretKey": "还未设置秘钥，是否立即设置？",
+    "goToSet": "去设置",
+    "emptySecretKeyTips": "需要先设置秘钥才能继续使用"
+  },
+  "about": {
+    "softwareDesc": "ChatY是基于wails开发的开源GPT桌面客户端。它也许是你电脑中最漂亮的ChatGPT助手。",
+    "shortcuts": "快捷键",
+    "about": "关于"
+  },
+  "hotkeys": {
+    "enter": "发送",
+    "shiftEnter": "换行",
+    "toggleInputMode": "半屏/原始输入",
+    "newRole": "新建角色",
+    "openSetting": "设置",
+    "help": "帮助",
+    "toggleSidebar": "切换侧边栏"
+  },
+  "global": {
+    "open": "开",
+    "close": "关",
+    "avatar": "头像",
+    "name": "名称",
+    "description": "描述",
+    "cancel": "取消",
+    "confirm": "确认",
+    "issue": "建议反馈",
+    "language": "语言"
+  }
+}

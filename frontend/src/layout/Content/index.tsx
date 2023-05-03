@@ -1,4 +1,5 @@
 import { FC, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import Icon from '@/components/Icon';
 import EditContainer from './components/EditContainer';
 import SimpleShortcuts from './components/SimpleShortcuts';
@@ -23,7 +24,7 @@ const Content: FC = () => {
   const { showHelpModal, showSettingModal, toggleRoleModal, setRoleAction, toggleSettingModal, toggleHelpModal } =
     useModalStore((state) => state);
   const { showToken } = useSettingStore((state) => state);
-
+  const { t } = useTranslation();
   useHotkeys(['ctrl+n', 'meta+n'], (event: KeyboardEvent, handler: HotkeysEvent) => {
     event.preventDefault();
     if (isMac() && handler.meta) {
@@ -67,9 +68,9 @@ const Content: FC = () => {
   const chatStatusText = (status: string) => {
     switch (status) {
       case 'fetching':
-        return '思考中...';
+        return t('chat.thinking');
       case 'outputting':
-        return '输出中...';
+        return t('chat.outputting');
     }
   };
 

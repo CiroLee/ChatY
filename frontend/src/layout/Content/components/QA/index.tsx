@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import Icon from '@/components/Icon';
 import Avatar from '@/components/Avatar';
 import Message from '@/components/Message';
@@ -29,9 +30,10 @@ const message = new Message();
 
 const FunctionBar: FC<FunctionBarProps> = (props) => {
   const { chatStatus } = useChatSessionStore((state) => state);
+  const { t } = useTranslation();
   const copyHandler = () => {
     ClipboardSetText(props.content).then(() => {
-      message.success('已复制到剪贴板');
+      message.success(t('message.copiedToClipboard'));
     });
   };
   const saveMDhandler = () => {
@@ -74,14 +76,15 @@ interface CodeTitleBarProps {
   language?: string;
 }
 const CodeTitleBar: FC<CodeTitleBarProps> = (props) => {
+  const { t } = useTranslation();
   const copyCode = () => {
     if (typeof props.codes === 'string') {
       ClipboardSetText(props.codes).then(() => {
-        message.success('已复制到剪贴板');
+        message.success(t('message.copiedToClipboard'));
       });
     } else if (Array.isArray(props.codes)) {
       ClipboardSetText(props.codes[0] as string).then(() => {
-        message.success('已复制到剪贴板');
+        message.success(t('message.copiedToClipboard'));
       });
     }
   };

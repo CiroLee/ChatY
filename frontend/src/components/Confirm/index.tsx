@@ -5,13 +5,13 @@ import Icon from '../Icon';
 import './style/index.scss';
 interface ConfirmProps {
   type: 'info' | 'warn' | 'error';
-  title?: string;
+  title?: string | null;
   show: boolean;
   children?: React.ReactNode;
   onCancel?: () => void;
   onConfirm?: () => void;
-  cancelText?: string;
-  confirmText?: string;
+  cancelText?: string | null;
+  confirmText?: string | null;
 }
 
 const iconTypeMap = {
@@ -39,9 +39,9 @@ const Confirm: FC<ConfirmProps> = (props) => {
         </h3>
         <div className="cy-confirm__content">{children}</div>
         <div className="cy-confirm__footer">
-          <Button onClick={onCancel}>{cancelText || '取消'}</Button>
+          <Button onClick={onCancel}>{cancelText || 'cancel'}</Button>
           <Button type="primary" onClick={onConfirm}>
-            {confirmText || '确定'}
+            {confirmText || 'confirm'}
           </Button>
         </div>
       </div>

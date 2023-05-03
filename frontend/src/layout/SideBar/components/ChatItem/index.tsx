@@ -3,13 +3,14 @@ import classNames from 'classnames/bind';
 import Icon from '@/components/Icon';
 import Dropdown from '@/components/Dropdown';
 import Confirm from '@/components/Confirm';
-import { dropdownItems } from '@/config/config';
 import Whether from '@/components/Whether';
 import { useModalStore } from '@/store/modal';
 import { useChatSessionStore } from '@/store/chat';
 import style from './style/index.module.scss';
 import { nanoId, timestamp } from '@/utils/utils';
 import { chatSessionDB } from '@/db';
+import { useTranslation } from 'react-i18next';
+import { dropdownItems } from '@/config/config';
 const cn = classNames.bind(style);
 interface ChatItemProps {
   text: string;
@@ -25,6 +26,9 @@ const ChatItem: FC<ChatItemProps> = (props) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const { chatList, setChatList, setSession } = useChatSessionStore((state) => state);
   const { setRoleAction, setRoleModalInfo, toggleRoleModal } = useModalStore((state) => state);
+  const { t } = useTranslation();
+  const _dropdownItems = dropdownItems(t);
+
   const dropdownItemClickHandler = async (key: string) => {
     if (key === 'edit') {
       const roleInfo = chatList.find((item) => item.chatId === props.chatId);
@@ -76,7 +80,7 @@ const ChatItem: FC<ChatItemProps> = (props) => {
         <span className="inline-block text-ellipsis overflow-hidden whitespace-nowrap">{text}</span>
       </div>
       <Whether condition={!collapse}>
-        <Dropdown items={dropdownItems} itemOnClick={dropdownItemClickHandler}>
+        <Dropdown items={_dropdownItems} itemOnClick={dropdownItemClickHandler}>
           <div className={cn('chat-item__setting')}>
             <Icon name="more-line" color="var(--assist-color)" />
           </div>
@@ -84,11 +88,13 @@ const ChatItem: FC<ChatItemProps> = (props) => {
       </Whether>
       <Confirm
         type="error"
-        title="提示"
+        title={t('modal.tips')}
         show={showConfirm}
+        cancelText={t('global.cancel')}
+        confirmText={t('global.confirm')}
         onCancel={() => setShowConfirm(false)}
         onConfirm={confirmToDelete}>
-        删除对话后不可恢复,确认删除?
+        {t('modal.warnBeforeDeleteChat')}
       </Confirm>
     </div>
   );

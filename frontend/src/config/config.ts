@@ -10,8 +10,10 @@ import AvatarMario from '@/assets/avatars/avatar-mario.png';
 import AvatarSimpson from '@/assets/avatars/avatar-simpson.png';
 import AvatarTranslate from '@/assets/avatars/avatar-translate.png';
 import { HotKeysMap } from '@/types/config';
+
 import type { TabItem } from '@/components/RadioTabs';
-import { ChatSession } from '@/types/db';
+import type { TFunction } from 'i18next';
+import type { ChatSession } from '@/types/db';
 
 export const themeChangeTabs: TabItem[] = [
   {
@@ -28,72 +30,87 @@ export const themeChangeTabs: TabItem[] = [
   },
 ];
 
-export const helpChangeTabs: TabItem[] = [
+export const languageTabs: TabItem[] = [
   {
-    value: 'hotkeys',
-    icon: 'command-line',
-    label: '快捷键',
+    value: 'zh-Hans',
+    label: '简体中文',
   },
   {
-    value: 'about',
-    icon: 'information-line',
-    label: '关于',
+    value: 'en',
+    label: 'English',
   },
 ];
 
-export const dropdownItems = [
-  {
-    key: 'edit',
-    label: '编辑',
-    icon: 'edit-line',
-  },
-  {
-    key: 'copy',
-    label: '复制',
-    icon: 'file-copy-line',
-  },
-  {
-    key: 'delete',
-    label: '删除',
-    icon: 'delete-bin-5-line',
-    color: '#FA6E6E',
-  },
-];
+export const helpChangeTabs = (t: TFunction): TabItem[] => {
+  return [
+    {
+      value: 'hotkeys',
+      icon: 'command-line',
+      label: t('about.shortcuts') || '',
+    },
+    {
+      value: 'about',
+      icon: 'information-line',
+      label: t('about.about') || '',
+    },
+  ];
+};
 
-export const hotKeysConfig = (isMac: boolean): HotKeysMap => {
+export const dropdownItems = (t: TFunction) => {
+  return [
+    {
+      key: 'edit',
+      label: t('dropdown.edit'),
+      icon: 'edit-line',
+    },
+    {
+      key: 'copy',
+      label: t('dropdown.copy'),
+      icon: 'file-copy-line',
+    },
+    {
+      key: 'delete',
+      label: t('dropdown.delete'),
+      icon: 'delete-bin-5-line',
+      color: '#FA6E6E',
+    },
+  ];
+};
+
+export const hotKeysConfig = (isMac: boolean, t: TFunction): HotKeysMap => {
   return {
     simpleShortCuts: [
       {
         keys: isMac ? '⌘ + N' : 'Ctrl + N',
-        text: '新建角色',
+        text: t('hotkeys.newRole'),
       },
       {
         keys: isMac ? '⌘ + X' : 'Ctrl + X',
-        text: '打开设置',
+        text: t('hotkeys.openSetting'),
       },
       {
         keys: isMac ? '⌘ + H' : 'Ctrl + H',
-        text: '查看帮助',
+        text: t('hotkeys.help'),
       },
     ],
     layout: [
       {
         keys: isMac ? '⌘ + B' : 'Ctrl + B',
-        text: '收起/展开侧边栏',
+        text: t('hotkeys.toggleSidebar'),
       },
     ],
     editor: [
       {
         keys: isMac ? '⌘ + J' : 'Ctrl + J',
-        text: '切换半屏/原始输入',
+        text: t('hotkeys.toggleInputMode'),
       },
       {
         keys: 'Enter',
-        text: '发送信息',
+        text: t('hotkeys.enter'),
       },
       {
         keys: 'Shift + Enter',
-        text: '换行',
+        text: t('hotkeys.shiftEnter'),
       },
     ],
   };

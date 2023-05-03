@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import TitleBar from '../components/TitleBar';
 import RoleModal from './components/RoleModal';
@@ -31,17 +32,11 @@ const App: FC = () => {
   const [showApiKeyTip, setShowApiKeyTip] = useState(false);
   const { setChatList } = useChatSessionStore((state) => state);
   const { theme, setTheme } = useThemeStore((state) => state);
-  const { apiKey, defaulted, setDefaultChat } = useSettingStore((state) => state);
+  const { apiKey, defaulted, language, setDefaultChat } = useSettingStore((state) => state);
+  const { i18n, t } = useTranslation();
   const isDark = useMedia('(prefers-color-scheme: dark)');
   const themeStr = isDark ? 'dark' : 'light';
-  // 监听系统主题和本地主题设置，自动更新
-  useEffect(() => {
-    if (theme === 'auto') {
-      setTheme('auto');
-    } else {
-      themeStr === theme && setTheme(themeStr);
-    }
-  }, [isDark]);
+
   const getAllChatList = async () => {
     try {
       // 如果没初始化，则执行初始化chat
@@ -72,12 +67,24 @@ const App: FC = () => {
     toggleSettingModal(true);
   };
 
+  // 监听系统主题和本地主题设置，自动更新
+  useEffect(() => {
+    if (theme === 'auto') {
+      setTheme('auto');
+    } else {
+      themeStr === theme && setTheme(themeStr);
+    }
+  }, [isDark]);
+
   useEffect(() => {
     getAllChatList();
     if (!apiKey) {
       setShowApiKeyTip(true);
     }
   }, []);
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [language]);
 
   return (
     <div className={classNames('flex flex-col h-[100vh] overflow-hidden', { 'rounded-[10px]': isMac() })}>
@@ -92,11 +99,12 @@ const App: FC = () => {
       <Confirm
         show={showApiKeyTip}
         type="info"
-        title="还未设置apiKey，是否立即设置？"
-        confirmText="去设置"
+        title={t('modal.emptySecretKey')}
+        cancelText={t('global.cancel')}
+        confirmText={t('modal.goToSet')}
         onCancel={() => setShowApiKeyTip(false)}
         onConfirm={handleGotoSetting}>
-        <div className="ml-[12px] text-[var(--assist-color)]">tip: 需要先设置apiKey才能继续使用{apiKey}</div>
+        <div className="ml-[12px] text-[var(--assist-color)]">{t('modal.emptySecretKeyTips')}</div>
       </Confirm>
     </div>
   );

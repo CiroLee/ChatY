@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useToggle } from 'react-use';
 import { omit, isAllTrue, isAnyTrue } from 'fe-gear';
 import { useSettingStore } from '@/store/setting';
@@ -30,6 +31,7 @@ const EditContainer: FC<EditContainerProps> = (props) => {
   const { chatStatus, session, addQuestion, setSession, changeChatStatus, updateAnswerStream } = useChatSessionStore(
     (state) => state,
   );
+  const { t } = useTranslation();
 
   const message = new Message();
 
@@ -85,7 +87,7 @@ const EditContainer: FC<EditContainerProps> = (props) => {
         const content = (event.target as HTMLDivElement).innerText.replace(/(\r|\r\n)/g, '\n');
         if (!content.replaceAll(/(\r|\r\n|\n)/g, '')) return;
         if (!apiKey) {
-          message.warn('还未设置apiKey，请先设置');
+          message.warn(t('message.secretKeyUnset'));
           return;
         }
         questionHandler(content);
@@ -164,10 +166,13 @@ const EditContainer: FC<EditContainerProps> = (props) => {
     <div>
       <div className="mb-2 px-[6px] flex justify-between">
         <div className={cn('cy-editor-tip', { max })}>
-          <span className={cn('tip')}>Enter 发送，Shift+Enter 换行，{isMac() ? '⌘' : 'Ctrl'} + J 半屏/原始输入</span>
+          <span className={cn('tip')}>
+            [Enter] {t('hotkeys.enter')}，[Shift+Enter] {t('hotkeys.shiftEnter')}，[{isMac() ? '⌘' : 'Ctrl'} + J]{' '}
+            {t('hotkeys.toggleInputMode')}
+          </span>
         </div>
         <div className={cn('cy-editor-tip', { max })}>
-          <Tooltip text="清空记录" align="top" offsetY={-12}>
+          <Tooltip text={t('tooltip.clearChat')} align="top" offsetY={-12}>
             <div className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')} onClick={clearChatSession}>
               <Icon
                 name="brush-3-line"
@@ -181,7 +186,7 @@ const EditContainer: FC<EditContainerProps> = (props) => {
               />
             </div>
           </Tooltip>
-          <Tooltip text="停止回答" align="top" offsetY={-12}>
+          <Tooltip text={t('tooltip.stopAnswer')} align="top" offsetY={-12}>
             <div className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')} onClick={stopAnswer}>
               <Icon
                 name="stop-fill"
@@ -193,7 +198,7 @@ const EditContainer: FC<EditContainerProps> = (props) => {
               />
             </div>
           </Tooltip>
-          <Tooltip text="导出记录" align="topRight" offsetY={-12}>
+          <Tooltip text={t('tooltip.exportChat')} align="topRight" offsetY={-12}>
             <div className={cn('w-[20px] h-[20px] flex items-center justify-center')} onClick={exportChats}>
               <Icon
                 name="save-2-line"
