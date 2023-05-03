@@ -85,7 +85,7 @@ const Content: FC = () => {
   return (
     <div className={cn('content')} style={{ '--header-height': `${titleBarHeight}px` } as React.CSSProperties}>
       <div className={cn('session-header')}>
-        <h3 className="text-[18px]">{session.name}</h3>
+        <h3 className="text-[16px]">{session.name}</h3>
         <div>{chatStatusText(chatStatus)}</div>
         <div className="flex items-center h-full">
           <Icon name="add-line" size="18px" onClick={createRole} />

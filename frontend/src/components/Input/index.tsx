@@ -53,6 +53,8 @@ const Input: FC<InputProps> = (props) => {
     showCount && calcCountStr('0');
   };
   const calcCountStr = (length?: string) => {
+    console.log(inputVal);
+
     if (maxLength) {
       setCountStr(`${length || String(inputVal).length}/${maxLength}`);
     } else {
@@ -61,11 +63,11 @@ const Input: FC<InputProps> = (props) => {
   };
 
   useEffect(() => {
-    calcCountStr();
-  }, [showCount]);
-
-  useEffect(() => {
     setInputVal(String(value));
+    if (showCount) {
+      const lengthStr = String(value).length;
+      calcCountStr(lengthStr.toString());
+    }
   }, [value]);
 
   return (

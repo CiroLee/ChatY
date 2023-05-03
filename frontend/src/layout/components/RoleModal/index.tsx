@@ -136,7 +136,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
             <label className={cn('mt-1', { ' w-[70px]': language === 'en' })}>{t('global.description')}</label>
             <Textarea
               className="flex-1 ml-3"
-              maxLength={140}
+              maxLength={1000}
               clearable
               showCount
               placeholder={t('modal.placeholderInputDescription') || ''}

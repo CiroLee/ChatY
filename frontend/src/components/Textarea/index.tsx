@@ -43,11 +43,11 @@ const Textarea: FC<TextAreaProps> = (props) => {
   };
 
   useEffect(() => {
-    calcCountStr();
-  }, [showCount]);
-
-  useEffect(() => {
     setInputVal(value);
+    if (showCount) {
+      const lengthStr = String(value).length;
+      calcCountStr(lengthStr.toString());
+    }
   }, [value]);
 
   return (
