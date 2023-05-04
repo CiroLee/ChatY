@@ -1,5 +1,4 @@
-import { FC, useRef, useLayoutEffect, useState, useEffect, ChangeEventHandler } from 'react';
-import { useEvent } from 'react-use';
+import { FC, useRef, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import './style/index.scss';
 interface SliderProps {
