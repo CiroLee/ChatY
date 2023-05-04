@@ -5,7 +5,7 @@
 
 English | [中文](README-ZH.md)
 
-ChatY is an open source GPT desktop client developed based on [wails](https://github.com/wailsapp/wails). It is probably the most beautiful ChatGPT assistant in your computer.
+ChatY is an open-source GPT desktop client developed based on [wails](https://github.com/wailsapp/wails). It is probably the most beautiful ChatGPT assistant in your computer.
 
 ![macos](https://img.shields.io/badge/-macOS-black?style=flat-square&logo=apple&logoColor=white)
 ![windows](https://img.shields.io/badge/-Windows-blue?style=flat-square&logo=windows&logoColor=white)
@@ -20,11 +20,11 @@ ChatY is an open source GPT desktop client developed based on [wails](https://gi
 
 - Support for multiple platforms.
 - Support i18n(default is Chinese).
-- Data is completely localized, no user data is recorded.
-- UI is completely independent and does not rely on third-party UI libraries.
+- Data is completely localized(use `indexDB`), no user data is recorded.
+- UI is completely independent and does not relay on third-party UI libraries.
 - Interaction is simple and easy to use, supporting shortcut key operation.
 - More controllable history session mode, which can ensure the accuracy of the results and save your token at the same time.
-- Based on the MIT protocol , open-source and free.
+- Based on the MIT protocol, open-source and free.
 
 ## Download
 
