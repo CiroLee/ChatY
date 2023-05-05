@@ -43,7 +43,8 @@
   "about": {
     "softwareDesc": "ChatY是基于wails开发的开源GPT桌面客户端。它也许是你电脑中最漂亮的ChatGPT助手。",
     "shortcuts": "快捷键",
-    "about": "关于"
+    "about": "关于",
+    "account": "账户"
   },
   "hotkeys": {
     "enter": "发送",
@@ -53,6 +54,13 @@
     "openSetting": "设置",
     "help": "帮助",
     "toggleSidebar": "切换侧边栏"
+  },
+  "account": {
+    "name": "账户名称",
+    "consumed": "已消费额度",
+    "remainLimit": "剩余额度",
+    "accountLimit": "账户额度",
+    "expired": "额度过期时间"
   },
   "global": {
     "open": "开",
@@ -64,5 +72,11 @@
     "confirm": "确认",
     "issue": "建议反馈",
     "language": "语言"
+  },
+  "error": {
+    "unAuthorization": "未授权",
+    "internetServerError": "网络连接错误",
+    "tooManyRequest": "请求过于频繁",
+    "serverError": "服务器错误"
   }
 }

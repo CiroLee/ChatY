@@ -1,9 +1,10 @@
 import { fetchEventSource, type EventSourceMessage } from '@microsoft/fetch-event-source';
-import { OPEN_AI_MODELS, OPEN_AI_HOST, HTTP_STATUS } from '@/config/constant.config';
+import { OPEN_AI_MODELS, OPEN_AI_HOST, HTTP_STATUS, userAgent } from '@/config/constant.config';
 import { useChatSessionStore } from '@/store/chat';
 import { useSettingStore } from '@/store/setting';
 import { saveSessionDB } from '@/utils/chat';
-import type { ChatMessage, ChatCompletionCbData } from '@/types/openai';
+import { request } from '@/utils/request';
+import type { ChatMessage, ChatCompletionCbData, BillSubscriptionRes, BillUsageRes } from '@/types/openai';
 
 const url = '/v1/chat/completions';
 interface chatCompletionStreamReq {
@@ -11,6 +12,8 @@ interface chatCompletionStreamReq {
   temperature?: number;
   maxTokens?: number;
 }
+
+// gpt 对话流接口
 export const getChatCompletionStream = async (
   req: chatCompletionStreamReq,
   callback: (data: ChatCompletionCbData, controller?: AbortController) => void,
@@ -42,9 +45,9 @@ export const getChatCompletionStream = async (
       if (res.ok) return;
       changeChatStatus('idle');
       if (res.status === HTTP_STATUS.Unauthorized) {
-        throw new Error('Unauthorized');
+        throw new Error('error.unAuthorization');
       } else if (res.status === HTTP_STATUS.TooManyRequest) {
-        throw new Error('TooManyRequest');
+        throw new Error('error.tooManyRequest');
       }
       // ...others
     },
@@ -67,6 +70,35 @@ export const getChatCompletionStream = async (
     onerror(err) {
       changeChatStatus('idle');
       throw new Error(err);
+    },
+  });
+};
+
+const headers = {
+  'User-Agent': userAgent,
+  Accept: '*/*',
+  Host: 'api.openai.com',
+  Connection: 'keep-alive',
+};
+
+// 查询余额相关
+export const getBillSubscription = (apiKey: string) => {
+  return request<BillSubscriptionRes>('https://api.openai.com/dashboard/billing/subscription', {
+    method: 'GET',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${apiKey}`,
+    },
+  });
+};
+
+// 查询用量
+export const getBillUsage = ({ start, end, apiKey }: { start: string; end: string; apiKey: string }) => {
+  return request<BillUsageRes>(`https://api.openai.com/dashboard/billing/usage?start_date=${start}&end_date=${end}`, {
+    method: 'GET',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${apiKey}`,
     },
   });
 };

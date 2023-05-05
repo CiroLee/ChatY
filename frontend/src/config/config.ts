@@ -49,6 +49,11 @@ export const helpChangeTabs = (t: TFunction): TabItem[] => {
       label: t('about.shortcuts') || '',
     },
     {
+      value: 'account',
+      icon: 'account-circle-line',
+      label: t('about.account') || '',
+    },
+    {
       value: 'about',
       icon: 'information-line',
       label: t('about.about') || '',

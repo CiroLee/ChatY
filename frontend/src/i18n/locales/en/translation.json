@@ -43,7 +43,8 @@
   "about": {
     "softwareDesc": "ChatY is an open source GPT desktop client developed based on wails. It may be the most beautiful ChatGPT assistant in your computer.",
     "shortcuts": "Shortcuts",
-    "about": "About"
+    "about": "About",
+    "account": "Account"
   },
   "hotkeys": {
     "enter": "send",
@@ -53,6 +54,13 @@
     "openSetting": "setting",
     "help": "help",
     "toggleSidebar": "toggle sidebar"
+  },
+  "account": {
+    "name": "account name",
+    "consumed": "consumed",
+    "remainLimit": "remain limit",
+    "accountLimit": "account limit",
+    "expired": "expired"
   },
   "global": {
     "open": "open",
