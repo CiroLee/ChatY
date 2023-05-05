@@ -17,7 +17,7 @@ export const timestamp = () => {
 };
 
 // 获取指定日期前prev个月的日期
-export const getPrevDate = (date: Date, prev: number): Date => {
+export const prevDateByMonth = (date: Date, prev: number): Date => {
   const newMonth = date.getMonth() - prev;
   const newYear = newMonth < 0 ? date.getFullYear() - 1 : date.getFullYear();
   const correctedMonth = (newMonth + 12) % 12;
@@ -34,7 +34,7 @@ export const getPrevDate = (date: Date, prev: number): Date => {
 };
 
 // 获取指定日期的后next个月的日期
-export const getNextDate = (date: Date, next: number): Date => {
+export const nextDateByMonth = (date: Date, next: number): Date => {
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
