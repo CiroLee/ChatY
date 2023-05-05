@@ -3,7 +3,7 @@
     "title": "设置",
     "open-ai-key": "OpenAI 秘钥",
     "theme": "主题",
-    "tokenCount": "显示token用量",
+    "tokenCount": "token用量",
     "temperature": "发散度",
     "maxToken": "最大回文长度",
     "contextRange": "上下文范围",
@@ -60,7 +60,10 @@
     "consumed": "已消费额度",
     "remainLimit": "剩余额度",
     "accountLimit": "账户额度",
-    "expired": "额度过期时间"
+    "expired": "额度过期时间",
+    "oneMonth": "1个月",
+    "twoMonth": "2个月",
+    "threeMonth": "3个月"
   },
   "global": {
     "open": "开",
@@ -75,8 +78,8 @@
   },
   "error": {
     "unAuthorization": "未授权",
-    "internetServerError": "网络连接错误",
     "tooManyRequest": "请求过于频繁",
-    "serverError": "服务器错误"
+    "serverError": "服务器错误",
+    "badRequest": "请求错误"
   }
 }

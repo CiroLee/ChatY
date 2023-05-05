@@ -1,18 +1,19 @@
 import { FC, useEffect, useState } from 'react';
 import Input, { InputProps } from '../Input';
+import classNames from 'classnames';
 import './style/index.scss';
 import Whether from '../Whether';
 interface InputNumberProps extends InputProps {
   min: number;
   max: number;
   step: number;
-  value: number;
+  value?: number;
   suffix?: React.ReactNode;
 }
 
 const InputNumber: FC<InputNumberProps> = (props) => {
-  const { min, max, step, value, suffix, ...rest } = props;
-  const [numVal, setNumVal] = useState<string | number>(value);
+  const { min, max, step, value, suffix, className, ...rest } = props;
+  const [numVal, setNumVal] = useState<string | number>();
   const onChangeHandler = (val: string) => {
     setNumVal(val);
   };
@@ -43,7 +44,7 @@ const InputNumber: FC<InputNumberProps> = (props) => {
     setNumVal(value);
   }, [value]);
   return (
-    <div className="cy-input-number">
+    <div className={classNames('cy-input-number', className)}>
       <Input value={numVal} {...rest} onChange={onChangeHandler} onBlur={onBlurHandler} />
       <Whether condition={!!suffix}>
         <div className="cy-input-number__suffix">{suffix}</div>

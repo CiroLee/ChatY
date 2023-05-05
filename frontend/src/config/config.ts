@@ -14,6 +14,7 @@ import { HotKeysMap } from '@/types/config';
 import type { TabItem } from '@/components/RadioTabs';
 import type { TFunction } from 'i18next';
 import type { ChatSession } from '@/types/db';
+import { Option } from '@/types/common';
 
 export const themeChangeTabs: TabItem[] = [
   {
@@ -57,6 +58,23 @@ export const helpChangeTabs = (t: TFunction): TabItem[] => {
       value: 'about',
       icon: 'information-line',
       label: t('about.about') || '',
+    },
+  ];
+};
+
+export const accountRange = (t: TFunction): Option[] => {
+  return [
+    {
+      label: t('account.oneMonth') || '',
+      value: 1,
+    },
+    {
+      label: t('account.twoMonth') || '',
+      value: 2,
+    },
+    {
+      label: t('account.threeMonth') || '',
+      value: 3,
     },
   ];
 };

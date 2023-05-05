@@ -60,7 +60,10 @@
     "consumed": "consumed",
     "remainLimit": "remain limit",
     "accountLimit": "account limit",
-    "expired": "expired"
+    "expired": "expired",
+    "oneMonth": "1 month",
+    "twoMonth": "2 months",
+    "threeMonth": "3 months"
   },
   "global": {
     "open": "open",
@@ -72,5 +75,11 @@
     "confirm": "confirm",
     "issue": "issue",
     "language": "language"
+  },
+  "error": {
+    "unAuthorization": "unAuthorization",
+    "tooManyRequest": "too many request",
+    "serverError": "server error",
+    "badRequest": "bad request"
   }
 }

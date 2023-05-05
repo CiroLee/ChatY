@@ -7,6 +7,12 @@
   background-color: rgb(var(--bg));
   border: 1px solid var(--border-color);
   transition: border-color 0.1s linear;
+  &.small {
+    height: 30px;
+  }
+  &.large {
+    height: 42px;
+  }
   &.focus {
     border-color: $brand-color;
   }

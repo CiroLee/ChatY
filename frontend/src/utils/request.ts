@@ -12,6 +12,8 @@ export const request = async <T>(url: string, config: RequestConfig = { method: 
     const response = await fetch(url, config);
     if (!response.ok) {
       switch (response.status) {
+        case HTTP_STATUS.BadRequest:
+          throw new Error('error.badRequest');
         case HTTP_STATUS.Unauthorized:
           throw new Error('error.unAuthorization');
         case HTTP_STATUS.InternetServerError:
@@ -21,6 +23,6 @@ export const request = async <T>(url: string, config: RequestConfig = { method: 
     return (await response.json()) as T;
   } catch (error) {
     console.error(error);
-    throw new Error((error as any).messages);
+    throw new Error((error as any).message);
   }
 };

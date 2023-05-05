@@ -79,7 +79,7 @@ const SettingModal: FC<SettingModalProps> = (props) => {
             <RadioTabs options={themeChangeTabs} activeKey={theme} className="w-[60%]" tabChange={setTheme} />
           </div>
           <div className="mt-6">
-            <label className="mb-1 block">{t('global.language')}</label>
+            <label className="mb-2 block">{t('global.language')}</label>
             <RadioTabs options={languageTabs} activeKey={language} className="w-[60%]" tabChange={setLanguage} />
           </div>
           <div className="mt-6">
@@ -127,6 +127,7 @@ const SettingModal: FC<SettingModalProps> = (props) => {
                 max={replayLengthMax}
                 step={replayStep}
                 value={maxReplayLength}
+                size="large"
                 onBlur={handleReplayLengthNumberBlur}
                 className="inline-flex w-[60px] ml-3"
               />

@@ -6,6 +6,7 @@ export const OPEN_AI_MODELS = {
 };
 
 export const HTTP_STATUS = {
+  BadRequest: 400,
   Unauthorized: 401,
   Forbidden: 403,
   TooManyRequest: 429,

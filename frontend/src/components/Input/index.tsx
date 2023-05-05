@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import './style/index.scss';
 export interface InputProps {
   type?: 'text' | 'password';
+  size?: 'small' | 'medium' | 'large';
   value?: string | number;
   placeholder?: string;
   className?: string;
@@ -19,6 +20,7 @@ const Input: FC<InputProps> = (props) => {
   const {
     type = 'text',
     value = '',
+    size = 'medium',
     placeholder,
     className,
     maxLength,
@@ -71,7 +73,7 @@ const Input: FC<InputProps> = (props) => {
   }, [value]);
 
   return (
-    <div className={classNames('cy-input', className, { focus })}>
+    <div className={classNames('cy-input', size, className, { focus })}>
       <input
         ref={inputRef}
         type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
