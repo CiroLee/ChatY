@@ -32,7 +32,7 @@ const Radio: FC<RadioProps> = (props) => {
   return (
     <div className={classNames('cy-radio', className, { checked: checkedVal })} onClick={toggleChecked}>
       {type === 'circle' ? (
-        <div className={checkedVal ? 'cy-radio__circle-checked' : 'cy-radio__circle'}></div>
+        <Icon name={checkedVal ? 'radio-button-fill' : 'checkbox-blank-circle-line'} size="18px" />
       ) : (
         <Icon name={checkedVal ? 'checkbox-circle-fill' : 'checkbox-blank-circle-line'} size="18.5px" />
       )}

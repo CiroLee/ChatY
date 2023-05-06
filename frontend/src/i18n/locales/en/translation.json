@@ -74,7 +74,8 @@
     "cancel": "cancel",
     "confirm": "confirm",
     "issue": "issue",
-    "language": "language"
+    "language": "language",
+    "searching": "searching..."
   },
   "error": {
     "unAuthorization": "unAuthorization",

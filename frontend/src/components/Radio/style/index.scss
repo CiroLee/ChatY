@@ -1,31 +1,16 @@
 .cy-radio {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   cursor: pointer;
-  &__circle,
-  &__circle-checked {
-    width: 15px;
-    height: 15px;
-    border-radius: 10px;
-    border: 1.5px solid var(--tip-color);
-    transition: border-color 0.2s ease;
-  }
-  &__circle:hover {
-    border-color: $brand-color;
-  }
-  &__circle-checked {
-    border-width: 4px;
-    border-color: $brand-color;
-  }
   .cy-icon {
     color: var(--tip-color);
+    pointer-events: none;
     transition: color 0.2s ease;
-    &:hover {
-      color: $brand-color;
-    }
   }
   &.checked .cy-icon {
+    color: $brand-color;
+  }
+  &:hover .cy-icon {
     color: $brand-color;
   }
   &__content {

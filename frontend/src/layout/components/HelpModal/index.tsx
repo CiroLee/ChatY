@@ -24,6 +24,7 @@ interface HelpModalProps {
 }
 
 interface AccountProps {
+  loading?: boolean;
   accountName?: string;
   accountConsumed?: number;
   accountRemainLimit?: number;
@@ -94,27 +95,32 @@ const Account: FC<AccountProps> = (props) => {
       <div className="mb-3 text-[var(--tip-color)]">
         {start} ~ {end}
       </div>
-      <div>
+      <div className="relative">
         <div className="flex items-center p-2 odd:bg-[var(--content-bg)] relative">
           <p className="w-[40%]">{t('account.name')}</p>
-          <p className="flex-1">{props.accountName}</p>
+          <p className="flex-1">{props.loading ? '--' : props.accountName}</p>
         </div>
         <div className="flex items-center p-2 odd:bg-[var(--content-bg)] relative">
           <p className="w-[40%]">{t('account.consumed')}</p>
-          <p className="flex-1">{props.accountConsumed}</p>
+          <p className="flex-1">{props.loading ? '--' : props.accountConsumed}</p>
         </div>
         <div className="flex items-center p-2 odd:bg-[var(--content-bg)] relative">
           <p className="w-[40%]">{t('account.remainLimit')}</p>
-          <p className="flex-1">{props.accountRemainLimit}</p>
+          <p className="flex-1">{props.loading ? '--' : props.accountRemainLimit}</p>
         </div>
         <div className="flex items-center p-2 odd:bg-[var(--content-bg)] relative">
           <p className="w-[40%]">{t('account.accountLimit')}</p>
-          <p className="flex-1">{props.accountLimit}</p>
+          <p className="flex-1">{props.loading ? '--' : props.accountLimit}</p>
         </div>
         <div className="flex items-center p-2 odd:bg-[var(--content-bg)] relative">
           <p className="w-[40%]">{t('account.expired')}</p>
-          <p className="flex-1">{props.accountExpired}</p>
+          <p className="flex-1">{props.loading ? '--' : props.accountExpired}</p>
         </div>
+        <Whether condition={!!props.loading}>
+          <div className="w-full h-full absolute top-0 right-0 backdrop-blur-[2px] text-[var(--color)] flex justify-center items-center">
+            {t('global.searching')}
+          </div>
+        </Whether>
       </div>
     </div>
   );
@@ -125,11 +131,13 @@ const HelpModal: FC<HelpModalProps> = (props) => {
   const _helpChangeTabs = helpChangeTabs(t);
   const [activeKey, setActiveKey] = useState(_helpChangeTabs[0].value);
   const { apiKey } = useSettingStore((state) => state);
+  const [loading, setLoading] = useState(false);
   const [accountInfo, setAccountInfo] = useState<AccountProps>({});
   const message = new Message();
 
   const fetchAccountInfo = async (month = 1) => {
     try {
+      setLoading(true);
       const date = new Date();
       const start = dateFormat(dateOffset(date, { type: 'month', offset: -month }), 'yyyy-mm-dd');
       const end = dateFormat(date, 'yyyy-mm-dd');
@@ -146,6 +154,7 @@ const HelpModal: FC<HelpModalProps> = (props) => {
           ? dateFormat(subscription?.access_until * 1000, 'yyyy-mm-dd HH:MM:SS')
           : '',
       });
+      setLoading(false);
     } catch (error: any) {
       message.error(t(error?.message) || t('error.internetServerError'));
     }
@@ -178,7 +187,7 @@ const HelpModal: FC<HelpModalProps> = (props) => {
             <HotKeysTable />
           </Whether>
           <Whether condition={activeKey === 'account'}>
-            <Account {...accountInfo} reSearch={fetchAccountInfo} />
+            <Account loading={loading} {...accountInfo} reSearch={fetchAccountInfo} />
           </Whether>
           <Whether condition={activeKey === 'about'}>
             <About />

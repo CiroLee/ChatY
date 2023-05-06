@@ -74,7 +74,8 @@
     "cancel": "取消",
     "confirm": "确认",
     "issue": "建议反馈",
-    "language": "语言"
+    "language": "语言",
+    "searching": "查询中..."
   },
   "error": {
     "unAuthorization": "未授权",

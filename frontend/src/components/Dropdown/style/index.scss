@@ -1,7 +1,7 @@
 .cy-dropdown {
   position: fixed;
   z-index: $dropdown-z-index;
-  background-color: var(--popup-bg);
+  background-color: var(--dropdown-bg);
   border: 1px solid var(--border-color);
   border-radius: 2px;
   box-shadow: var(--popup-shadow);

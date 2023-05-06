@@ -11,7 +11,7 @@ body {
   --border-color: #ebebeb;
   --assist-color: #989898;
   --tip-color: #c2c2c2;
-  --popup-bg: #fff;
+  --dropdown-bg: #fff;
   --tabs-bg: #f4f4f4;
   --tabs-item-inactive-color: #c7c6c6;
   --tabs-item-active-bg: #fff;
@@ -52,12 +52,12 @@ body.dark {
   --border-color: #3e3e3e;
   --assist-color: #707070;
   --tip-color: #878787;
-  --popup-bg: #4b4b4b;
+  --dropdown-bg: #4b4b4b;
   --tabs-bg: #4b4b4b;
   --tabs-item-inactive-color: #c7c6c6;
   --tabs-item-active-bg: #3f3f3f;
   --popup-shadow: 0px 2px 12px rgb(0 0 0 / 8%);
-  --tooltip-bg: var(--popup-bg);
+  --tooltip-bg: var(--dropdown-bg);
   --tooltip-shadow: -10px 0 18px 2px rgb(0 0 0 / 8%), 4px 0 18px 2px rgb(0 0 0 / 8%);
   --button-bg: #4c4c4c;
   --button-active-bg: #3b3b3b;
