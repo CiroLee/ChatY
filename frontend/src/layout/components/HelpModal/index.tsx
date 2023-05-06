@@ -7,8 +7,8 @@ import Message from '@/components/Message';
 import { RadioGroup } from '@/components/Radio';
 import Icon from '@/components/Icon';
 import { useSettingStore } from '@/store/setting';
-import { prevDateByMonth, isMac } from '@/utils/utils';
-import { dateFormat } from 'fe-gear';
+import { isMac } from '@/utils/utils';
+import { dateFormat, dateOffset } from 'fe-gear';
 import { getBillSubscription, getBillUsage } from '@/api';
 import { BrowserOpenURL } from '@wails/runtime';
 import { accountRange, helpChangeTabs, hotKeysConfig } from '@/config/config';
@@ -75,7 +75,7 @@ const Account: FC<AccountProps> = (props) => {
   const [queryMonth, setQueryMonth] = useState(1);
   const months = accountRange(t);
   const date = new Date();
-  const start = dateFormat(prevDateByMonth(date, queryMonth), 'yyyy-mm-dd');
+  const start = dateFormat(dateOffset(date, { type: 'month', offset: -queryMonth }), 'yyyy-mm-dd');
   const end = dateFormat(date, 'yyyy-mm-dd');
   const monthChange = (val: number) => {
     setQueryMonth(val);
@@ -131,7 +131,7 @@ const HelpModal: FC<HelpModalProps> = (props) => {
   const fetchAccountInfo = async (month = 1) => {
     try {
       const date = new Date();
-      const start = dateFormat(prevDateByMonth(date, month), 'yyyy-mm-dd');
+      const start = dateFormat(dateOffset(date, { type: 'month', offset: -month }), 'yyyy-mm-dd');
       const end = dateFormat(date, 'yyyy-mm-dd');
       const subscription = await getBillSubscription(apiKey);
       const usage = await getBillUsage({ start, end, apiKey });

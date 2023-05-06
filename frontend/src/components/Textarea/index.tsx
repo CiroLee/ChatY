@@ -12,7 +12,6 @@ interface TextAreaProps {
   showCount?: boolean;
   rows?: number;
   onChange?: (value: string) => void;
-  onEnter?: () => void;
 }
 
 const Textarea: FC<TextAreaProps> = (props) => {
