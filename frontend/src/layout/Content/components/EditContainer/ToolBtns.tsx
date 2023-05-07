@@ -11,21 +11,38 @@ const cn = classNames.bind(style);
 interface ToolBtnsProps {
   chatStatus: string;
   list: ChatItem[];
+  onOpenMultiSelectActions: () => void;
   onClearChatSession: () => void;
   onStopAnswer: () => void;
   onExportChats: () => void;
 }
 const ToolBtns: FC<ToolBtnsProps> = (props) => {
-  const { chatStatus, list, onClearChatSession, onStopAnswer, onExportChats } = props;
+  const { chatStatus, list, onClearChatSession, onStopAnswer, onExportChats, onOpenMultiSelectActions } = props;
   const { t } = useTranslation();
   return (
     <>
+      <Tooltip text={t('tooltip.multipleSelect')} align="top" offsetY={-12}>
+        <div
+          className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')}
+          onClick={onOpenMultiSelectActions}>
+          <Icon
+            name="checkbox-multiple-line"
+            size="17px"
+            className={cn({
+              'cursor-not-allowed opacity-60': isAnyTrue([
+                chatStatus !== 'done' && chatStatus !== 'idle',
+                !list.length,
+              ]),
+            })}
+          />
+        </div>
+      </Tooltip>
       <Tooltip text={t('tooltip.clearChat')} align="top" offsetY={-12}>
         <div className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')} onClick={onClearChatSession}>
           <Icon
             name="brush-3-line"
-            size="15px"
-            className={cn('relative', {
+            size="17px"
+            className={cn({
               'cursor-not-allowed opacity-60': isAnyTrue([
                 chatStatus !== 'done' && chatStatus !== 'idle',
                 !list.length,
@@ -38,7 +55,7 @@ const ToolBtns: FC<ToolBtnsProps> = (props) => {
         <div className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')} onClick={onStopAnswer}>
           <Icon
             name="stop-fill"
-            size="22px"
+            size="24px"
             color="#f34747"
             className={cn({
               'cursor-not-allowed opacity-60': isAllTrue([chatStatus !== 'outputting', chatStatus !== 'fetching']),
@@ -50,7 +67,7 @@ const ToolBtns: FC<ToolBtnsProps> = (props) => {
         <div className={cn('w-[20px] h-[20px] flex items-center justify-center')} onClick={onExportChats}>
           <Icon
             name="save-2-line"
-            size="16px"
+            size="17px"
             className={cn({
               'cursor-not-allowed opacity-60': isAnyTrue([
                 chatStatus !== 'idle' && chatStatus !== 'done',

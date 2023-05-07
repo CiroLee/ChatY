@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 export interface SettingStore {
+  currentSessionId: string;
   apiKey: string;
   temperature: number;
   maxReplayLength: number;
@@ -8,6 +9,7 @@ export interface SettingStore {
   showToken: boolean;
   defaulted: boolean; // 是否已初始化 只运行一次, 用于标记初始化默认配置
   language: string;
+  setCurrentSessionId: (id: string) => void;
   setDefaultChat: (defaulted: boolean) => void;
   setShowToken: (showToken: boolean) => void;
   setTemperature: (temperature: number) => void;
@@ -20,6 +22,7 @@ export interface SettingStore {
 export const useSettingStore = create<SettingStore>()(
   persist(
     (set) => ({
+      currentSessionId: '',
       apiKey: '',
       temperature: 0.6,
       maxReplayLength: 1024,
@@ -27,6 +30,7 @@ export const useSettingStore = create<SettingStore>()(
       showToken: false,
       defaulted: false,
       language: 'zh-Hans',
+      setCurrentSessionId: (id: string) => set(() => ({ currentSessionId: id })),
       setLanguage: (language: string) => set(() => ({ language })),
       setDefaultChat: (defaulted: boolean) => set(() => ({ defaulted })),
       setShowToken: (showToken: boolean) => set(() => ({ showToken })),

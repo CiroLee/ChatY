@@ -94,7 +94,7 @@ const ChatItem: FC<ChatItemProps> = (props) => {
         confirmText={t('global.confirm')}
         onCancel={() => setShowConfirm(false)}
         onConfirm={confirmToDelete}>
-        {t('modal.warnBeforeDeleteChat')}
+        {t('modal.warnBeforeDeleteSession')}
       </Confirm>
     </div>
   );

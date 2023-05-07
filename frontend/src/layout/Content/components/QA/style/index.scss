@@ -34,13 +34,13 @@
   ol,
   ul,
   li {
-    list-style-type: disc;
+    list-style-type: decimal;
     list-style-position: inside;
     padding-left: 1em;
     text-indent: -1em;
   }
   ol {
-    list-style-type: decimal;
+    list-style-type: disc;
   }
   li p {
     margin: 12px 0;
@@ -87,5 +87,14 @@
     border-top-right-radius: 3px;
     border-bottom: 1px solid #3b3b3b;
     color: #cdcdcd;
+  }
+}
+
+.cy-radio__content {
+  .cy-qa__com {
+    max-width: 92%;
+  }
+  .cy-qa__content {
+    max-width: unset;
   }
 }

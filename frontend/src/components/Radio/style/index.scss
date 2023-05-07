@@ -2,15 +2,18 @@
   display: inline-flex;
   align-items: center;
   cursor: pointer;
+  &.reverse {
+    flex-direction: row-reverse;
+  }
   .cy-icon {
     color: var(--tip-color);
     pointer-events: none;
     transition: color 0.2s ease;
   }
-  &.checked .cy-icon {
+  &.checked > .cy-icon {
     color: $brand-color;
   }
-  &:hover .cy-icon {
+  &:hover > .cy-icon {
     color: $brand-color;
   }
   &__content {

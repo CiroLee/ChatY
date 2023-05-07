@@ -28,11 +28,14 @@
     "stopAnswer": "停止回答",
     "exportChat": "导出记录",
     "clearChat": "清空记录",
-    "multipleSelect": "多选"
+    "multipleSelect": "多选",
+    "export": "导出"
   },
   "modal": {
     "tips": "提示",
-    "warnBeforeDeleteChat": "对话删除后无法恢复，确认删除?",
+    "warnBeforeDeleteSession": "对话删除后无法恢复，确认删除?",
+    "warnBeforeDeleteChats": "确定删除选中的对话?",
+    "warnBeforeClearChat": "确定清空对话记录?",
     "modifyRole": "修改角色",
     "createRole": "创建角色",
     "placeholderInputName": "请输入名称",

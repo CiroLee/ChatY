@@ -1,8 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import Message from '@/components/Message';
-import Icon from '@/components/Icon';
-import Tooltip from '@/components/Tooltip';
 import ToolBtns from './ToolBtns';
+import Confirm from '@/components/Confirm';
 import { useTranslation } from 'react-i18next';
 import { useToggle } from 'react-use';
 import { omit, isAllTrue, isAnyTrue } from 'fe-gear';
@@ -14,20 +13,21 @@ import { getChatCompletionStream } from '@/api';
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
 import { isMac, nanoId, timestamp } from '@/utils/utils';
 import { chatSessionDB } from '@/db';
-import { saveSessionDB } from '@/utils/chat';
-import { SaveFile } from '@wails/go/app/App';
+import { exportChatUtil, saveSessionDB } from '@/utils/chat';
 import style from './style/index.module.scss';
 import { ChatMessage } from '@/types/openai';
 const cn = classNames.bind(style);
 interface EditContainerProps {
   className?: string;
+  openMultiSelectActions: () => void;
 }
 const EditContainer: FC<EditContainerProps> = (props) => {
-  const { className } = props;
+  const { className, openMultiSelectActions } = props;
   const [max, toggleMax] = useToggle(false);
   const [height, setHeight] = useState(0);
   const [focus, setFocus] = useState(false);
   const [abortController, setAbortController] = useState<AbortController | null>();
+  const [showConfirm, setShowConfirm] = useState(false);
   const { contextRange, apiKey } = useSettingStore((state) => state);
   const { chatStatus, session, addQuestion, setSession, changeChatStatus, updateAnswerStream } = useChatSessionStore(
     (state) => state,
@@ -77,7 +77,12 @@ const EditContainer: FC<EditContainerProps> = (props) => {
       );
     } catch (error) {
       console.error(error);
-      message.error((error as Error)?.message || 'Oops, something went wrong');
+      const msg = (error as Error)?.message.replace(/Error:/g, '').trim();
+      if (msg) {
+        message.error(t(msg));
+      } else {
+        message.error('Oops, something went wrong');
+      }
     }
   };
   const ref = useHotkeys(
@@ -131,6 +136,7 @@ const EditContainer: FC<EditContainerProps> = (props) => {
     try {
       await chatSessionDB.update(session.id, omit({ ...session, list: [] }, ['id']));
       setSession({ ...session, list: [] });
+      setShowConfirm(false);
     } catch (error) {
       console.error(error);
     }
@@ -148,17 +154,10 @@ const EditContainer: FC<EditContainerProps> = (props) => {
 
   const exportChats = () => {
     if (isAnyTrue([chatStatus !== 'idle' && chatStatus !== 'done', !session.list.length])) return;
-    let mdData = '';
-    session.list.forEach((item) => {
-      if (item.role === 'assistant') {
-        mdData += `**${session.name}**:\n\n${item.content}\n\n`;
-      } else {
-        mdData += `**${item.role}**:\n\n${item.content}\n\n`;
-      }
-    });
-    SaveFile(mdData).catch((err) => console.error(err));
+    exportChatUtil(session.list, session.name);
   };
 
+  // this effect no use ,just wanna see the change of chatStatus...
   useEffect(() => {
     console.log(chatStatus);
   }, [chatStatus]);
@@ -176,7 +175,12 @@ const EditContainer: FC<EditContainerProps> = (props) => {
           <ToolBtns
             chatStatus={chatStatus}
             list={session.list}
-            onClearChatSession={clearChatSession}
+            onOpenMultiSelectActions={openMultiSelectActions}
+            onClearChatSession={() => {
+              if (session.list.length) {
+                setShowConfirm(true);
+              }
+            }}
             onStopAnswer={stopAnswer}
             onExportChats={exportChats}
           />
@@ -196,6 +200,16 @@ const EditContainer: FC<EditContainerProps> = (props) => {
           style={{ '--height': `${height}px` } as React.CSSProperties}
           className={cn('cy-editor', className, `${max ? 'in-max' : 'out-max'}`)}></div>
       </div>
+      <Confirm
+        type="warn"
+        title={t('modal.tips')}
+        show={showConfirm}
+        cancelText={t('global.cancel')}
+        confirmText={t('global.confirm')}
+        onCancel={() => setShowConfirm(false)}
+        onConfirm={clearChatSession}>
+        {t('modal.warnBeforeClearChat')}
+      </Confirm>
     </div>
   );
 };

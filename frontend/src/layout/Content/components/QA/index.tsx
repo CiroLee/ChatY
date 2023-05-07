@@ -1,8 +1,11 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from '@/components/Icon';
+import Tooltip from '@/components/Tooltip';
 import Avatar from '@/components/Avatar';
 import Message from '@/components/Message';
+import Whether from '@/components/Whether';
+import Radio from '@/components/Radio';
 import classNames from 'classnames';
 import { useChatSessionStore } from '@/store/chat';
 import ReactMarkdown from 'react-markdown';
@@ -12,24 +15,33 @@ import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { ClipboardSetText } from '@wails/runtime';
 import { SaveFile } from '@wails/go/app/App';
 import './style/index.scss';
-import Whether from '@/components/Whether';
+import { chatSessionDB } from '@/db';
+import { omit } from 'fe-gear';
 
 interface QAProps {
+  id: number;
+  itemId: string;
   content: string;
   avatar?: string;
   className?: string;
   showToken?: boolean;
+  selectMode?: boolean;
+  onChange?: (checked: boolean) => void;
 }
 
 interface FunctionBarProps {
+  id: number;
+  itemId: string;
+  selectedMode?: boolean;
   className?: string;
   content: string;
 }
 
 const message = new Message();
 
+// 底部操作按钮
 const FunctionBar: FC<FunctionBarProps> = (props) => {
-  const { chatStatus } = useChatSessionStore((state) => state);
+  const { chatStatus, session, setSession } = useChatSessionStore((state) => state);
   const { t } = useTranslation();
   const copyHandler = () => {
     ClipboardSetText(props.content).then(() => {
@@ -41,6 +53,15 @@ const FunctionBar: FC<FunctionBarProps> = (props) => {
       console.error(err);
     });
   };
+  const deleteHandler = async () => {
+    try {
+      const list = session.list.filter((item) => item.id !== props.itemId);
+      await chatSessionDB.update(props.id, omit({ ...session, list }, ['id']));
+      setSession({ ...session, list });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div
       className={classNames(
@@ -48,16 +69,24 @@ const FunctionBar: FC<FunctionBarProps> = (props) => {
         `${chatStatus !== 'idle' && chatStatus !== 'done' ? 'invisible' : 'visible'}`,
         props.className,
       )}>
-      <Icon name="file-copy-line" size="16px" onClick={copyHandler} />
-      <Icon name="markdown-line" size="16px" className="ml-2" onClick={saveMDhandler} />
+      <Tooltip text={t('dropdown.copy')} align="top" offsetX={1} offsetY={-12} open={!props.selectedMode}>
+        <Icon name="file-copy-line" size="16px" onClick={copyHandler} />
+      </Tooltip>
+      <Tooltip text={t('tooltip.export')} align="top" offsetX={8} offsetY={-12} open={!props.selectedMode}>
+        <Icon name="markdown-line" size="16px" className="ml-[8px]" onClick={saveMDhandler} />
+      </Tooltip>
+      <Tooltip text={t('dropdown.delete')} align="top" offsetX={8} offsetY={-12} open={!props.selectedMode}>
+        <Icon name="delete-bin-line" size="16px" className="ml-[8px]" onClick={deleteHandler} />
+      </Tooltip>
     </div>
   );
 };
-export const Question: FC<QAProps> = (props) => {
-  const { content, avatar, showToken, className } = props;
+
+const QuestionInner: FC<QAProps> = (props) => {
+  const { id, itemId, content, avatar, showToken, selectMode } = props;
   return (
-    <div className={classNames('cy-qa cy-question', className)}>
-      <div className="flex">
+    <>
+      <div className="flex justify-end">
         <div className="flex flex-col justify-end mr-3">
           <Whether condition={!!showToken}>
             <div className="text-[var(--assist-color)] text-[12px]">token:{tokenNum(content)}</div>
@@ -66,7 +95,24 @@ export const Question: FC<QAProps> = (props) => {
         <Avatar url={avatar} />
       </div>
       <div className="cy-qa__content cy-question__content">{content}</div>
-      <FunctionBar content={content} />
+      <FunctionBar id={id} itemId={itemId} selectedMode={selectMode} content={content} />
+    </>
+  );
+};
+export const Question: FC<QAProps> = (props) => {
+  const { className, selectMode, onChange, ...rest } = props;
+
+  return (
+    <div className={classNames('cy-qa cy-question', className)}>
+      {selectMode ? (
+        <Radio reverse onChange={onChange}>
+          <div className="cy-qa__com mr-3">
+            <QuestionInner selectMode {...rest} />
+          </div>
+        </Radio>
+      ) : (
+        <QuestionInner {...rest} />
+      )}
     </div>
   );
 };
@@ -96,10 +142,10 @@ const CodeTitleBar: FC<CodeTitleBarProps> = (props) => {
   );
 };
 
-export const Answer: FC<QAProps> = (props) => {
-  const { content, avatar, showToken, className } = props;
+const AnswerInner: FC<QAProps> = (props) => {
+  const { id, itemId, content, avatar, showToken, selectMode } = props;
   return (
-    <div className={classNames('cy-qa cy-answer', className)}>
+    <>
       <div className="flex">
         <Avatar url={avatar} />
         <div className="flex flex-col justify-end ml-3">
@@ -140,7 +186,23 @@ export const Answer: FC<QAProps> = (props) => {
             },
           }}></ReactMarkdown>
       </div>
-      <FunctionBar content={content} />
+      <FunctionBar id={id} itemId={itemId} selectedMode={selectMode} content={content} />
+    </>
+  );
+};
+export const Answer: FC<QAProps> = (props) => {
+  const { selectMode, className, onChange, ...rest } = props;
+  return (
+    <div className={classNames('cy-qa cy-answer', className)}>
+      {selectMode ? (
+        <Radio onChange={onChange}>
+          <div className="cy-qa__com ml-3">
+            <AnswerInner selectMode {...props} />
+          </div>
+        </Radio>
+      ) : (
+        <AnswerInner {...rest} />
+      )}
     </div>
   );
 };

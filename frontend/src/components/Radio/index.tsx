@@ -8,6 +8,7 @@ interface RadioProps {
   checked?: boolean;
   className?: string;
   children?: React.ReactNode;
+  reverse?: boolean;
   onChange?: (checked: boolean) => void;
 }
 
@@ -19,7 +20,7 @@ interface RadioGroupProps {
   onChange?: (item: Option, checked: boolean) => void;
 }
 const Radio: FC<RadioProps> = (props) => {
-  const { type = 'checked', checked, className, children } = props;
+  const { type = 'checked', checked, className, reverse, children } = props;
   const [checkedVal, setCheckedVal] = useState(false);
   const toggleChecked = () => {
     setCheckedVal(!checkedVal);
@@ -30,7 +31,7 @@ const Radio: FC<RadioProps> = (props) => {
     setCheckedVal(!!checked);
   }, [checked]);
   return (
-    <div className={classNames('cy-radio', className, { checked: checkedVal })} onClick={toggleChecked}>
+    <div className={classNames('cy-radio', className, { checked: checkedVal, reverse })} onClick={toggleChecked}>
       {type === 'circle' ? (
         <Icon name={checkedVal ? 'radio-button-fill' : 'checkbox-blank-circle-line'} size="18px" />
       ) : (

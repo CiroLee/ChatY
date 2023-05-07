@@ -28,11 +28,14 @@
     "stopAnswer": "stop answer",
     "exportChat": "export chat",
     "clearChat": "clear chat",
-    "multipleSelect": "multiple select"
+    "multipleSelect": "multiple select",
+    "export": "export"
   },
   "modal": {
     "tips": "Tips",
-    "warnBeforeDeleteChat": "After the conversation is deleted, it cannot be restored, confirm the deletion?",
+    "warnBeforeDeleteSession": "After the conversation is deleted, it cannot be restored, confirm the deletion?",
+    "warnBeforeDeleteChats": "Are you sure you want to delete the selected chats?",
+    "warnBeforeClearChat": "Are you sure you want to clear the conversation?",
     "modifyRole": "Modify role",
     "createRole": "Create role",
     "placeholderInputName": "please input name",
