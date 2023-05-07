@@ -27,7 +27,8 @@
   "tooltip": {
     "stopAnswer": "停止回答",
     "exportChat": "导出记录",
-    "clearChat": "清空记录"
+    "clearChat": "清空记录",
+    "multipleSelect": "多选"
   },
   "modal": {
     "tips": "提示",

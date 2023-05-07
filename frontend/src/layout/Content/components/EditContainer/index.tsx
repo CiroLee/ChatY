@@ -1,4 +1,8 @@
 import { FC, useState, useEffect } from 'react';
+import Message from '@/components/Message';
+import Icon from '@/components/Icon';
+import Tooltip from '@/components/Tooltip';
+import ToolBtns from './ToolBtns';
 import { useTranslation } from 'react-i18next';
 import { useToggle } from 'react-use';
 import { omit, isAllTrue, isAnyTrue } from 'fe-gear';
@@ -9,9 +13,6 @@ import classNames from 'classnames/bind';
 import { getChatCompletionStream } from '@/api';
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
 import { isMac, nanoId, timestamp } from '@/utils/utils';
-import Message from '@/components/Message';
-import Icon from '@/components/Icon';
-import Tooltip from '@/components/Tooltip';
 import { chatSessionDB } from '@/db';
 import { saveSessionDB } from '@/utils/chat';
 import { SaveFile } from '@wails/go/app/App';
@@ -172,46 +173,13 @@ const EditContainer: FC<EditContainerProps> = (props) => {
           </span>
         </div>
         <div className={cn('cy-editor-tip', { max })}>
-          <Tooltip text={t('tooltip.clearChat')} align="top" offsetY={-12}>
-            <div className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')} onClick={clearChatSession}>
-              <Icon
-                name="brush-3-line"
-                size="15px"
-                className={cn('relative', {
-                  'cursor-not-allowed opacity-60': isAnyTrue([
-                    chatStatus !== 'done' && chatStatus !== 'idle',
-                    !session.list.length,
-                  ]),
-                })}
-              />
-            </div>
-          </Tooltip>
-          <Tooltip text={t('tooltip.stopAnswer')} align="top" offsetY={-12}>
-            <div className={cn('w-[20px] h-[20px] flex items-center justify-center mr-3')} onClick={stopAnswer}>
-              <Icon
-                name="stop-fill"
-                size="22px"
-                color="#f34747"
-                className={cn('top-[1px]', {
-                  'cursor-not-allowed opacity-60': isAllTrue([chatStatus !== 'outputting', chatStatus !== 'fetching']),
-                })}
-              />
-            </div>
-          </Tooltip>
-          <Tooltip text={t('tooltip.exportChat')} align="topRight" offsetY={-12}>
-            <div className={cn('w-[20px] h-[20px] flex items-center justify-center')} onClick={exportChats}>
-              <Icon
-                name="save-2-line"
-                size="16px"
-                className={cn({
-                  'cursor-not-allowed opacity-60': isAnyTrue([
-                    chatStatus !== 'idle' && chatStatus !== 'done',
-                    !session.list.length,
-                  ]),
-                })}
-              />
-            </div>
-          </Tooltip>
+          <ToolBtns
+            chatStatus={chatStatus}
+            list={session.list}
+            onClearChatSession={clearChatSession}
+            onStopAnswer={stopAnswer}
+            onExportChats={exportChats}
+          />
         </div>
       </div>
       <div

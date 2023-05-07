@@ -27,7 +27,8 @@
   "tooltip": {
     "stopAnswer": "stop answer",
     "exportChat": "export chat",
-    "clearChat": "clear chat"
+    "clearChat": "clear chat",
+    "multipleSelect": "multiple select"
   },
   "modal": {
     "tips": "Tips",
