@@ -109,7 +109,7 @@ export const Question: FC<QAProps> = (props) => {
     <div className={classNames('cy-qa cy-question', className)}>
       {selectMode ? (
         <Radio reverse onChange={onChange}>
-          <div className="cy-qa__com mr-3">
+          <div className="cy-qa__com mr-[12px] ml-auto">
             <QuestionInner selectMode {...rest} />
           </div>
         </Radio>
@@ -201,7 +201,7 @@ export const Answer: FC<QAProps> = (props) => {
     <div className={classNames('cy-qa cy-answer', className)}>
       {selectMode ? (
         <Radio onChange={onChange}>
-          <div className="cy-qa__com ml-3">
+          <div className="cy-qa__com ml-[9px]">
             <AnswerInner selectMode {...props} />
           </div>
         </Radio>
