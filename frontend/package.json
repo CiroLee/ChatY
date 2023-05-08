@@ -1,7 +1,7 @@
 {
   "name": "chaty-frontend",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -22,6 +22,7 @@
     "fe-gear": "^1.0.3",
     "gpt3-tokenizer": "^1.1.5",
     "i18next": "^22.4.15",
+    "katex": "^0.16.7",
     "nanoid": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -30,6 +31,8 @@
     "react-markdown": "^8.0.7",
     "react-syntax-highlighter": "^15.5.0",
     "react-use": "^17.4.0",
+    "rehype-katex": "^6.0.3",
+    "remark-math": "^5.1.1",
     "remixicon": "^3.2.0",
     "zustand": "^4.3.8"
   },
@@ -57,5 +60,11 @@
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4",
     "vite": "^4.3.5"
-  }
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "iOS 7",
+    "last 3 iOS versions"
+  ]
 }

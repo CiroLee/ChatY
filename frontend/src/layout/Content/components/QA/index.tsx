@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from '@/components/Icon';
 import Tooltip from '@/components/Tooltip';
@@ -8,15 +8,18 @@ import Whether from '@/components/Whether';
 import Radio from '@/components/Radio';
 import classNames from 'classnames';
 import { useChatSessionStore } from '@/store/chat';
+import { omit } from 'fe-gear';
 import ReactMarkdown from 'react-markdown';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { tokenNum } from '@/utils/chat';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { ClipboardSetText } from '@wails/runtime';
 import { SaveFile } from '@wails/go/app/App';
 import './style/index.scss';
+import 'katex/dist/katex.min.css';
 import { chatSessionDB } from '@/db';
-import { omit } from 'fe-gear';
 
 interface QAProps {
   id: number;
@@ -157,6 +160,8 @@ const AnswerInner: FC<QAProps> = (props) => {
       <div className="cy-qa__content cy-answer__content">
         <ReactMarkdown
           children={content}
+          remarkPlugins={[remarkMath]}
+          rehypePlugins={[rehypeKatex]}
           components={{
             code({ inline, className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || '');

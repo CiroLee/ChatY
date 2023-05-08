@@ -14,12 +14,15 @@ ChatY is an open-source GPT desktop client developed based on [wails](https://gi
 
 ![chaty-light](images/chaty-1-light.png)  
 <br/>
-![chaty-dark](images/chaty-1-dark.png)
+![chaty-dark](images/chaty-1-dark.png)  
+<br/>
+![chaty-math](images/chaty-dark-math-multi.png)
 
 ## Features
 
 - Support for multiple platforms.
 - Support i18n(default is Chinese).
+- Support for chat multi-select.
 - Data is completely localized(use `indexDB`), no user data is recorded.
 - UI is completely independent and does not relay on third-party UI libraries.
 - Interaction is simple and easy to use, supporting shortcut key operation.

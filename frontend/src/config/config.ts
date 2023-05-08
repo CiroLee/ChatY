@@ -1,7 +1,6 @@
 import AvatarAssist from '@/assets/avatars/avatar-assist.png';
 import AvatarAtom from '@/assets/avatars/avatar-atom.png';
 import AvatarCalculator from '@/assets/avatars/avatar-calculator.png';
-import AvatarCat from '@/assets/avatars/avatar-cat.png';
 import AvatarCode from '@/assets/avatars/avatar-code.png';
 import AvatarDog from '@/assets/avatars/avatar-dog.png';
 import AvatarIdea from '@/assets/avatars/avatar-idea.png';
@@ -9,6 +8,8 @@ import AvatarKitty from '@/assets/avatars/avatar-kitty.png';
 import AvatarMario from '@/assets/avatars/avatar-mario.png';
 import AvatarSimpson from '@/assets/avatars/avatar-simpson.png';
 import AvatarTranslate from '@/assets/avatars/avatar-translate.png';
+import AvatarPi from '@/assets/avatars/avatar-pi.png';
+import AvatarHammer from '@/assets/avatars/avatar-hammer.png';
 import { HotKeysMap } from '@/types/config';
 
 import type { TabItem } from '@/components/RadioTabs';
@@ -145,12 +146,13 @@ export const avatars: string[][] = [
   ['avatar-atom', AvatarAtom],
   ['avatar-calculator', AvatarCalculator],
   ['avatar-translate', AvatarTranslate],
-  ['avatar-cat', AvatarCat],
   ['avatar-code', AvatarCode],
   ['avatar-dog', AvatarDog],
   ['avatar-kitty', AvatarKitty],
   ['avatar-mario', AvatarMario],
   ['avatar-simpson', AvatarSimpson],
+  ['avatar-pi', AvatarPi],
+  ['avatar-hammer', AvatarHammer],
 ];
 
 // 初始化的默认chat

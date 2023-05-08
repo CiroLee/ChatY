@@ -14,12 +14,15 @@ ChatY 是基于 [wails](https://github.com/wailsapp/wails)开发的开源 GPT �
 
 ![chaty-light](images/chaty-1-light.png)  
 <br/>
-![chaty-dark](images/chaty-1-dark.png)
+![chaty-dark](images/chaty-1-dark.png)  
+<br/>
+![chaty-math](images/chaty-dark-math-multi.png)
 
 ## 功能
 
 - 支持多平台
 - 支持国际化 i18n(默认为中文)
+- 支持对话多选操作
 - 更加自由的 prompts 管理
 - 数据完全本地化(使用 `indexDB`)，不会记录用户数据
 - UI 完全独立，不依赖第三方 UI 库
