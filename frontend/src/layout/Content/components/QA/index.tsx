@@ -90,7 +90,7 @@ const QuestionInner: FC<QAProps> = (props) => {
   return (
     <>
       <div className="flex justify-end">
-        <div className="flex flex-col justify-end mr-3">
+        <div className="flex flex-col justify-end">
           <Whether condition={!!showToken}>
             <div className="text-[var(--assist-color)] text-[12px]">token:{tokenNum(content)}</div>
           </Whether>
@@ -151,7 +151,7 @@ const AnswerInner: FC<QAProps> = (props) => {
     <>
       <div className="flex">
         <Avatar url={avatar} />
-        <div className="flex flex-col justify-end ml-3">
+        <div className="flex flex-col justify-end">
           <Whether condition={!!showToken}>
             <div className="text-[var(--assist-color)] text-[12px]">token:{tokenNum(content)}</div>
           </Whether>
