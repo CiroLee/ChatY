@@ -1,25 +1,25 @@
+import Avatar from '@/components/Avatar';
+import Icon from '@/components/Icon';
+import Message from '@/components/Message';
+import Radio from '@/components/Radio';
+import Tooltip from '@/components/Tooltip';
+import Whether from '@/components/Whether';
+import { chatSessionDB } from '@/db';
+import { useChatSessionStore } from '@/store/chat';
+import { tokenNum } from '@/utils/chat';
+import { copyToClipboard } from '@/utils/utils';
+import { SaveFile } from '@wails/go/app/App';
+import classNames from 'classnames';
+import { omit } from 'fe-gear';
+import 'katex/dist/katex.min.css';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import Icon from '@/components/Icon';
-import Tooltip from '@/components/Tooltip';
-import Avatar from '@/components/Avatar';
-import Message from '@/components/Message';
-import Whether from '@/components/Whether';
-import Radio from '@/components/Radio';
-import classNames from 'classnames';
-import { useChatSessionStore } from '@/store/chat';
-import { omit } from 'fe-gear';
 import ReactMarkdown from 'react-markdown';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { tokenNum } from '@/utils/chat';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import { ClipboardSetText } from '@wails/runtime';
-import { SaveFile } from '@wails/go/app/App';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 import './style/index.scss';
-import 'katex/dist/katex.min.css';
-import { chatSessionDB } from '@/db';
 
 interface QAProps {
   id: number;
@@ -47,7 +47,7 @@ const FunctionBar: FC<FunctionBarProps> = (props) => {
   const { chatStatus, session, setSession } = useChatSessionStore((state) => state);
   const { t } = useTranslation();
   const copyHandler = () => {
-    ClipboardSetText(props.content).then(() => {
+    copyToClipboard(props.content).then(() => {
       message.success(t('message.copiedToClipboard'));
     });
   };
@@ -128,11 +128,11 @@ const CodeTitleBar: FC<CodeTitleBarProps> = (props) => {
   const { t } = useTranslation();
   const copyCode = () => {
     if (typeof props.codes === 'string') {
-      ClipboardSetText(props.codes).then(() => {
+      copyToClipboard(props.codes).then(() => {
         message.success(t('message.copiedToClipboard'));
       });
     } else if (Array.isArray(props.codes)) {
-      ClipboardSetText(props.codes[0] as string).then(() => {
+      copyToClipboard(props.codes[0] as string).then(() => {
         message.success(t('message.copiedToClipboard'));
       });
     }

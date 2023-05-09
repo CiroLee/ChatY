@@ -1,16 +1,16 @@
-import { FC, useState } from 'react';
-import classNames from 'classnames/bind';
-import Icon from '@/components/Icon';
-import Dropdown from '@/components/Dropdown';
 import Confirm from '@/components/Confirm';
+import Dropdown from '@/components/Dropdown';
+import Icon from '@/components/Icon';
 import Whether from '@/components/Whether';
-import { useModalStore } from '@/store/modal';
-import { useChatSessionStore } from '@/store/chat';
-import style from './style/index.module.scss';
-import { nanoId, timestamp } from '@/utils/utils';
-import { chatSessionDB } from '@/db';
-import { useTranslation } from 'react-i18next';
 import { dropdownItems } from '@/config/config';
+import { chatSessionDB } from '@/db';
+import { useChatSessionStore } from '@/store/chat';
+import { useModalStore } from '@/store/modal';
+import { nanoId, timestamp } from '@/utils/utils';
+import classNames from 'classnames/bind';
+import { FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import style from './style/index.module.scss';
 const cn = classNames.bind(style);
 interface ChatItemProps {
   text: string;
@@ -87,7 +87,7 @@ const ChatItem: FC<ChatItemProps> = (props) => {
         </Dropdown>
       </Whether>
       <Confirm
-        type="error"
+        type="warn"
         title={t('modal.tips')}
         show={showConfirm}
         cancelText={t('global.cancel')}

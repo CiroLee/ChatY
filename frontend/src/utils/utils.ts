@@ -15,3 +15,12 @@ export const nanoId = (num = 12) => {
 export const timestamp = () => {
   return Date.parse(new Date().toString()) / 1000;
 };
+
+export const copyToClipboard = async (text: string): Promise<{ value: string; error: Error | unknown | undefined }> => {
+  try {
+    await window.navigator.clipboard.writeText(text);
+    return { value: text, error: undefined };
+  } catch (error) {
+    return { value: '', error };
+  }
+};
