@@ -16,7 +16,7 @@ ChatY is an open-source GPT desktop client developed based on [wails](https://gi
 <br/>
 ![chaty-dark](images/chaty-1-dark.png)  
 <br/>
-![chaty-math](images/chaty-dark-math-multi.png)
+![chaty-math](images/chaty-dark-math-multiple.png)
 
 ## Features
 

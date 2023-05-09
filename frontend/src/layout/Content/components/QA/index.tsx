@@ -202,7 +202,7 @@ export const Answer: FC<QAProps> = (props) => {
       {selectMode ? (
         <Radio onChange={onChange}>
           <div className="cy-qa__com ml-[9px]">
-            <AnswerInner selectMode {...props} />
+            <AnswerInner selectMode {...rest} />
           </div>
         </Radio>
       ) : (
