@@ -90,7 +90,7 @@ const QuestionInner: FC<QAProps> = (props) => {
   return (
     <>
       <div className="flex justify-end">
-        <div className="flex flex-col justify-end">
+        <div className="flex flex-col justify-end mr-2">
           <Whether condition={!!showToken}>
             <div className="text-[var(--assist-color)] text-[12px]">token:{tokenNum(content)}</div>
           </Whether>
@@ -109,9 +109,7 @@ export const Question: FC<QAProps> = (props) => {
     <div className={classNames('cy-qa cy-question', className)}>
       {selectMode ? (
         <Radio reverse onChange={onChange}>
-          <div className="cy-qa__com mr-[12px] ml-auto">
-            <QuestionInner selectMode {...rest} />
-          </div>
+          <QuestionInner selectMode {...rest} />
         </Radio>
       ) : (
         <QuestionInner {...rest} />
@@ -151,7 +149,7 @@ const AnswerInner: FC<QAProps> = (props) => {
     <>
       <div className="flex">
         <Avatar url={avatar} />
-        <div className="flex flex-col justify-end">
+        <div className="flex flex-col justify-end ml-2">
           <Whether condition={!!showToken}>
             <div className="text-[var(--assist-color)] text-[12px]">token:{tokenNum(content)}</div>
           </Whether>
@@ -201,9 +199,7 @@ export const Answer: FC<QAProps> = (props) => {
     <div className={classNames('cy-qa cy-answer', className)}>
       {selectMode ? (
         <Radio onChange={onChange}>
-          <div className="cy-qa__com ml-[9px]">
-            <AnswerInner selectMode {...rest} />
-          </div>
+          <AnswerInner selectMode {...rest} />
         </Radio>
       ) : (
         <AnswerInner {...rest} />

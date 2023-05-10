@@ -1,5 +1,10 @@
 .cy-qa {
   position: relative;
+  .cy-radio {
+    display: flex;
+    position: relative;
+    width: 100%;
+  }
   img {
     width: 32px;
     height: 32px;
@@ -53,7 +58,7 @@
   align-items: flex-end;
   white-space: pre-wrap;
   &__content {
-    flex-grow: 1;
+    // flex-grow: 1;
     margin-right: 6px;
     border-top-right-radius: 0;
   }
@@ -90,10 +95,11 @@
 }
 
 .cy-radio__content {
-  .cy-qa__com {
-    max-width: 96%;
+  max-width: 92%;
+  .cy-question__content {
+    max-width: unset;
   }
-  .cy-qa__content {
+  .cy-answer__content {
     max-width: unset;
   }
 }

@@ -45,7 +45,7 @@
     "emptySecretKeyTips": "You need to set up the secret key before you can continue to use it"
   },
   "about": {
-    "softwareDesc": "ChatY is an open source GPT desktop client developed based on wails. It may be the most beautiful ChatGPT assistant in your computer.",
+    "softwareDesc": "ChatY is an open source GPT desktop client developed based on wails. It may be the most beautiful ChatGPT assistant in your computer",
     "shortcuts": "Shortcuts",
     "about": "About",
     "account": "Account"

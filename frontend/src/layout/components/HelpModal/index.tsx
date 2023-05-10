@@ -1,21 +1,21 @@
-import { FC, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Popup from '@/components/Popup';
-import Whether from '@/components/Whether';
-import RadioTabs from '@/components/RadioTabs';
-import Message from '@/components/Message';
-import { RadioGroup } from '@/components/Radio';
+import { getBillSubscription, getBillUsage } from '@/api';
+import ChatLogoPNG from '@/assets/icons/chaty-logo.png';
 import Icon from '@/components/Icon';
+import Message from '@/components/Message';
+import Popup from '@/components/Popup';
+import { RadioGroup } from '@/components/Radio';
+import RadioTabs from '@/components/RadioTabs';
+import Whether from '@/components/Whether';
+import { accountRange, helpChangeTabs, hotKeysConfig } from '@/config/config';
 import { useSettingStore } from '@/store/setting';
 import { isMac } from '@/utils/utils';
-import { dateFormat, dateOffset } from 'fe-gear';
-import { getBillSubscription, getBillUsage } from '@/api';
 import { BrowserOpenURL } from '@wails/runtime';
-import { accountRange, helpChangeTabs, hotKeysConfig } from '@/config/config';
 import classNames from 'classnames/bind';
-import style from './style/index.module.scss';
-import ChatLogoPNG from '@/assets/icons/chaty-logo.png';
+import { dateFormat, dateOffset } from 'fe-gear';
+import { FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import pkg from '../../../../package.json';
+import style from './style/index.module.scss';
 const cn = classNames.bind(style);
 
 interface HelpModalProps {
@@ -73,7 +73,7 @@ const About: FC = () => {
 
 const Account: FC<AccountProps> = (props) => {
   const { t } = useTranslation();
-  const [queryMonth, setQueryMonth] = useState(1);
+  const [queryMonth, setQueryMonth] = useState(3);
   const months = accountRange(t);
   const date = new Date();
   const start = dateFormat(dateOffset(date, { type: 'month', offset: -queryMonth }), 'yyyy-mm-dd');
@@ -135,7 +135,7 @@ const HelpModal: FC<HelpModalProps> = (props) => {
   const [accountInfo, setAccountInfo] = useState<AccountProps>({});
   const message = new Message();
 
-  const fetchAccountInfo = async (month = 1) => {
+  const fetchAccountInfo = async (month = 3) => {
     try {
       setLoading(true);
       const date = new Date();

@@ -45,7 +45,7 @@
     "emptySecretKeyTips": "需要先设置秘钥才能继续使用"
   },
   "about": {
-    "softwareDesc": "ChatY是基于wails开发的开源GPT桌面客户端。它也许是你电脑中最漂亮的ChatGPT助手。",
+    "softwareDesc": "ChatY是基于wails开发的开源GPT桌面客户端。它也许是你电脑中最漂亮的ChatGPT助手",
     "shortcuts": "快捷键",
     "about": "关于",
     "account": "账户"
