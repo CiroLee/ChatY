@@ -1,19 +1,20 @@
-import { FC, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
+import { FC, useEffect, useRef, useState } from 'react';
 import './style/index.scss';
 interface TooltipProps {
   text: string;
   offsetX?: number;
   offsetY?: number;
-  align: 'left' | 'right' | 'top' | 'bottom' | 'topRight';
+  align: 'left' | 'right' | 'top' | 'bottom' | 'topRight' | 'bottomLeft';
   open?: boolean;
   children: React.ReactNode;
+  className?: string;
   disabled?: boolean;
 }
 const xGap = 18;
 const yGap = 20;
 const Tooltip: FC<TooltipProps> = (props) => {
-  const { children, align, text, open = true, disabled, offsetX = 0, offsetY = 0 } = props;
+  const { className, children, align, text, open = true, disabled, offsetX = 0, offsetY = 0 } = props;
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [show, setShow] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -63,6 +64,10 @@ const Tooltip: FC<TooltipProps> = (props) => {
         posX = left - (bounding?.width ? bounding?.width : 0) + xGap + offsetX;
         posY = y - height - yGap + offsetY;
         break;
+      case 'bottomLeft':
+        posX = left + xGap / 2 + offsetX;
+        posY = y + height + yGap + offsetY;
+        break;
       default:
         return;
     }
@@ -74,7 +79,7 @@ const Tooltip: FC<TooltipProps> = (props) => {
       {children}
       <div
         ref={contentRef}
-        className={classNames('tooltip__content', align)}
+        className={classNames('tooltip__content', align, className)}
         style={{ top: `${pos.y}px`, left: `${pos.x}px`, visibility: show && open ? 'visible' : 'hidden' }}>
         <span>{text}</span>
       </div>

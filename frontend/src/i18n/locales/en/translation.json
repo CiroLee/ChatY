@@ -6,7 +6,7 @@
     "tokenCount": "token count",
     "temperature": "temperature",
     "maxToken": "max_token",
-    "contextRange": "context range",
+    "continuousChat": "continuous chat",
     "placeholderInputKey": "please input openAI key"
   },
   "chat": {
@@ -29,7 +29,8 @@
     "exportChat": "export chat",
     "clearChat": "clear chat",
     "multipleSelect": "multiple select",
-    "export": "export"
+    "export": "export",
+    "exceedMaxLimit": "The conversation token is about to exceed the maximum chatGPT conversation token (4096), please delete unnecessary conversations as appropriate."
   },
   "modal": {
     "tips": "Tips",

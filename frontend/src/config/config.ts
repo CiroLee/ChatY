@@ -3,19 +3,19 @@ import AvatarAtom from '@/assets/avatars/avatar-atom.png';
 import AvatarCalculator from '@/assets/avatars/avatar-calculator.png';
 import AvatarCode from '@/assets/avatars/avatar-code.png';
 import AvatarDog from '@/assets/avatars/avatar-dog.png';
+import AvatarHammer from '@/assets/avatars/avatar-hammer.png';
 import AvatarIdea from '@/assets/avatars/avatar-idea.png';
 import AvatarKitty from '@/assets/avatars/avatar-kitty.png';
 import AvatarMario from '@/assets/avatars/avatar-mario.png';
+import AvatarPi from '@/assets/avatars/avatar-pi.png';
 import AvatarSimpson from '@/assets/avatars/avatar-simpson.png';
 import AvatarTranslate from '@/assets/avatars/avatar-translate.png';
-import AvatarPi from '@/assets/avatars/avatar-pi.png';
-import AvatarHammer from '@/assets/avatars/avatar-hammer.png';
 import { HotKeysMap } from '@/types/config';
 
 import type { TabItem } from '@/components/RadioTabs';
-import type { TFunction } from 'i18next';
-import type { ChatSession } from '@/types/db';
 import { Option } from '@/types/common';
+import type { ChatSession } from '@/types/db';
+import type { TFunction } from 'i18next';
 
 export const themeChangeTabs: TabItem[] = [
   {

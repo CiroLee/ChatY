@@ -1,19 +1,18 @@
-import { FC } from 'react';
-import { useTranslation } from 'react-i18next';
-import Popup from '@/components/Popup';
+import Icon from '@/components/Icon';
 import Input from '@/components/Input';
 import InputNumber from '@/components/InputNumber';
+import Popup from '@/components/Popup';
+import RadioTabs from '@/components/RadioTabs';
 import Slider from '@/components/Slider';
+import Switch from '@/components/Switch';
+import { languageTabs, themeChangeTabs } from '@/config/config';
 import { useLayoutStore } from '@/store/layout';
 import { useSettingStore } from '@/store/setting';
 import { useThemeStore } from '@/store/theme';
-import { themeChangeTabs, languageTabs } from '@/config/config';
 import classNames from 'classnames/bind';
+import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import style from './style/index.module.scss';
-
-import RadioTabs from '@/components/RadioTabs';
-import Icon from '@/components/Icon';
-import Switch from '@/components/Switch';
 
 const cn = classNames.bind(style);
 
@@ -42,12 +41,12 @@ const SettingModal: FC<SettingModalProps> = (props) => {
     language,
     maxReplayLength,
     showToken,
-    contextRange,
+    continuousChat,
     setTemperature,
     setMaxReplayLength,
-    setContextRange,
     setShowToken,
     setLanguage,
+    setContinuousChat,
   } = useSettingStore((state) => state);
   const { show, onCancel } = props;
   const handleTempNumberBlur = (value: string) => {
@@ -55,9 +54,6 @@ const SettingModal: FC<SettingModalProps> = (props) => {
   };
   const handleReplayLengthNumberBlur = (value: string) => {
     setMaxReplayLength(Number(value));
-  };
-  const handleContextRangeBlur = (value: string) => {
-    setContextRange(Number(value));
   };
   return (
     <Popup show={show} cancel={onCancel} maskClosable placement="right">
@@ -84,7 +80,18 @@ const SettingModal: FC<SettingModalProps> = (props) => {
           </div>
           <div className="mt-6">
             <div className="flex items-center">
-              <label className="block mr-4">{t('settings.tokenCount')}</label>
+              <label className={cn('block mr-4', `${language === 'zh-Hans' ? 'w-[72px]' : 'w-[100px'}`)}>
+                {t('settings.continuousChat')}
+              </label>
+              <Switch checked={continuousChat} onChange={setContinuousChat} />
+              <span className="ml-3">{continuousChat ? t('global.open') : t('global.close')}</span>
+            </div>
+          </div>
+          <div className="mt-6">
+            <div className="flex items-center">
+              <label className={cn('block mr-4', `${language === 'zh-Hans' ? 'w-[72px]' : 'w-[104px]'}`)}>
+                {t('settings.tokenCount')}
+              </label>
               <Switch checked={showToken} onChange={setShowToken} />
               <span className="ml-3">{showToken ? t('global.open') : t('global.close')}</span>
             </div>
@@ -131,28 +138,6 @@ const SettingModal: FC<SettingModalProps> = (props) => {
                 onBlur={handleReplayLengthNumberBlur}
                 className="inline-flex w-[60px] ml-3"
               />
-            </div>
-            <div className="mt-6">
-              <label className="mb-1 block">{t('settings.contextRange')}</label>
-              <div className="flex items-center">
-                <Slider
-                  className="flex-1 ml-[4px]"
-                  min={contextMin}
-                  max={contextMax}
-                  value={contextRange}
-                  step={contextStep}
-                  onChange={setContextRange}
-                  offset={-16}></Slider>
-                <InputNumber
-                  min={contextMin}
-                  max={contextMax}
-                  step={contextStep}
-                  value={contextRange}
-                  onBlur={handleContextRangeBlur}
-                  className="inline-flex w-[60px] ml-3"
-                  suffix="%"
-                />
-              </div>
             </div>
           </div>
         </div>

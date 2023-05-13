@@ -6,7 +6,7 @@
     "tokenCount": "token用量",
     "temperature": "发散度",
     "maxToken": "最大回文长度",
-    "contextRange": "上下文范围",
+    "continuousChat": "连续对话",
     "placeholderInputKey": "请输入openAI秘钥"
   },
   "chat": {
@@ -29,7 +29,8 @@
     "exportChat": "导出记录",
     "clearChat": "清空记录",
     "multipleSelect": "多选",
-    "export": "导出"
+    "export": "导出",
+    "exceedMaxLimit": "对话token即将超出chatGPT对话最大token(4096), 请酌情删除不必要的对话"
   },
   "modal": {
     "tips": "提示",

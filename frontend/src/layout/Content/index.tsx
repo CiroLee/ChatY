@@ -1,37 +1,41 @@
-import { FC, useState, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { FC, useEffect, useRef, useState } from 'react';
+import AvatarDefault from '@/assets/avatars/avatar-default.png';
+import Confirm from '@/components/Confirm';
 import Icon from '@/components/Icon';
+import Tooltip from '@/components/Tooltip';
+import Whether from '@/components/Whether';
 import EditContainer from './components/EditContainer';
+import MultiSelectActions from './components/MultiSelectActions';
+import { Answer, Question } from './components/QA';
 import SimpleShortcuts from './components/SimpleShortcuts';
-import { Question, Answer } from './components/QA';
-import classNames from 'classnames/bind';
-import style from './style/index.module.scss';
+import { MAX_LIMIT } from '@/config/constant.config';
+import { chatSessionDB } from '@/db';
+import { useChatSessionStore } from '@/store/chat';
 import { useLayoutStore } from '@/store/layout';
 import { useModalStore } from '@/store/modal';
-import { useChatSessionStore } from '@/store/chat';
-import { exportChatUtil, getAvatarUrl } from '@/utils/chat';
-import AvatarDefault from '@/assets/avatars/avatar-default.png';
-import Whether from '@/components/Whether';
+import { useSettingStore } from '@/store/setting';
+import { ChatItem } from '@/types/db';
+import { exportChatUtil, getAvatarUrl, tokenNum } from '@/utils/chat';
+import { isMac } from '@/utils/utils';
+import classNames from 'classnames/bind';
+import { isAnyTrue, omit } from 'fe-gear';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
-import { isMac } from '@/utils/utils';
-import { useSettingStore } from '@/store/setting';
-import MultiSelectActions from './components/MultiSelectActions';
-import { ChatItem } from '@/types/db';
-import { chatSessionDB } from '@/db';
-import { isAnyTrue, omit } from 'fe-gear';
-import Confirm from '@/components/Confirm';
+import { useTranslation } from 'react-i18next';
+import style from './style/index.module.scss';
 const cn = classNames.bind(style);
 const Content: FC = () => {
   const contentListRef = useRef<HTMLDivElement>(null);
+  const totalTokenRef = useRef<HTMLDivElement>(null);
   const { titleBarHeight } = useLayoutStore((state) => state);
   const { session, chatStatus, setSession } = useChatSessionStore((state) => state);
   const { showHelpModal, showSettingModal, toggleRoleModal, setRoleAction, toggleSettingModal, toggleHelpModal } =
     useModalStore((state) => state);
-  const { showToken, currentSessionId } = useSettingStore((state) => state);
+  const { showToken, currentSessionId, continuousChat } = useSettingStore((state) => state);
   const [multiSelectMode, setMultiSelectMode] = useState(false);
   const [selectedChatList, setSelectedChatList] = useState<ChatItem[]>([]);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [totalToken, setTotalToken] = useState(0);
   const { t } = useTranslation();
   useHotkeys(['ctrl+n', 'meta+n'], (event: KeyboardEvent, handler: HotkeysEvent) => {
     event.preventDefault();
@@ -127,6 +131,14 @@ const Content: FC = () => {
     exportChatUtil(sortedList, session.name, closeMultiSelectActions);
   };
 
+  const getTotalToken = () => {
+    const contents = session.list.reduce((acc, item) => {
+      return acc + item.content;
+    }, '');
+    const totalTokens = tokenNum(contents);
+    setTotalToken(totalTokens);
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, []);
@@ -145,10 +157,39 @@ const Content: FC = () => {
     }
   }, [currentSessionId]);
 
+  useEffect(() => {
+    if (continuousChat) {
+      getTotalToken();
+    }
+  }, [session.list.map((item) => item.content)]);
+
   return (
     <div className={cn('content')} style={{ '--header-height': `${titleBarHeight}px` } as React.CSSProperties}>
       <div className={cn('session-header')}>
-        <h3 className="text-[16px]">{session.name}</h3>
+        <h3 className="text-[16px] flex items-end">
+          <span>{session.name}</span>
+          <Whether condition={showToken}>
+            <div>
+              <Tooltip
+                text={t('tooltip.exceedMaxLimit')}
+                className="text-sm max-w-[400px]"
+                align="bottomLeft"
+                open={totalToken > MAX_LIMIT}>
+                <div
+                  ref={totalTokenRef}
+                  className={cn('text-[12px] text-gray-400 px-2 rounded-[2px] ml-1 flex items-center', {
+                    'border-[var(--message-warn-border-color)] border border-1 bg-[var(--message-warn-bg)]':
+                      totalToken > MAX_LIMIT,
+                  })}>
+                  <span>tokens: {totalToken}</span>
+                  <Whether condition={totalToken > MAX_LIMIT}>
+                    <Icon name="error-warning-line" className="ml-1" />
+                  </Whether>
+                </div>
+              </Tooltip>
+            </div>
+          </Whether>
+        </h3>
         <div>{chatStatusText(chatStatus)}</div>
         <div className="flex items-center h-full">
           <Icon name="add-line" size="18px" onClick={createRole} />

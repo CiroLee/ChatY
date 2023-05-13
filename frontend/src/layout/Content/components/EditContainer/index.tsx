@@ -1,21 +1,21 @@
-import { FC, useState, useEffect } from 'react';
-import Message from '@/components/Message';
-import ToolBtns from './ToolBtns';
+import { getChatCompletionStream } from '@/api';
 import Confirm from '@/components/Confirm';
+import Message from '@/components/Message';
+import { chatSessionDB } from '@/db';
+import { useChatSessionStore } from '@/store/chat';
+import { useSettingStore } from '@/store/setting';
+import { ChatMessage } from '@/types/openai';
+import { exportChatUtil, saveSessionDB } from '@/utils/chat';
+import { isMac, nanoId, timestamp } from '@/utils/utils';
+import classNames from 'classnames/bind';
+import { isAllTrue, isAnyTrue, omit } from 'fe-gear';
+import { FC, useEffect, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
 import { useTranslation } from 'react-i18next';
 import { useToggle } from 'react-use';
-import { omit, isAllTrue, isAnyTrue } from 'fe-gear';
-import { useSettingStore } from '@/store/setting';
-import { useChatSessionStore } from '@/store/chat';
-import { useHotkeys } from 'react-hotkeys-hook';
-import classNames from 'classnames/bind';
-import { getChatCompletionStream } from '@/api';
-import { HotkeysEvent } from 'react-hotkeys-hook/dist/types';
-import { isMac, nanoId, timestamp } from '@/utils/utils';
-import { chatSessionDB } from '@/db';
-import { exportChatUtil, saveSessionDB } from '@/utils/chat';
+import ToolBtns from './ToolBtns';
 import style from './style/index.module.scss';
-import { ChatMessage } from '@/types/openai';
 const cn = classNames.bind(style);
 interface EditContainerProps {
   className?: string;
@@ -28,7 +28,7 @@ const EditContainer: FC<EditContainerProps> = (props) => {
   const [focus, setFocus] = useState(false);
   const [abortController, setAbortController] = useState<AbortController | null>();
   const [showConfirm, setShowConfirm] = useState(false);
-  const { contextRange, apiKey } = useSettingStore((state) => state);
+  const { apiKey, continuousChat } = useSettingStore((state) => state);
   const { chatStatus, session, addQuestion, setSession, changeChatStatus, updateAnswerStream } = useChatSessionStore(
     (state) => state,
   );
@@ -38,10 +38,13 @@ const EditContainer: FC<EditContainerProps> = (props) => {
 
   const questionHandler = async (content: string, push = true) => {
     if (!isAllTrue([chatStatus === 'done' || chatStatus === 'idle', session.chatId])) return;
-    const num = Math.ceil((session.list.length * contextRange) / 100);
-    const historyContents = session.list
-      .filter((_, index) => index >= num)
-      .map((item) => omit<ChatMessage>(item, ['id', 'createAt']));
+    let messages: ChatMessage[] = [];
+    if (continuousChat) {
+      const historyContents = session.list.map((item) => omit<ChatMessage>(item, ['id', 'createAt']));
+      messages = [...historyContents, { role: 'user', content }];
+    } else {
+      messages = [{ role: 'user', content }];
+    }
 
     // 添加到store的会话列表中
     push &&
@@ -52,29 +55,18 @@ const EditContainer: FC<EditContainerProps> = (props) => {
         createAt: timestamp(),
       });
     try {
-      await getChatCompletionStream(
-        {
-          messages: [
-            ...historyContents,
-            {
-              role: 'user',
-              content,
-            },
-          ],
-        },
-        (data, controller) => {
-          if (!abortController) {
-            setAbortController(controller);
-          }
+      await getChatCompletionStream({ messages }, (data, controller) => {
+        if (!abortController) {
+          setAbortController(controller);
+        }
 
-          updateAnswerStream({
-            id: data.id,
-            role: 'assistant',
-            content: data.content,
-            createAt: timestamp(),
-          });
-        },
-      );
+        updateAnswerStream({
+          id: data.id,
+          role: 'assistant',
+          content: data.content,
+          createAt: timestamp(),
+        });
+      });
     } catch (error) {
       console.error(error);
       const msg = (error as Error)?.message.replace(/Error:/g, '').trim();

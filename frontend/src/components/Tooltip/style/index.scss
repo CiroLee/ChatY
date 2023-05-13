@@ -42,5 +42,10 @@
       top: -10px;
       transform: translateX(-50%) rotate(90deg);
     }
+    &.bottomLeft::after {
+      top: -10px;
+      left: 10px;
+      transform: rotate(90deg);
+    }
   }
 }

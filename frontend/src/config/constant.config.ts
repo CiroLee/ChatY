@@ -5,6 +5,8 @@ export const OPEN_AI_MODELS = {
   GPT3: 'gpt-3.5-turbo',
 };
 
+export const MAX_LIMIT = 4096;
+
 export const HTTP_STATUS = {
   BadRequest: 400,
   Unauthorized: 401,

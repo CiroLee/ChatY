@@ -1,7 +1,7 @@
 {
   "name": "chaty-frontend",
   "private": true,
-  "version": "0.0.5",
+  "version": "0.0.6",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -19,7 +19,7 @@
     "@microsoft/fetch-event-source": "^2.0.1",
     "classnames": "^2.3.2",
     "dexie": "^3.2.3",
-    "fe-gear": "^1.0.3",
+    "fe-gear": "^1.0.4",
     "gpt3-tokenizer": "^1.1.5",
     "i18next": "^22.4.15",
     "katex": "^0.16.7",
@@ -38,11 +38,11 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.6.3",
-    "@types/react": "^18.2.5",
+    "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
-    "@typescript-eslint/eslint-plugin": "^5.59.2",
-    "@typescript-eslint/parser": "^5.59.2",
-    "@vitejs/plugin-react-swc": "^3.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.5",
+    "@typescript-eslint/parser": "^5.59.5",
+    "@vitejs/plugin-react-swc": "^3.3.1",
     "autoprefixer": "^10.4.14",
     "commitlint": "^17.6.3",
     "eslint": "^8.40.0",
