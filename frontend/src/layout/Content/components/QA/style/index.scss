@@ -92,6 +92,9 @@
     border-bottom: 1px solid #3b3b3b;
     color: #cdcdcd;
   }
+  .linenumber {
+    user-select: none;
+  }
 }
 
 .cy-radio__content {

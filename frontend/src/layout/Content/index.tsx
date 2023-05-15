@@ -190,7 +190,9 @@ const Content: FC = () => {
             </div>
           </Whether>
         </h3>
-        <div>{chatStatusText(chatStatus)}</div>
+        <div className="absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]">
+          {chatStatusText(chatStatus)}
+        </div>
         <div className="flex items-center h-full">
           <Icon name="add-line" size="18px" onClick={createRole} />
           <Icon name="settings-3-line" size="18px" className="ml-[12px]" onClick={() => toggleSettingModal(true)} />

@@ -7,7 +7,7 @@
     "temperature": "temperature",
     "maxToken": "max_token",
     "continuousChat": "continuous chat",
-    "placeholderInputKey": "please input openAI key"
+    "placeholderInputKey": "sk-xxxxxxxxxxxxxxxxxxxx"
   },
   "chat": {
     "thinking": "thinking...",

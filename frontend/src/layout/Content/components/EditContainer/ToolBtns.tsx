@@ -58,7 +58,7 @@ const ToolBtns: FC<ToolBtnsProps> = (props) => {
             size="24px"
             color="#f34747"
             className={cn({
-              'cursor-not-allowed opacity-60': isAllTrue([chatStatus !== 'outputting', chatStatus !== 'fetching']),
+              'cursor-not-allowed opacity-60': isAllTrue([chatStatus !== 'outputting']),
             })}
           />
         </div>

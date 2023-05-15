@@ -136,6 +136,7 @@ const EditContainer: FC<EditContainerProps> = (props) => {
 
   // 停止回答 停止回答不会触发sse的 onclose，所以这里要主动保存一下
   const stopAnswer = () => {
+    if (chatStatus !== 'outputting') return;
     if (abortController) {
       abortController?.abort();
       saveSessionDB();
