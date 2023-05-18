@@ -168,7 +168,7 @@ const Content: FC = () => {
       <div className={cn('session-header')}>
         <h3 className="text-[16px] flex items-end">
           <span>{session.name}</span>
-          <Whether condition={showToken && continuousChat}>
+          <Whether condition={showToken && continuousChat && !!session.id}>
             <div>
               <Tooltip
                 text={t('tooltip.exceedMaxLimit')}
