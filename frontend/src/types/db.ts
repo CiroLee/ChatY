@@ -8,6 +8,9 @@ export interface ChatSession {
   createAt: number;
   description?: string;
   list: ChatItem[];
+  temperature?: number;
+  maxToken?: number;
+  continuousChat?: boolean;
 }
 
 export interface ChatItem {

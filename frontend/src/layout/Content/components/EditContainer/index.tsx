@@ -39,7 +39,8 @@ const EditContainer: FC<EditContainerProps> = (props) => {
   const questionHandler = async (content: string, push = true) => {
     if (!isAllTrue([chatStatus === 'done' || chatStatus === 'idle', session.chatId])) return;
     let messages: ChatMessage[] = [];
-    if (continuousChat) {
+    const continuousMode = session.continuousChat ?? continuousChat;
+    if (continuousMode) {
       const historyContents = session.list.map((item) => omit<ChatMessage>(item, ['id', 'createAt']));
       messages = [...historyContents, { role: 'user', content }];
     } else {
@@ -55,18 +56,21 @@ const EditContainer: FC<EditContainerProps> = (props) => {
         createAt: timestamp(),
       });
     try {
-      await getChatCompletionStream({ messages }, (data, controller) => {
-        if (!abortController) {
-          setAbortController(controller);
-        }
+      await getChatCompletionStream(
+        { messages, temperature: session.temperature, maxTokens: session.maxToken },
+        (data, controller) => {
+          if (!abortController) {
+            setAbortController(controller);
+          }
 
-        updateAnswerStream({
-          id: data.id,
-          role: 'assistant',
-          content: data.content,
-          createAt: timestamp(),
-        });
-      });
+          updateAnswerStream({
+            id: data.id,
+            role: 'assistant',
+            content: data.content,
+            createAt: timestamp(),
+          });
+        },
+      );
     } catch (error) {
       console.error(error);
       const msg = (error as Error)?.message.replace(/Error:/g, '').trim();

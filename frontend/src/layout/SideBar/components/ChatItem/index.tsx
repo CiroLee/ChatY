@@ -19,10 +19,11 @@ interface ChatItemProps {
   prefix?: string;
   collapse?: boolean;
   checked?: boolean;
+  continuousChat?: boolean;
   onClick?: () => void;
 }
 const ChatItem: FC<ChatItemProps> = (props) => {
-  const { text, prefix, collapse, checked } = props;
+  const { text, prefix, collapse, checked, continuousChat = false } = props;
   const [showConfirm, setShowConfirm] = useState(false);
   const { chatList, setChatList, setSession } = useChatSessionStore((state) => state);
   const { setRoleAction, setRoleModalInfo, toggleRoleModal } = useModalStore((state) => state);
@@ -30,24 +31,29 @@ const ChatItem: FC<ChatItemProps> = (props) => {
   const _dropdownItems = dropdownItems(t);
 
   const dropdownItemClickHandler = async (key: string) => {
+    const roleInfo = chatList.find((item) => item.chatId === props.chatId);
+    if (!roleInfo) return;
     if (key === 'edit') {
-      const roleInfo = chatList.find((item) => item.chatId === props.chatId);
       setRoleModalInfo({
         id: props.id,
         name: roleInfo?.name || '',
         description: roleInfo?.description || '',
         avatarName: roleInfo?.avatarName || '',
+        temperature: roleInfo?.temperature,
+        maxToken: roleInfo?.maxToken,
+        continuousChat: roleInfo?.continuousChat,
       });
       setRoleAction('edit');
       toggleRoleModal(true);
     } else if (key === 'copy') {
-      const target = chatList.find((item) => item.chatId === props.chatId);
-      if (!target) return;
       const chatItem = {
         chatId: nanoId(),
-        name: target.name + ' copied',
-        description: target.description,
-        avatarName: target.avatarName,
+        name: roleInfo.name + ' copied',
+        description: roleInfo.description,
+        avatarName: roleInfo.avatarName,
+        temperature: roleInfo?.temperature,
+        maxToken: roleInfo?.maxToken,
+        continuousChat: roleInfo?.continuousChat,
         list: [],
         createAt: timestamp(),
       };
@@ -70,6 +76,9 @@ const ChatItem: FC<ChatItemProps> = (props) => {
       description: '',
       list: [],
       createAt: 0,
+      temperature: undefined,
+      maxToken: undefined,
+      continuousChat: undefined,
     });
     setShowConfirm(false);
   };
@@ -80,6 +89,9 @@ const ChatItem: FC<ChatItemProps> = (props) => {
         <span className="inline-block text-ellipsis overflow-hidden whitespace-nowrap">{text}</span>
       </div>
       <Whether condition={!collapse}>
+        <Whether condition={continuousChat}>
+          <Icon name="outlet-fill" color="var(--brand-color)" />
+        </Whether>
         <Dropdown items={_dropdownItems} itemOnClick={dropdownItemClickHandler}>
           <div className={cn('chat-item__setting')}>
             <Icon name="more-line" color="var(--assist-color)" />

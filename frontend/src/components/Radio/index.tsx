@@ -3,8 +3,9 @@ import Icon from '../Icon';
 import classNames from 'classnames';
 import './style/index.scss';
 import { Option } from '@/types/common';
+import Whether from '../Whether';
 interface RadioProps {
-  type?: 'checked' | 'circle';
+  type?: 'checked' | 'circle' | 'checkbox';
   checked?: boolean;
   className?: string;
   children?: React.ReactNode;
@@ -13,7 +14,7 @@ interface RadioProps {
 }
 
 interface RadioGroupProps {
-  type?: 'checked' | 'circle';
+  type?: 'checked' | 'circle' | 'checkbox';
   defaultKey?: string | number;
   options: Option[];
   className?: string;
@@ -32,11 +33,15 @@ const Radio: FC<RadioProps> = (props) => {
   }, [checked]);
   return (
     <div className={classNames('cy-radio', className, { checked: checkedVal, reverse })} onClick={toggleChecked}>
-      {type === 'circle' ? (
+      <Whether condition={type === 'circle'}>
         <Icon name={checkedVal ? 'radio-button-fill' : 'checkbox-blank-circle-line'} size="18px" />
-      ) : (
+      </Whether>
+      <Whether condition={type === 'checked'}>
         <Icon name={checkedVal ? 'checkbox-circle-fill' : 'checkbox-blank-circle-line'} size="18.5px" />
-      )}
+      </Whether>
+      <Whether condition={type === 'checkbox'}>
+        <Icon name={checkedVal ? 'checkbox-fill' : 'checkbox-line'} size="18.5px" />
+      </Whether>
       <div className={classNames('cy-radio__content')}>{children}</div>
     </div>
   );

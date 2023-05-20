@@ -58,6 +58,9 @@ const App: FC = () => {
       name: '',
       avatarName: '',
       description: '',
+      temperature: undefined,
+      maxToken: undefined,
+      continuousChat: undefined,
     });
     toggleRoleModal(false);
   };

@@ -7,7 +7,9 @@
     "temperature": "发散度",
     "maxToken": "最大回文长度",
     "continuousChat": "连续对话",
-    "placeholderInputKey": "sk-xxxxxxxxxxxxxxxxxxxx"
+    "placeholderInputKey": "sk-xxxxxxxxxxxxxxxxxxxx",
+    "temperatureDesc": "值越大，生成的文本越富有创造性",
+    "maxTokenDesc": "生成文本的最大token数量"
   },
   "chat": {
     "thinking": "思考中...",
@@ -43,7 +45,9 @@
     "placeholderInputDescription": "请输入描述",
     "emptySecretKey": "还未设置秘钥，是否立即设置？",
     "goToSet": "去设置",
-    "emptySecretKeyTips": "需要先设置秘钥才能继续使用"
+    "emptySecretKeyTips": "需要先设置秘钥才能继续使用",
+    "advanced": "高级",
+    "advancedTip": "以下设置只对当前会话有效"
   },
   "about": {
     "softwareDesc": "ChatY是基于wails开发的开源GPT桌面客户端。它也许是你电脑中最漂亮的ChatGPT助手",

@@ -7,7 +7,9 @@
     "temperature": "temperature",
     "maxToken": "max_token",
     "continuousChat": "continuous chat",
-    "placeholderInputKey": "sk-xxxxxxxxxxxxxxxxxxxx"
+    "placeholderInputKey": "sk-xxxxxxxxxxxxxxxxxxxx",
+    "temperatureDesc": "the higher, the more creative the text is",
+    "maxTokenDesc": "the max token of the generated text"
   },
   "chat": {
     "thinking": "thinking...",
@@ -43,7 +45,9 @@
     "placeholderInputDescription": "please input description",
     "emptySecretKey": "The secret key has not been set yet, do you want to set it now?",
     "goToSet": "go to setting",
-    "emptySecretKeyTips": "You need to set up the secret key before you can continue to use it"
+    "emptySecretKeyTips": "You need to set up the secret key before you can continue to use it",
+    "advanced": "Advanced",
+    "advancedTip": "the following settings are only valid for the current chat"
   },
   "about": {
     "softwareDesc": "ChatY is an open source GPT desktop client developed based on wails. It may be the most beautiful ChatGPT assistant in your computer",

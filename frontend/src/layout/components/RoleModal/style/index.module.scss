@@ -7,4 +7,38 @@
   h3 {
     font-weight: bold;
   }
+  &__advanced--divide {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-top: 8px;
+    user-select: none;
+    &-box {
+      flex: 1;
+      white-space: nowrap;
+      margin: 0 10px 0 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      height: 1px;
+      background-color: var(--border-color);
+    }
+    &::after {
+      content: '';
+      width: 88%;
+      right: 0;
+    }
+  }
+  &__advanced--icon {
+    transition: all 0.2s ease;
+    display: inline-block;
+  }
+  &__advanced--show {
+    transform: rotate(90deg);
+  }
 }

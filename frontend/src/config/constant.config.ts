@@ -14,3 +14,16 @@ export const HTTP_STATUS = {
   TooManyRequest: 429,
   InternetServerError: 500,
 };
+
+export const SETTINGS = {
+  temperature: {
+    min: 0.1,
+    max: 2,
+    step: 0.1,
+  },
+  replayLength: {
+    min: 64,
+    max: 4096,
+    step: 1,
+  },
+};

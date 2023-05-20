@@ -30,8 +30,8 @@ export const getChatCompletionStream = async (
     body: JSON.stringify({
       model: OPEN_AI_MODELS.GPT3,
       messages: [{ role: 'system', content: description }, ...req.messages],
-      temperature: req.temperature || temperature,
-      max_tokens: req.maxTokens || maxReplayLength,
+      temperature: req.temperature ?? temperature,
+      max_tokens: req.maxTokens ?? maxReplayLength,
       stream: true,
     }),
     headers: {

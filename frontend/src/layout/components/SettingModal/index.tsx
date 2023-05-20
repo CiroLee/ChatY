@@ -6,6 +6,7 @@ import RadioTabs from '@/components/RadioTabs';
 import Slider from '@/components/Slider';
 import Switch from '@/components/Switch';
 import { languageTabs, themeChangeTabs } from '@/config/config';
+import { SETTINGS } from '@/config/constant.config';
 import { useLayoutStore } from '@/store/layout';
 import { useSettingStore } from '@/store/setting';
 import { useThemeStore } from '@/store/theme';
@@ -16,15 +17,12 @@ import style from './style/index.module.scss';
 
 const cn = classNames.bind(style);
 
-const temperatureMin = 0.1;
-const temperatureMax = 2;
-const temperatureStep = 0.1;
-const replayLengthMin = 64;
-const replayLengthMax = 4096;
-const replayStep = 1;
-const contextMin = 0;
-const contextMax = 100;
-const contextStep = 1;
+// const temperatureMin = 0.1;
+// const temperatureMax = 2;
+// const temperatureStep = 0.1;
+// const replayLengthMin = 64;
+// const replayLengthMax = 4096;
+// const replayStep = 1;
 
 interface SettingModalProps {
   show: boolean;
@@ -97,20 +95,25 @@ const SettingModal: FC<SettingModalProps> = (props) => {
             </div>
           </div>
           <div className="mt-6">
-            <label className="mb-1 block">{t('settings.temperature')}</label>
+            <div className="flex items-center">
+              <label className="mb-1 block">{t('settings.temperature')}</label>
+              <span className="text-xs ml-1 text-[var(--assist-color)] mb-[0.1em]">
+                ({t('settings.temperatureDesc')})
+              </span>
+            </div>
             <div className="flex items-center">
               <Slider
                 className="flex-1 ml-[4px]"
-                max={temperatureMax}
-                min={temperatureMin}
+                max={SETTINGS.temperature.max}
+                min={SETTINGS.temperature.min}
                 value={temperature}
-                step={temperatureStep}
+                step={SETTINGS.temperature.step}
                 onChange={setTemperature}
               />
               <InputNumber
-                min={temperatureMin}
-                max={temperatureMax}
-                step={temperatureStep}
+                max={SETTINGS.temperature.max}
+                min={SETTINGS.temperature.min}
+                step={SETTINGS.temperature.step}
                 value={temperature}
                 onBlur={handleTempNumberBlur}
                 className="inline-flex w-[60px] ml-3"
@@ -118,23 +121,25 @@ const SettingModal: FC<SettingModalProps> = (props) => {
             </div>
           </div>
           <div className="mt-6">
-            <label className="mb-1 block">{t('settings.maxToken')}</label>
+            <div className="flex items-center">
+              <label className="mb-1 block">{t('settings.maxToken')}</label>
+              <span className="text-xs ml-1 text-[var(--assist-color)] mb-[0.1em]">({t('settings.maxTokenDesc')})</span>
+            </div>
             <div className="flex items-center">
               <Slider
                 className="flex-1 ml-[4px]"
-                max={replayLengthMax}
-                min={replayLengthMin}
+                max={SETTINGS.replayLength.max}
+                min={SETTINGS.replayLength.min}
                 value={maxReplayLength}
-                step={replayStep}
+                step={SETTINGS.replayLength.step}
                 offset={-12}
                 onChange={setMaxReplayLength}
               />
               <InputNumber
-                min={replayLengthMin}
-                max={replayLengthMax}
-                step={replayStep}
+                max={SETTINGS.replayLength.max}
+                min={SETTINGS.replayLength.min}
+                step={SETTINGS.replayLength.step}
                 value={maxReplayLength}
-                size="large"
                 onBlur={handleReplayLengthNumberBlur}
                 className="inline-flex w-[60px] ml-3"
               />

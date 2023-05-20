@@ -4,6 +4,9 @@ interface RoleModalInfo {
   name: string;
   description: string;
   avatarName: string;
+  temperature?: number;
+  maxToken?: number;
+  continuousChat?: boolean;
 }
 interface ModalStore {
   showRoleModal: boolean;

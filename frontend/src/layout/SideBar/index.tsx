@@ -24,7 +24,7 @@ const SideBar: FC = () => {
   const { collapse, toggleCollapse } = useLayoutStore((state) => state);
   const { theme, setTheme } = useThemeStore((state) => state);
   const { chatList, setSession } = useChatSessionStore((state) => state);
-  const { currentSessionId, setCurrentSessionId } = useSettingStore((state) => state);
+  const { currentSessionId, continuousChat, setCurrentSessionId } = useSettingStore((state) => state);
   // const [currentSessionId, setCurrentSessionId] = useState('');
 
   useHotkeys(['ctrl+b', 'meta+b'], (event: KeyboardEvent, handler: HotkeysEvent) => {
@@ -86,6 +86,7 @@ const SideBar: FC = () => {
               text={item.name}
               prefix={getAvatarUrl(item.avatarName)}
               checked={item.chatId === currentSessionId}
+              continuousChat={item.continuousChat ?? continuousChat}
               collapse={collapse}
               onClick={() => setCurrentSessionIdHandler(item.chatId)}
             />

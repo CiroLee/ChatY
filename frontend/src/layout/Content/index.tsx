@@ -158,7 +158,7 @@ const Content: FC = () => {
   }, [currentSessionId]);
 
   useEffect(() => {
-    if (continuousChat) {
+    if (session.continuousChat ?? continuousChat) {
       getTotalToken();
     }
   }, [session.list.map((item) => item.content)]);
@@ -168,7 +168,7 @@ const Content: FC = () => {
       <div className={cn('session-header')}>
         <h3 className="text-[16px] flex items-end">
           <span>{session.name}</span>
-          <Whether condition={showToken && continuousChat && !!session.id}>
+          <Whether condition={showToken && (session.continuousChat ?? continuousChat) && !!session.id}>
             <div>
               <Tooltip
                 text={t('tooltip.exceedMaxLimit')}
