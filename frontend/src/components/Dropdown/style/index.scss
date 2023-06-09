@@ -13,7 +13,7 @@
     display: flex;
     align-items: center;
     transition: background-color 0.1s linear;
-    cursor: pointer;
+    cursor: default;
     &:hover {
       background-color: var(--item-hover-color);
     }

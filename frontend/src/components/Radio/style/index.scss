@@ -1,7 +1,7 @@
 .cy-radio {
   display: inline-flex;
   align-items: center;
-  cursor: pointer;
+  cursor: default;
   &.reverse {
     flex-direction: row-reverse;
   }

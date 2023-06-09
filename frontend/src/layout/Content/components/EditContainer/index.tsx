@@ -92,6 +92,7 @@ const EditContainer: FC<EditContainerProps> = (props) => {
           message.warn(t('message.secretKeyUnset'));
           return;
         }
+        toggleMaxHandler(false);
         questionHandler(content);
         (event.target as HTMLDivElement).innerText = '';
       } else {

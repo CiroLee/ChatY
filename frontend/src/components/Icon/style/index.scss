@@ -3,7 +3,7 @@
   font-size: var(--size);
   line-height: 1em;
   position: relative;
-  cursor: pointer;
+  cursor: default;
   &.use-gradient {
     color: transparent !important;
     background-image: var(--gradient);

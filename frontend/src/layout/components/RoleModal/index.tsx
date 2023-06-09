@@ -16,13 +16,10 @@ import { useChatSessionStore } from '@/store/chat';
 import { useSettingStore } from '@/store/setting';
 import { useModalStore } from '@/store/modal';
 import { useTranslation } from 'react-i18next';
-import Icon from '@/components/Icon';
 import Slider from '@/components/Slider';
 import InputNumber from '@/components/InputNumber';
-import Switch from '@/components/Switch';
 import { isAnyTrue } from 'fe-gear';
 import Radio, { RadioGroup } from '@/components/Radio';
-import RadioTabs from '@/components/RadioTabs';
 const cn = classNames.bind(style);
 
 interface RoleModalProps {
@@ -150,7 +147,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
                   checked={arr[0] === selectedAvatar}
                   size="small"
                   onClick={() => handleChooseAvatar(arr[0])}
-                  className="mr-2 cursor-pointer"
+                  className="mr-2 cursor-default"
                 />
               ))}
             </div>

@@ -19,7 +19,7 @@
     padding: 0 8px;
     display: inline-flex;
     align-items: center;
-    cursor: pointer;
+    cursor: default;
     position: relative;
     &::after {
       content: '';
