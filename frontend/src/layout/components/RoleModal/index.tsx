@@ -20,6 +20,7 @@ import Slider from '@/components/Slider';
 import InputNumber from '@/components/InputNumber';
 import { isAnyTrue } from 'fe-gear';
 import Radio, { RadioGroup } from '@/components/Radio';
+import { ChatSession } from '@/types/db';
 const cn = classNames.bind(style);
 
 interface RoleModalProps {
@@ -63,13 +64,14 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   };
   const createRole = async () => {
     try {
-      const chatItem = {
+      const chatItem: Omit<ChatSession, 'id'> = {
         chatId: nanoId(),
         name: roleName,
         description: desc,
         avatarName: selectedAvatar,
         list: [],
         createAt: timestamp(),
+        updateAt: timestamp(),
         temperature: chatTemperature,
         maxToken: chatMaxReplayLength,
         continuousChat: chatContinuousChat,
@@ -90,6 +92,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
         name: roleName,
         description: desc,
         avatarName: selectedAvatar,
+        updateAt: timestamp(),
         temperature: useAdvanced ? chatTemperature : undefined,
         maxToken: useAdvanced ? chatMaxReplayLength : undefined,
         continuousChat: useAdvanced ? chatContinuousChat : undefined,

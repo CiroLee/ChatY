@@ -3,7 +3,7 @@ import './style/index.scss';
 import Icon from '../Icon';
 import Whether from '../Whether';
 
-interface DropdownItem {
+export interface DropdownItem {
   key: string;
   label: string;
   icon?: string;

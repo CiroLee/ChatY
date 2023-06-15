@@ -16,6 +16,8 @@
     "outputting": "outputting..."
   },
   "dropdown": {
+    "pinned": "pinned",
+    "unpinned": "unpinned",
     "edit": "edit",
     "delete": "delete",
     "copy": "copy"

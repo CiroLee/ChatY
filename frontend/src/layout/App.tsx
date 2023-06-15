@@ -17,6 +17,7 @@ import HelpModal from './components/HelpModal';
 import { isMac } from '@/utils/utils';
 import { defaultChat } from '@/config/config';
 import { useSettingStore } from '@/store/setting';
+import { sortedBypinned } from '@/utils/chat';
 const App: FC = () => {
   const {
     roleAction,
@@ -46,7 +47,8 @@ const App: FC = () => {
         setDefaultChat(true);
       }
       const list = await chatSessionDB.queryAll();
-      setChatList(list as ChatSession[]);
+      const sortedList = sortedBypinned(list);
+      setChatList(sortedList as ChatSession[]);
     } catch (error) {
       console.error(error);
     }

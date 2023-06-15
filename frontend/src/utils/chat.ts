@@ -4,7 +4,7 @@ import { useChatSessionStore } from '@/store/chat';
 import { omit } from 'fe-gear';
 import { SaveFile } from '@wails/go/app/App';
 import GPT3Tokenizer from 'gpt3-tokenizer';
-import { ChatItem } from '@/types/db';
+import { ChatItem, ChatSession } from '@/types/db';
 const { changeChatStatus } = useChatSessionStore.getState();
 
 const tokenizer = new GPT3Tokenizer({ type: 'gpt3' });
@@ -45,4 +45,13 @@ export const exportChatUtil = (list: ChatItem[], botName: string, callback?: () 
   SaveFile(mdData)
     .then(() => callback && callback())
     .catch((err) => console.error(err));
+};
+
+export const sortedBypinned = (list: Partial<ChatSession>[]) => {
+  const unpinnedList = list
+    .filter((item) => !item.ispinned)
+    .sort((a, b) => (a as ChatSession).createAt - (b as ChatSession)?.createAt);
+  const pinnedList = list.filter((item) => item.ispinned);
+
+  return [...pinnedList, ...unpinnedList];
 };

@@ -16,6 +16,7 @@ import type { TabItem } from '@/components/RadioTabs';
 import { Option } from '@/types/common';
 import type { ChatSession } from '@/types/db';
 import type { TFunction } from 'i18next';
+import { DropdownItem } from '@/components/Dropdown';
 
 export const themeChangeTabs: TabItem[] = [
   {
@@ -80,7 +81,7 @@ export const accountRange = (t: TFunction): Option[] => {
   ];
 };
 
-export const dropdownItems = (t: TFunction) => {
+export const dropdownItems = (t: TFunction): DropdownItem[] => {
   return [
     {
       key: 'edit',

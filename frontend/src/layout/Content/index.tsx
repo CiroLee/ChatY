@@ -141,6 +141,7 @@ const Content: FC = () => {
 
   useEffect(() => {
     scrollToBottom();
+    console.log(session);
   }, []);
 
   useEffect(() => {
@@ -167,7 +168,7 @@ const Content: FC = () => {
     <div className={cn('content')} style={{ '--header-height': `${titleBarHeight}px` } as React.CSSProperties}>
       <div className={cn('session-header')}>
         <h3 className="text-[16px] flex items-end">
-          <span>{session.name}</span>
+          <span className={cn({ 'continuous-mode': session.continuousChat ?? continuousChat })}>{session.name}</span>
           <Whether condition={showToken && (session.continuousChat ?? continuousChat) && !!session.id}>
             <div>
               <Tooltip

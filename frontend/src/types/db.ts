@@ -6,6 +6,8 @@ export interface ChatSession {
   name: string;
   avatarName?: string;
   createAt: number;
+  updateAt?: number;
+  ispinned?: boolean;
   description?: string;
   list: ChatItem[];
   temperature?: number;

@@ -1,5 +1,7 @@
+import { FC, useState, useRef, useEffect } from 'react';
+import classNames from 'classnames/bind';
 import Confirm from '@/components/Confirm';
-import Dropdown from '@/components/Dropdown';
+import Dropdown, { DropdownItem } from '@/components/Dropdown';
 import Icon from '@/components/Icon';
 import Whether from '@/components/Whether';
 import { dropdownItems } from '@/config/config';
@@ -7,10 +9,11 @@ import { chatSessionDB } from '@/db';
 import { useChatSessionStore } from '@/store/chat';
 import { useModalStore } from '@/store/modal';
 import { nanoId, timestamp } from '@/utils/utils';
-import classNames from 'classnames/bind';
-import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import style from './style/index.module.scss';
+import { ChatSession } from '@/types/db';
+import { sortedBypinned } from '@/utils/chat';
+import { useSettingStore } from '@/store/setting';
 const cn = classNames.bind(style);
 interface ChatItemProps {
   text: string;
@@ -23,37 +26,61 @@ interface ChatItemProps {
   onClick?: () => void;
 }
 const ChatItem: FC<ChatItemProps> = (props) => {
-  const { text, prefix, collapse, checked, continuousChat = false } = props;
+  const { t } = useTranslation();
+  const roleInfo = useRef<ChatSession>();
+  const { text, prefix, collapse, checked } = props;
   const [showConfirm, setShowConfirm] = useState(false);
+  const { language } = useSettingStore((state) => state);
   const { chatList, setChatList, setSession } = useChatSessionStore((state) => state);
   const { setRoleAction, setRoleModalInfo, toggleRoleModal } = useModalStore((state) => state);
-  const { t } = useTranslation();
   const _dropdownItems = dropdownItems(t);
+  let pinnedVal = {
+    key: 'pinned',
+    label: roleInfo.current?.ispinned ? t('dropdown.unpinned') : t('dropdown.pinned'),
+    icon: 'star-line',
+  };
 
   const dropdownItemClickHandler = async (key: string) => {
-    const roleInfo = chatList.find((item) => item.chatId === props.chatId);
-    if (!roleInfo) return;
+    if (!roleInfo.current) return;
+    // 置顶操作
+    if (key === 'pinned') {
+      const updatedData = {
+        ...roleInfo.current,
+        ispinned: !roleInfo.current.ispinned,
+      };
+      const newChatList = chatList.map((item) => {
+        if (item.id === roleInfo.current?.id) {
+          return { ...item, ...updatedData };
+        }
+        return item;
+      });
+
+      await chatSessionDB.update(roleInfo.current.id, updatedData);
+      console.log(sortedBypinned(newChatList));
+
+      setChatList(sortedBypinned(newChatList) as ChatSession[]);
+    }
     if (key === 'edit') {
       setRoleModalInfo({
         id: props.id,
-        name: roleInfo?.name || '',
-        description: roleInfo?.description || '',
-        avatarName: roleInfo?.avatarName || '',
-        temperature: roleInfo?.temperature,
-        maxToken: roleInfo?.maxToken,
-        continuousChat: roleInfo?.continuousChat,
+        name: roleInfo.current?.name || '',
+        description: roleInfo.current.description || '',
+        avatarName: roleInfo.current.avatarName || '',
+        temperature: roleInfo.current.temperature,
+        maxToken: roleInfo.current.maxToken,
+        continuousChat: roleInfo.current?.continuousChat,
       });
       setRoleAction('edit');
       toggleRoleModal(true);
     } else if (key === 'copy') {
       const chatItem = {
         chatId: nanoId(),
-        name: roleInfo.name + ' copied',
-        description: roleInfo.description,
-        avatarName: roleInfo.avatarName,
-        temperature: roleInfo?.temperature,
-        maxToken: roleInfo?.maxToken,
-        continuousChat: roleInfo?.continuousChat,
+        name: roleInfo.current.name + ' copied',
+        description: roleInfo.current.description,
+        avatarName: roleInfo.current.avatarName,
+        temperature: roleInfo.current?.temperature,
+        maxToken: roleInfo.current?.maxToken,
+        continuousChat: roleInfo.current?.continuousChat,
         list: [],
         createAt: timestamp(),
       };
@@ -82,17 +109,33 @@ const ChatItem: FC<ChatItemProps> = (props) => {
     });
     setShowConfirm(false);
   };
+
+  useEffect(() => {
+    roleInfo.current = chatList.find((item) => item.chatId === props.chatId);
+    pinnedVal = {
+      key: 'pinned',
+      label: roleInfo.current?.ispinned ? t('dropdown.unpinned') : t('dropdown.pinned'),
+      icon: 'star-line',
+    };
+
+    console.log(pinnedVal);
+  }, [chatList, language]);
+
   return (
-    <div className={cn('chat-item', { 'chat-item__collapse': collapse, 'chat-item__checked': checked })}>
+    <div
+      className={cn('chat-item', {
+        'chat-item__collapse': collapse,
+        'chat-item__checked': checked,
+      })}>
       <div className={cn('chat-item__left', 'flex items-center flex-1')} onClick={props.onClick}>
         <img className={cn('chat-item__prefix')} src={prefix}></img>
         <span className="inline-block text-ellipsis overflow-hidden whitespace-nowrap">{text}</span>
       </div>
       <Whether condition={!collapse}>
-        <Whether condition={continuousChat}>
-          <Icon name="outlet-fill" color="var(--brand-color)" />
+        <Whether condition={!!roleInfo.current?.ispinned}>
+          <Icon name="star-fill" color="var(--brand-color)" />
         </Whether>
-        <Dropdown items={_dropdownItems} itemOnClick={dropdownItemClickHandler}>
+        <Dropdown items={[pinnedVal, ..._dropdownItems]} itemOnClick={dropdownItemClickHandler}>
           <div className={cn('chat-item__setting')}>
             <Icon name="more-line" color="var(--assist-color)" />
           </div>

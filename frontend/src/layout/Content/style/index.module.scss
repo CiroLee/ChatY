@@ -6,6 +6,21 @@
   overflow: hidden;
 }
 
+.continuous-mode {
+  position: relative;
+  display: flex;
+  align-items: center;
+  &::before {
+    content: '';
+    margin-right: 4px;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background-color: #37b537;
+  }
+}
+
 .session-header {
   height: 48px;
   padding: 0 16px;

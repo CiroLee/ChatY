@@ -25,7 +25,6 @@ const SideBar: FC = () => {
   const { theme, setTheme } = useThemeStore((state) => state);
   const { chatList, setSession } = useChatSessionStore((state) => state);
   const { currentSessionId, continuousChat, setCurrentSessionId } = useSettingStore((state) => state);
-  // const [currentSessionId, setCurrentSessionId] = useState('');
 
   useHotkeys(['ctrl+b', 'meta+b'], (event: KeyboardEvent, handler: HotkeysEvent) => {
     event.preventDefault();
@@ -39,8 +38,6 @@ const SideBar: FC = () => {
   const setCurrentSessionIdHandler = (id: string) => {
     setCurrentSessionId(id);
     changToCurrentSession(id);
-    // localStorage.setItem('currentSessionId', id);
-    setCurrentSessionId(id);
   };
 
   // 切换到当前会话
@@ -55,7 +52,6 @@ const SideBar: FC = () => {
   };
 
   const getChatList = async () => {
-    // const id = localStorage.getItem('currentSessionId');
     if (currentSessionId) {
       setCurrentSessionId(currentSessionId);
       changToCurrentSession(currentSessionId);

@@ -16,6 +16,8 @@
     "outputting": "输出中..."
   },
   "dropdown": {
+    "pinned": "置顶",
+    "unpinned": "取消置顶",
     "edit": "编辑",
     "delete": "删除",
     "copy": "复制"
